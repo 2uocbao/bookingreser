@@ -70,4 +70,7 @@ public class Company implements Serializable {
 	
 	@OneToMany(mappedBy = "company")
 	private Set<Service> services;
+	
+	@OneToMany(mappedBy = "company")
+	private Set<Material> material;
 }
