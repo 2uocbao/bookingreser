@@ -55,6 +55,8 @@ public class WarehouseDetail implements Serializable{
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 	
+	//relationship
+	
 	@ManyToOne
 	@JoinColumn(name = "warehouse_id", referencedColumnName = "id")
 	private Warehouse warehouse;
