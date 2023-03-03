@@ -2,6 +2,7 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -54,6 +56,9 @@ public class Order implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
+	
+	@OneToMany(mappedBy = "order")
+	private Set<OrderDetail> orderDetails;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
