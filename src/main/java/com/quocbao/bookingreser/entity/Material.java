@@ -48,6 +48,9 @@ public class Material implements Serializable{
 	@Column(name = "stock_end")
 	private float stockEnd;
 	
+	@Column(name = "status")
+	private int status;
+	
 	//relationship
 	
 	@ManyToOne
