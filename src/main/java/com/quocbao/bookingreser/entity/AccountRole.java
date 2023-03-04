@@ -2,6 +2,7 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -39,4 +40,7 @@ public class AccountRole implements Serializable {
 	@MapsId("type_id")
 	@JoinColumn(name = "role_id")
 	private Long roleId;
+	
+	@Column(name = "status")
+	private int status;
 }
