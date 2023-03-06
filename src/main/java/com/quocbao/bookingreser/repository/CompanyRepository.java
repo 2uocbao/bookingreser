@@ -10,6 +10,8 @@ public interface CompanyRepository {
 	
 	public Company detailCompany(Long id);
 	
+	public void updateCompany(Long id, Company company);
+	
 	public List<Company> listCompanyByAddress(String address);
 	
 	public List<Company> listCompanyByType(String type);
