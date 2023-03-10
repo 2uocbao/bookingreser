@@ -11,11 +11,11 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 
 public abstract class AbstractRepository<P extends Serializable, T>{
 
-	private final Class<T> persistentClass;
+	private final Class<P> persistentClass;
 	
 	@SuppressWarnings("unchecked")
 	protected AbstractRepository(){
-		this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+		this.persistentClass =(Class<P>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
 	@Autowired
@@ -27,18 +27,18 @@ public abstract class AbstractRepository<P extends Serializable, T>{
 	}
 	
 	@SuppressWarnings("deprecation")
-	public T create(T entity) {
+	public P create(P entity) {
 		getSession().save(entity);
 		return entity;
 	}
 	
 	@SuppressWarnings("deprecation")
-	public T update(T entity) {
+	public P update(P entity) {
 		getSession().update(entity);
 		return entity;
 	}
 	
-	public T detail(P id) {
+	public P detail(T id) {
 		return getSession().get(persistentClass, id);
 	}
 	
