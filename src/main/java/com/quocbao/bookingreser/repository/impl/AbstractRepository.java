@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 
-public abstract class AbstractRepository<P extends Serializable, T>{
+public abstract class AbstractRepository<P extends Serializable>{
 
 	private final Class<P> persistentClass;
 	
@@ -38,7 +38,7 @@ public abstract class AbstractRepository<P extends Serializable, T>{
 		return entity;
 	}
 	
-	public P detail(T id) {
+	public P detail(Long id) {
 		return getSession().get(persistentClass, id);
 	}
 	
