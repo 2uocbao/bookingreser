@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.repository.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Employee;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
@@ -12,10 +14,9 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 
+@Repository
 public class EmployeeRepositoryImpl extends AbstractRepository<Employee> implements EmployeeRepository{
 
-	
-	
 	@Override
 	public Employee createEmployee(Employee employee) {
 		return this.create(employee);
