@@ -1,9 +1,9 @@
 package com.quocbao.bookingreser.repository.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.repository.CompanyRepository;
@@ -14,7 +14,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-public class CompanyRepositoryImpl extends AbstractRepository<Serializable, Company> implements CompanyRepository{
+@Repository
+public class CompanyRepositoryImpl extends AbstractRepository<Company, Long> implements CompanyRepository{
 
 	@Autowired
 	protected EntityManager em;
