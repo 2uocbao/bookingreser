@@ -14,16 +14,20 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-public class CompanyRepositoryImbl extends AbstractRepository<Serializable, Company> implements CompanyRepository{
+public class CompanyRepositoryImpl extends AbstractRepository<Serializable, Company> implements CompanyRepository{
 
 	@Autowired
 	protected EntityManager em;
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public Company createCompany(Company company) {
-		this.getSession().save(company);
+		this.create(company);
 		return company;
+	}
+	
+	@Override
+	public void updateCompany(Company company) {
+		this.update(company);
 	}
 
 	@Override
@@ -44,14 +48,24 @@ public class CompanyRepositoryImbl extends AbstractRepository<Serializable, Comp
 
 	@Override
 	public List<Company> listCompanyByType(String type) {
-		// TODO Auto-generated method stub
-		return null;
+		CriteriaBuilder builder = this.getBuilder();
+		CriteriaQuery<Company> criteria = builder.createQuery(Company.class);
+		Root<Company> translation = criteria.from(Company.class);
+		criteria.select(translation);
+		criteria.where(builder.equal(translation.get("type"), type));
+		TypedQuery<Company> query = em.createQuery(criteria);
+        return query.getResultList();
 	}
 
 	@Override
 	public List<Company> searchCompany(String keySearch) {
-		// TODO Auto-generated method stub
-		return null;
+		CriteriaBuilder builder = this.getBuilder();
+		CriteriaQuery<Company> criteria = builder.createQuery(Company.class);
+		Root<Company> translation = criteria.from(Company.class);
+		criteria.select(translation);
+		criteria.where(builder.equal(translation.get("address"), keySearch));
+		TypedQuery<Company> query = em.createQuery(criteria);
+        return query.getResultList();
 	}
 
 }
