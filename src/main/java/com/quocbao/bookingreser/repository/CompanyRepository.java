@@ -12,9 +12,5 @@ public interface CompanyRepository {
 	
 	public void updateCompany(Company company);
 	
-	public List<Company> listCompanyByAddress(String address);
-	
-	public List<Company> listCompanyByType(String type);
-	
-	public List<Company> searchCompany(String keySearch);
+	public List<Company> listCompanyByColumn(String nameColumn, String keySearch);
 }
