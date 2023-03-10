@@ -15,7 +15,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 @Repository
-public class CompanyRepositoryImpl extends AbstractRepository<Company, Long> implements CompanyRepository{
+public class CompanyRepositoryImpl extends AbstractRepository<Company> implements CompanyRepository{
 
 	@Autowired
 	protected EntityManager em;
