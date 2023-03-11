@@ -34,20 +34,22 @@ public abstract class AbstractRepository<P extends Serializable>{
 		return this.sessionFactory.getCurrentSession();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public P create(P entity) {
-		getSession().save(entity);
+		getSession().persist(entity);
 		return entity;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public P update(P entity) {
-		getSession().update(entity);
+		getSession().merge(entity);
 		return entity;
 	}
 	
 	public P detail(Long id) {
 		return getSession().get(persistentClass, id);
+	}
+	
+	public void delete(P entity) {
+		getSession().remove(entity);
 	}
 	
 	protected CriteriaBuilder getBuilder() {
