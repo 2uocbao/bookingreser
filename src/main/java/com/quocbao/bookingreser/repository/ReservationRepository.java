@@ -13,4 +13,10 @@ public interface ReservationRepository {
 	public Reservation detailReservation(Long id);
 	
 	public List<Reservation> listReservationByCompanyId(Long companyId);
+	
+	public List<Reservation> listReservationByEmployeeId(Long employeeId);
+	
+	public List<Reservation> listReservationByServiceId(Long serviceId);
+	
+	public List<Reservation> listReservationByUserId(Long userId);
 }
