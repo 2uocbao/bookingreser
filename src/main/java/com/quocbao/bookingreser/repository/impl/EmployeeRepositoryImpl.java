@@ -33,7 +33,7 @@ public class EmployeeRepositoryImpl extends AbstractRepository<Employee> impleme
 	}
 
 	@Override
-	public List<Employee> listEmployeeByCompanyId(Company company, Long companyId) {
+	public List<Employee> listEmployeeByCompanyId(Long companyId) {
 		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 		CriteriaQuery<Employee> criteria = builder.createQuery(Employee.class);
 		Root<Company> translation = criteria.from(Company.class);
