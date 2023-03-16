@@ -27,5 +27,5 @@ public class MaterialRequest {
 	private float stockEnd;
 	
 	@JsonProperty("type")
-	private Set<String> types;
+	private Set<TypeRequest> typeRequest;
 }
