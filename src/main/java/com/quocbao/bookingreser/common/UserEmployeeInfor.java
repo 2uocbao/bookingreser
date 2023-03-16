@@ -14,9 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserEmployeeInfor {
 	
-	@JsonProperty("id")
-	private Long id;
-	
 	@JsonProperty("lastname")
 	private String lastName;
 	
