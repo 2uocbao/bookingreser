@@ -10,16 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Setter
-@Getter
+@Data
 @Table(name = "types")
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Types implements Serializable {
 
 	/**
