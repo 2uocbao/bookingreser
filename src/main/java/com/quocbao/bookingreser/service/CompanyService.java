@@ -2,16 +2,19 @@ package com.quocbao.bookingreser.service;
 
 import java.util.List;
 
-import com.quocbao.bookingreser.entity.Company;
+import org.springframework.http.ResponseEntity;
+
+import com.quocbao.bookingreser.request.CompanyRequest;
+import com.quocbao.bookingreser.response.CompanyResponse;
 
 public interface CompanyService {
 
-	public Company createCompany(Company company);
+	public ResponseEntity<CompanyResponse> createCompany(CompanyRequest companyRequest);
 
-	public Company detailCompany(Long id);
+	public ResponseEntity<CompanyResponse> detailCompany(Long id);
 
-	public void updateCompany(Company company);
+	public ResponseEntity<List<CompanyResponse>> updateCompany(CompanyRequest companyRequest);
 
-	public List<Company> listCompanyByColumn(String nameColumn, String keySearch);
+	public ResponseEntity<List<CompanyResponse>> listCompanyByColumn(String nameColumn, String keySearch);
 
 }
