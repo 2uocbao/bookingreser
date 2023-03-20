@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "account")
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Account implements Serializable{
 
 	/**
