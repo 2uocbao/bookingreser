@@ -17,8 +17,8 @@ public class CompanyRepositoryImpl extends AbstractRepository<Company> implement
 	}
 	
 	@Override
-	public void updateCompany(Company company) {
-		this.update(company);
+	public Company updateCompany(Company company) {
+		return this.update(company);
 	}
 
 	@Override
