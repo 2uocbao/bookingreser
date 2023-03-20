@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.quocbao.bookingreser.request.CompanyRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,17 +16,13 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
-@Getter
-@Setter
 @Table(name = "company")
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Company implements Serializable {
 
 	/**
@@ -79,4 +77,13 @@ public class Company implements Serializable {
 	
 	@OneToMany(mappedBy = "company")
 	private Set<Reservation> reservations;
+
+	public Company(CompanyRequest companyRequest) {
+		this.name = companyRequest.getName();
+		this.email = companyRequest.getEmail();
+		this.phone = companyRequest.getPhone();
+		this.image = companyRequest.getImage();
+		this.infor = companyRequest.getInfor();
+		this.address = companyRequest.getAddress();
+	}
 }
