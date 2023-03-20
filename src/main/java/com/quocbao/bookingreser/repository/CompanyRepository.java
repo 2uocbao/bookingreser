@@ -10,7 +10,7 @@ public interface CompanyRepository {
 	
 	public Company detailCompany(Long id);
 	
-	public void updateCompany(Company company);
+	public Company updateCompany(Company company);
 	
 	public List<Company> listCompanyByColumn(String nameColumn, String keySearch);
 }
