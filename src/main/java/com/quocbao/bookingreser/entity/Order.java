@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.quocbao.bookingreser.request.OrderRequest;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,4 +71,12 @@ public class Order implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
+	
+	public Order(OrderRequest orderRequest, Company company, Service service, Employee employee, User user) {
+		this.company = company;
+		this.employee = employee;
+		this.user = user;
+		this.service = service;
+		this.description = orderRequest.getDescription();
+	}
 }
