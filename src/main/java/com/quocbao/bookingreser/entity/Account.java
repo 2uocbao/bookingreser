@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import com.quocbao.bookingreser.request.AccountRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +36,9 @@ public class Account implements Serializable{
 	
 	@Column(name = "password")
 	private String password;
+	
+	public Account(AccountRequest accountRequest) {
+		this.username = accountRequest.getUsername();
+		this.password = accountRequest.getPassword();
+	}
 }
