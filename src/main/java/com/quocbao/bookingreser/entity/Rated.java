@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import com.quocbao.bookingreser.request.RateRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,4 +48,11 @@ public class Rated implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
+	
+	public Rated(RateRequest rateRequest, Company company, User user) {
+		this.company = company;
+		this.user = user;
+		this.point = rateRequest.getPoint();
+		this.comment = rateRequest.getComment();
+	}
 }
