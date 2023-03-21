@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.quocbao.bookingreser.request.EmpUserRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -82,4 +84,16 @@ public class Employee implements Serializable {
 	
 	@OneToMany(mappedBy = "employee")
 	private Set<WarehouseDetail> warehouseDetails;
+	
+	public Employee(EmpUserRequest employeeRequest, Company company) {
+		this.company = company;
+		this.firstName = employeeRequest.getFirstName();
+		this.lastName = employeeRequest.getLastName();
+		this.dateofBirth = employeeRequest.getDateofBirth();
+		this.gender = employeeRequest.getGender();
+		this.image = employeeRequest.getImage();
+		this.phone = employeeRequest.getPhone();
+		this.email = employeeRequest.getEmail();
+		this.address = employeeRequest.getAddress();
+	}
 }
