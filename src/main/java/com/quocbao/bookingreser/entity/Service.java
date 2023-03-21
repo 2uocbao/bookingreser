@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import com.quocbao.bookingreser.request.ServiceRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "service")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Service implements Serializable{
+public class Service implements Serializable {
 
 	/**
 	 * 
@@ -30,15 +32,19 @@ public class Service implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
-	//relationship
-	
+
+	// relationship
+
 	@ManyToOne
-	@JoinColumn(name = "company_id", nullable =  false)
+	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
-	
-	
+
+	public Service(ServiceRequest serviceRequest, Company company) {
+		this.name = serviceRequest.getName();
+		this.company = company;
+	}
+
 }
