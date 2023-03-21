@@ -1,40 +1,37 @@
 package com.quocbao.bookingreser.common;
 
+import java.sql.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class UserEmployeeInfor {
 	
 	@JsonProperty("lastname")
-	private String lastName;
+	public String lastName;
 	
 	@JsonProperty("firstname")
-	private String firstName;
+	public String firstName;
 	
 	@JsonProperty("dateofbirth")
-	private String dateofBirth;
+	public Date dateofBirth;
 	
 	@JsonProperty("gender")
-	private String gender;
+	public String gender;
 	
 	@JsonProperty("image")
-	private String image;
+	public String image;
 	
 	@JsonProperty("phone")
-	private String phone;
+	public String phone;
 	
 	@JsonProperty("email")
-	private String email;
+	public String email;
 	
 	@JsonProperty("address")
-	private String address;
+	public String address;
 }
