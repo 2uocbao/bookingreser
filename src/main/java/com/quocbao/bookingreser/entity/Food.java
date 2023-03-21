@@ -3,6 +3,8 @@ package com.quocbao.bookingreser.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.quocbao.bookingreser.request.FoodRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,4 +55,11 @@ public class Food implements Serializable{
 	
 	@OneToMany(mappedBy = "food")
 	private Set<FoodDetail> foodDetails;
+	
+	public Food(FoodRequest foodRequest, Company company) {
+		this.company = company;
+		this.name = foodRequest.getName();
+		this.price = foodRequest.getPrice();
+		this.image = foodRequest.getImage();
+	}
 }
