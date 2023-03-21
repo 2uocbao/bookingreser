@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import com.quocbao.bookingreser.request.EmpUserRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -63,4 +65,15 @@ public class User implements Serializable{
 	
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
+	
+	public User(EmpUserRequest empUserRequest) {
+		this.firstName = empUserRequest.getFirstName();
+		this.lastName = empUserRequest.getLastName();
+		this.dateofBirth = empUserRequest.getDateofBirth();
+		this.gender = empUserRequest.getGender();
+		this.image = empUserRequest.getImage();
+		this.phone = empUserRequest.getPhone();
+		this.email = empUserRequest.getEmail();
+		this.address = empUserRequest.getAddress();
+	}
 }
