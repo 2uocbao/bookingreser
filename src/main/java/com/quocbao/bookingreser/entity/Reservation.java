@@ -3,6 +3,8 @@ package com.quocbao.bookingreser.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import com.quocbao.bookingreser.request.ReservationRequest;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -48,10 +49,6 @@ public class Reservation implements Serializable {
 
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
-	
-	@ManyToOne
-	@JoinColumn(name = "company_id", nullable = false)
-	private Company company;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
@@ -64,4 +61,13 @@ public class Reservation implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
+	
+	public Reservation(ReservationRequest reservationRequest, Employee employee, Service service, User user) {
+		this.employee = employee;
+		this.user = user;
+		this.service = service;
+		this.checkinDate = reservationRequest.getCheckinDate();
+		this.note = reservationRequest.getNote();
+		this.deposit = reservationRequest.getDeposit();
+	}
 }
