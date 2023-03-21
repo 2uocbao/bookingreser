@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import com.quocbao.bookingreser.request.OrderDetailRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,4 +49,10 @@ public class OrderDetail implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "food_id", referencedColumnName = "id")
 	private Food food;
+	
+	public OrderDetail(OrderDetailRequest orderDetailRequest, Order order, Food food) {
+		this.order = order;
+		this.food = food;
+		this.quantity = orderDetailRequest.getQuantity();
+	}
 }
