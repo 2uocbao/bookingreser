@@ -74,9 +74,6 @@ public class Company implements Serializable {
 	
 	@OneToMany(mappedBy = "company")
 	private Set<Food> foods;
-	
-	@OneToMany(mappedBy = "company")
-	private Set<Reservation> reservations;
 
 	public Company(CompanyRequest companyRequest) {
 		this.name = companyRequest.getName();
