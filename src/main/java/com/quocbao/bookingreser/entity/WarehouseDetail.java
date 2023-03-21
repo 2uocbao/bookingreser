@@ -3,6 +3,8 @@ package com.quocbao.bookingreser.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import com.quocbao.bookingreser.request.WarehouseDetailRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -62,4 +64,12 @@ public class WarehouseDetail implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
+	
+	public WarehouseDetail(WarehouseDetailRequest warehouseDetailRequest, Warehouse warehouse, Employee employee) {
+		this.warehouse = warehouse;
+		this.employee = employee;
+		this.cost = warehouseDetailRequest.getCost();
+		this.vat = warehouseDetailRequest.getVat();
+		this.quantity = warehouseDetailRequest.getQuantity();
+	}
 }
