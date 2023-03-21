@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import com.quocbao.bookingreser.request.MaterialRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -54,4 +56,13 @@ public class Material implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
+	
+	public Material(MaterialRequest materialRequest, Company company) {
+		this.company = company;
+		this.code = materialRequest.getCode();
+		this.name = materialRequest.getName();
+		this.cost = materialRequest.getCost();
+		this.quantity = materialRequest.getQuantity();
+		this.stockEnd = materialRequest.getStockEnd();
+	}
 }
