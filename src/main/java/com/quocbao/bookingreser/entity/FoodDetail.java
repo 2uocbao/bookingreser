@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import com.quocbao.bookingreser.request.FoodDetailRequest;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,4 +45,10 @@ public class FoodDetail implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
+	
+	public FoodDetail(FoodDetailRequest foodDetailRequest, Food food, Material material) {
+		this.food = food;
+		this.material = material;
+		this.quantity = foodDetailRequest.getQuantity();
+	}
 }
