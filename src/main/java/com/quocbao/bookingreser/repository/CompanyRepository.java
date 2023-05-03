@@ -1,16 +1,7 @@
 package com.quocbao.bookingreser.repository;
 
-import java.util.List;
-
+import com.quocbao.bookingreser.common.RepositoryDao;
 import com.quocbao.bookingreser.entity.Company;
 
-public interface CompanyRepository {
-	
-	public Company createCompany(Company company);
-	
-	public Company detailCompany(Long id);
-	
-	public Company updateCompany(Company company);
-	
-	public List<Company> listCompanyByColumn(String nameColumn, String keySearch);
+public interface CompanyRepository extends RepositoryDao<Company> {
 }
