@@ -11,12 +11,13 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
-public abstract class RepositoryImpl<E> implements RepositoryDao<E>{
+public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 
 	private Class<E> claz;
 
@@ -24,10 +25,10 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E>{
 	public void repositoryImpl() {
 		this.claz = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
-	
+
 	protected RepositoryImpl(Class<E> entityClass) {
-        this.claz = entityClass;
-    }
+		this.claz = entityClass;
+	}
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -68,15 +69,15 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E>{
 		builder.select(translation).where(getCriteriaBuilder().equal(translation.get(column), keySearch));
 		return getSession().createQuery(builder).uniqueResult();
 	}
-	
-	public List<E> getAll(String column, String value) {
-        CriteriaBuilder builder = getCriteriaBuilder();
-        CriteriaQuery<E> criteriaQuery = builder.createQuery(claz);
-        Root<E> translation = criteriaQuery.from(claz);
-        criteriaQuery.from(claz);
-        criteriaQuery.where(builder.equal(translation.get(column), value));
-        return getSession().createQuery(criteriaQuery).getResultList();
-    }
+
+	public <T> List<E> getAll(Class<T> T, String column, Long value) {
+		CriteriaBuilder builder = getCriteriaBuilder();
+		CriteriaQuery<E> criteriaQuery = builder.createQuery(claz);
+		Root<E> translation = criteriaQuery.from(claz);
+		Join<E, T> join = translation.join(column);
+		criteriaQuery.select(translation).where(builder.equal(join.get("id"), value));
+		return getSession().createQuery(criteriaQuery).getResultList();
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -87,5 +88,13 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E>{
 		update.set(root.get(nColumn), value);
 		update.where(builder.equal(root.get("id"), id));
 		getSession().createQuery(update).executeUpdate();
+	}
+
+	@Override
+	public List<E> getByColumn(String column, String keySearch) {
+		CriteriaQuery<E> builder = createCriteriaQuery();
+		Root<E> translation = builder.from(claz);
+		builder.select(translation).where(getCriteriaBuilder().equal(translation.get(column), keySearch));
+		return getSession().createQuery(builder).getResultList();
 	}
 }
