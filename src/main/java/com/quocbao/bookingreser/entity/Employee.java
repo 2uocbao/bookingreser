@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.quocbao.bookingreser.request.EmpUserRequest;
 
 import jakarta.persistence.Column;
@@ -16,13 +19,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "employee")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -34,7 +41,7 @@ public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "last_name")
@@ -43,7 +50,7 @@ public class Employee implements Serializable {
 	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(name = "dateof_birth")
+	@Column(name = "date_of_birth")
 	private Date dateofBirth;
 
 	@Column(name = "gender")
@@ -61,32 +68,44 @@ public class Employee implements Serializable {
 	@Column(name = "address")
 	private String address;
 
-	@Column(name = "password")
-	private String password;
-
 	@Column(name = "kpa")
 	private int kpa;
 
 	@Column(name = "status")
 	private int status;
 
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
 	private Timestamp createdAt;
 
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
-	
-	//relationship
-	
+
+	// relationship
+
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
-	
+
 	@OneToMany(mappedBy = "employee")
 	private Set<WarehouseDetail> warehouseDetails;
-	
+
 	public Employee(EmpUserRequest employeeRequest, Company company) {
 		this.company = company;
+		this.firstName = employeeRequest.getFirstName();
+		this.lastName = employeeRequest.getLastName();
+		this.dateofBirth = employeeRequest.getDateofBirth();
+		this.gender = employeeRequest.getGender();
+		this.image = employeeRequest.getImage();
+		this.phone = employeeRequest.getPhone();
+		this.email = employeeRequest.getEmail();
+		this.address = employeeRequest.getAddress();
+	}
+
+	public void setEmployee(EmpUserRequest employeeRequest) {
 		this.firstName = employeeRequest.getFirstName();
 		this.lastName = employeeRequest.getLastName();
 		this.dateofBirth = employeeRequest.getDateofBirth();
