@@ -62,4 +62,10 @@ public class Food implements Serializable{
 		this.price = foodRequest.getPrice();
 		this.image = foodRequest.getImage();
 	}
+	
+	public void setFood(FoodRequest foodRequest) {
+		this.name = foodRequest.getName();
+		this.price = foodRequest.getPrice();
+		this.image = foodRequest.getImage();
+	}
 }
