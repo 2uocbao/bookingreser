@@ -1,16 +1,11 @@
 package com.quocbao.bookingreser.repository;
 
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
+import com.quocbao.bookingreser.common.RepositoryDao;
 import com.quocbao.bookingreser.entity.Employee;
 
-public interface EmployeeRepository {
+@Repository
+public interface EmployeeRepository extends RepositoryDao<Employee> {
 
-	public Employee createEmployee(Employee employee);
-	
-	public Employee detailEmployee(Long id);
-	
-	public Employee updateEmployee(Employee employee);
-	
-	public List<Employee> listEmployeeByCompanyId(Long companyId);
 }
