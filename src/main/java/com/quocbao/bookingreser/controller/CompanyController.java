@@ -25,7 +25,7 @@ public class CompanyController {
 	@PostMapping("/create")
 	public ResponseEntity<Object> createCompany(@RequestBody CompanyRequest companyRequest) {
 		companyService.createCompany(companyRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>("Success" ,HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
