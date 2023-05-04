@@ -1,12 +1,10 @@
 package com.quocbao.bookingreser.request;
 
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class CompanyRequest {
 	
 	@JsonProperty("name")
@@ -27,6 +25,6 @@ public class CompanyRequest {
 	@JsonProperty("address")
 	private String address;
 	
-	@JsonProperty("type")
-	private Set<String> types;
+//	@JsonProperty("type")
+//	private Set<String> types;
 }
