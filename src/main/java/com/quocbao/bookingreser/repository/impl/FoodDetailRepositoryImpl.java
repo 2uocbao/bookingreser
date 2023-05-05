@@ -1,28 +1,19 @@
 package com.quocbao.bookingreser.repository.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
+import com.quocbao.bookingreser.common.RepositoryImpl;
 import com.quocbao.bookingreser.entity.FoodDetail;
 import com.quocbao.bookingreser.repository.FoodDetailRepository;
 
+import jakarta.transaction.Transactional;
+
 @Repository
-public class FoodDetailRepositoryImpl extends AbstractRepository<FoodDetail> implements FoodDetailRepository {
+@Transactional
+public class FoodDetailRepositoryImpl extends RepositoryImpl<FoodDetail> implements FoodDetailRepository {
 
-	@Override
-	public FoodDetail createFoodDetail(FoodDetail foodDetail) {
-		return this.create(foodDetail);
-	}
-
-	@Override
-	public List<FoodDetail> listFoodDetailByFoodId(Long foodId) {
-		return this.listFoodDetailByFoodId(foodId);
-	}
-
-	@Override
-	public FoodDetail updateFoodDetail(FoodDetail foodDetail) {
-		return this.update(foodDetail);
+	protected FoodDetailRepositoryImpl() {
+		super(FoodDetail.class);
 	}
 
 }
