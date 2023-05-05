@@ -36,7 +36,7 @@ public class FoodDetail implements Serializable{
 	private Long id;
 	
 	@Column(name = "quantity")
-	private float quantity;
+	private int quantity;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "food_id", referencedColumnName = "id")
