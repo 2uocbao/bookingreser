@@ -9,20 +9,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "account_role")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class AccountRole implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +26,7 @@ public class AccountRole implements Serializable {
 	
 	@ManyToOne
 	@MapsId("id")
-	@JoinColumn(name = "account_id")
+	@JoinColumn(name = "id")
 	private Long accountId;
 	
 	@ManyToOne
