@@ -5,27 +5,28 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class MaterialRequest {
+	
+	@JsonProperty("companyId")
+	public Long companyId;
 
 	@JsonProperty("code")
-	private String code;
+	public String code;
 	
 	@JsonProperty("name")
-	private String name;
+	public String name;
 	
 	@JsonProperty("cost")
-	private float cost;
+	public float cost;
 	
 	@JsonProperty("quantity")
-	private float quantity;
+	public float quantity;
 	
 	@JsonProperty("stockend")
-	private float stockEnd;
+	public float stockEnd;
 	
 	@JsonProperty("type")
-	private Set<TypeRequest> typeRequest;
+	public Set<TypeRequest> typeRequest;
 }
