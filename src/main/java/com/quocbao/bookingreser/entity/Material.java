@@ -30,7 +30,7 @@ public class Material implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "code")
@@ -59,6 +59,14 @@ public class Material implements Serializable{
 	
 	public Material(MaterialRequest materialRequest, Company company) {
 		this.company = company;
+		this.code = materialRequest.getCode();
+		this.name = materialRequest.getName();
+		this.cost = materialRequest.getCost();
+		this.quantity = materialRequest.getQuantity();
+		this.stockEnd = materialRequest.getStockEnd();
+	}
+	
+	public void setMaterial(MaterialRequest materialRequest) {
 		this.code = materialRequest.getCode();
 		this.name = materialRequest.getName();
 		this.cost = materialRequest.getCost();
