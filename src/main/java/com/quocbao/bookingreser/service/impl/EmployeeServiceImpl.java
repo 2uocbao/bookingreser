@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> listEmployeeByCompanyId(Long companyId) {
-		return employeeRepository.getAll(Company.class ,Employee_.COMPANYID, companyId);
+		return employeeRepository.getAll(Company.class ,Employee_.COMPANYID, "id", companyId);
 	}
 	
 	@Override
