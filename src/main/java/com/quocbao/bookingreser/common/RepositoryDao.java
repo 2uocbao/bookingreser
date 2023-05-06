@@ -16,9 +16,9 @@ public interface RepositoryDao<E> {
 
 	public E findByColumn(String column, String keySearch);
 
-	public <T> List<E> getAll(Class<T> t, String column, Long value);
+	public <T> List<E> getAll(Class<T> t, String column, String keyJoin, Long value);
 	
 	public void uColumn(Long id, String nColumn, int value);
 	
-	public List<E> getByColumn(String column, String keySearch);
+	public List<E> search(Long idJoin, String column, String keySearch);
 }
