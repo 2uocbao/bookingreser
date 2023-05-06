@@ -14,6 +14,7 @@ import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.FoodDetailRepository;
 import com.quocbao.bookingreser.repository.FoodRepository;
+import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.request.FoodDetailRequest;
 import com.quocbao.bookingreser.request.FoodRequest;
 import com.quocbao.bookingreser.service.FoodService;
@@ -27,6 +28,8 @@ public class FoodServiceImpl implements FoodService {
 	CompanyRepository companyRepository;
 	@Autowired
 	FoodDetailRepository foodDetailRepository;
+	@Autowired
+	MaterialRepository materialRepository;
 
 	// Food
 	@Override
@@ -50,13 +53,14 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public List<Food> listFoodByColumn(String nameColumn, String keySearch) {
-		return foodRepository.getByColumn(nameColumn, keySearch);
+	public List<Food> listFoodByColumn(Long companyId, String nameColumn, String keySearch) {
+		return foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId).stream()
+				.filter(x -> x.getName().contains(keySearch)).toList();
 	}
 
 	@Override
 	public List<Food> listFoodByCompanyId(Long companyId) {
-		return foodRepository.getAll(Company.class, Food_.COMPANYID, companyId);
+		return foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId);
 	}
 
 	@Override
@@ -65,15 +69,15 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	// FoodDetail
-	@Override // add material
+	@Override
 	public void createFoodDetail(FoodDetailRequest detailRequest) {
 		foodDetailRepository
-				.save(new FoodDetail(detailRequest, foodRepository.findById(detailRequest.getFoodId()), null));
+				.save(new FoodDetail(detailRequest, foodRepository.findById(detailRequest.getFoodId()), materialRepository.findById(detailRequest.getMaterialId())));
 	}
 
 	@Override
 	public List<FoodDetail> foodDetail(Long foodId) {
-		return foodDetailRepository.getByColumn(FoodDetail_.FOODID, foodId.toString());
+		return foodDetailRepository.getAll(Food.class, FoodDetail_.FOODID, "id", foodId);
 	}
 
 	@Override
