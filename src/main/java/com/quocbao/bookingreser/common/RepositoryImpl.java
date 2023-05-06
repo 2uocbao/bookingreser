@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -70,12 +71,12 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 		return getSession().createQuery(builder).uniqueResult();
 	}
 
-	public <T> List<E> getAll(Class<T> T, String column, Long value) {
+	public <T> List<E> getAll(Class<T> T, String column, String keyJoin, Long value) {
 		CriteriaBuilder builder = getCriteriaBuilder();
 		CriteriaQuery<E> criteriaQuery = builder.createQuery(claz);
 		Root<E> translation = criteriaQuery.from(claz);
 		Join<E, T> join = translation.join(column);
-		criteriaQuery.select(translation).where(builder.equal(join.get("id"), value));
+		criteriaQuery.select(translation).where(builder.equal(join.get(keyJoin), value));
 		return getSession().createQuery(criteriaQuery).getResultList();
 	}
 
@@ -90,11 +91,13 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 		getSession().createQuery(update).executeUpdate();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<E> getByColumn(String column, String keySearch) {
-		CriteriaQuery<E> builder = createCriteriaQuery();
-		Root<E> translation = builder.from(claz);
-		builder.select(translation).where(getCriteriaBuilder().equal(translation.get(column), keySearch));
-		return getSession().createQuery(builder).getResultList();
+	public List<E> search(Long id,String column, String keySearch) {
+		String hql = "from " + claz.getName() + " e where lower(e." + column + ") like :keySearch";
+		@SuppressWarnings("deprecation")
+		Query<E> query = getSession().createQuery(hql);
+		query.setParameter("keySearch", "%" + keySearch.toLowerCase() + "%");
+		return query.getResultList();
 	}
 }
