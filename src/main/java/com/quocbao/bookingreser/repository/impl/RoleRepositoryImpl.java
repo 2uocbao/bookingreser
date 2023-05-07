@@ -2,19 +2,18 @@ package com.quocbao.bookingreser.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
+import com.quocbao.bookingreser.common.RepositoryImpl;
 import com.quocbao.bookingreser.entity.AccountRole;
 import com.quocbao.bookingreser.repository.RoleRepository;
 
+import jakarta.transaction.Transactional;
+
 @Repository
-public class RoleRepositoryImpl extends AbstractRepository<AccountRole> implements RoleRepository {
+@Transactional
+public class RoleRepositoryImpl extends RepositoryImpl<AccountRole> implements RoleRepository {
 
-	@Override
-	public AccountRole createAccountRole(AccountRole accountRole) {
-		return this.create(accountRole);
+	protected RoleRepositoryImpl() {
+		super(AccountRole.class);
 	}
 
-	@Override
-	public AccountRole updateAccountRole(AccountRole accountRole) {
-		return this.update(accountRole);
-	}
 }
