@@ -1,19 +1,19 @@
 package com.quocbao.bookingreser.request;
 
+import java.sql.Timestamp;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class ReservationRequest {
 	@JsonProperty("checkindate")
-	private String checkinDate;
-	
+	public Timestamp checkinDate;
+
 	@JsonProperty("note")
-	private String note;
-	
+	public String note;
+
 	@JsonProperty("deposit")
-	private float deposit;
+	public float deposit;
 }
