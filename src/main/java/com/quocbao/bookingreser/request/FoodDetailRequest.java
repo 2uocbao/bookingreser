@@ -3,12 +3,16 @@ package com.quocbao.bookingreser.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class FoodDetailRequest {
 
+	@JsonProperty("foodId")
+	public Long foodId;
+
+	@JsonProperty("materialId")
+	public Long materialId;
+
 	@JsonProperty("quantity")
-	private float quantity;
+	public int quantity;
 }
