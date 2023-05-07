@@ -3,21 +3,16 @@ package com.quocbao.bookingreser.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class WarehouseDetailRequest {
 
 	@JsonProperty("cost")
-	private float cost;
+	public float cost;
 	
 	@JsonProperty("vat")
-	private float vat;
+	public float vat;
 	
 	@JsonProperty("quantity")
-	private float quantity;
-	
-	@JsonProperty("totalamount")
-	private float totalAmount;
+	public float quantity;
 }
