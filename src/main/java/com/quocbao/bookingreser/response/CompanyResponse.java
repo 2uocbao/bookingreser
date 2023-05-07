@@ -1,6 +1,5 @@
 package com.quocbao.bookingreser.response;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
