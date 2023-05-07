@@ -1,10 +1,8 @@
 package com.quocbao.bookingreser.repository;
 
+import com.quocbao.bookingreser.common.RepositoryDao;
 import com.quocbao.bookingreser.entity.AccountRole;
 
-public interface RoleRepository {
+public interface RoleRepository extends RepositoryDao<AccountRole>{
 
-	public AccountRole createAccountRole(AccountRole accountRole);
-	
-	public AccountRole updateAccountRole(AccountRole accountRole);
 }
