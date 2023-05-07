@@ -38,12 +38,6 @@ public class CompanyResponse {
 	@JsonProperty("type")
 	private Set<String> types;
 
-	@JsonProperty("created_at")
-	private Timestamp createdAt;
-
-	@JsonProperty("updated_at")
-	private Timestamp updatedAt;
-
 	public CompanyResponse(Company company) {
 		this.id = company.getId();
 		this.name = company.getName();
@@ -53,7 +47,5 @@ public class CompanyResponse {
 		this.infor = company.getInfor();
 		this.address = company.getAddress();
 		this.status = company.getStatus();
-//		this.createdAt = company.getCreatedAt();
-//		this.updatedAt = company.getUpdatedAt();
 	}
 }
