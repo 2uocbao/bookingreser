@@ -79,4 +79,11 @@ public class Order implements Serializable {
 		this.service = service;
 		this.description = orderRequest.getDescription();
 	}
+	
+	public void setOrder(OrderRequest orderRequest, Service service, Employee employee, User user) {
+		this.employee = employee;
+		this.user = user;
+		this.service = service;
+		this.description = orderRequest.getDescription();
+	}
 }
