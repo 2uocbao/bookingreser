@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.quocbao.bookingreser.request.AccountRequest;
 
 import jakarta.persistence.Column;
@@ -15,16 +17,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "account")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
 public class Account implements Serializable {
 
 	/**
