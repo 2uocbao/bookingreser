@@ -14,11 +14,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "table")
 @DynamicUpdate
+@NoArgsConstructor
 public class Warehouse implements Serializable{
 
 	/**
