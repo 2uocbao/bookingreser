@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.quocbao.bookingreser.request.OrderDetailRequest;
 
 import jakarta.persistence.Column;
@@ -13,16 +15,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "order_detail")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
 public class OrderDetail implements Serializable{
 
 	/**
