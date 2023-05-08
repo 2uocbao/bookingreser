@@ -24,11 +24,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "company")
 @DynamicUpdate
+@NoArgsConstructor
 public class Company implements Serializable {
 
 	/**
@@ -105,9 +107,5 @@ public class Company implements Serializable {
 		this.image = companyRequest.getImage();
 		this.infor = companyRequest.getInfor();
 		this.address = companyRequest.getAddress();
-	}
-
-	public Company() {
-
 	}
 }
