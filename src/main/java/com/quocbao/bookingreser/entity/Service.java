@@ -1,6 +1,8 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.quocbao.bookingreser.request.ServiceRequest;
 
@@ -10,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -41,6 +45,10 @@ public class Service implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
+
+	@ManyToMany
+	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "service_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+	private Set<Types> types = new HashSet<>();
 
 	public Service(ServiceRequest serviceRequest, Company company) {
 		this.name = serviceRequest.getName();
