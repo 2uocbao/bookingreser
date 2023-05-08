@@ -55,4 +55,9 @@ public class Rated implements Serializable{
 		this.point = rateRequest.getPoint();
 		this.comment = rateRequest.getComment();
 	}
+	
+	public void  setRated(RateRequest rateRequest) {
+		this.point = rateRequest.getPoint();
+		this.comment = rateRequest.getComment();
+	}
 }
