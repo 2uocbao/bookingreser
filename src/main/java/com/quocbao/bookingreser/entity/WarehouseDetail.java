@@ -20,12 +20,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "warehouse_detail")
 @DynamicUpdate
-public class WarehouseDetail implements Serializable{
+@NoArgsConstructor
+public class WarehouseDetail implements Serializable {
 
 	/**
 	 * 
@@ -35,22 +37,22 @@ public class WarehouseDetail implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "cost")
 	private float cost;
-	
+
 	@Column(name = "vat")
 	private float vat;
-	
+
 	@Column(name = "quantity")
 	private float quantity;
-	
+
 	@Column(name = "total_amount")
 	private float totalAmount;
-	
+
 	@Column(name = "status")
 	private int status;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
@@ -60,17 +62,17 @@ public class WarehouseDetail implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
-	
-	//relationship
-	
+
+	// relationship
+
 	@ManyToOne
 	@JoinColumn(name = "warehouse_id", referencedColumnName = "id")
 	private Warehouse warehouse;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
-	
+
 	public WarehouseDetail(WarehouseDetailRequest warehouseDetailRequest, Warehouse warehouse, Employee employee) {
 		this.warehouse = warehouse;
 		this.employee = employee;
