@@ -8,13 +8,18 @@ import org.springframework.stereotype.Service;
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Employee;
 import com.quocbao.bookingreser.entity.Order;
+import com.quocbao.bookingreser.entity.OrderDetail;
 import com.quocbao.bookingreser.entity.User;
+import com.quocbao.bookingreser.entity.metamodel.OrderDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Order_;
 import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
+import com.quocbao.bookingreser.repository.FoodRepository;
+import com.quocbao.bookingreser.repository.OrderDetailRepository;
 import com.quocbao.bookingreser.repository.OrderRepository;
 import com.quocbao.bookingreser.repository.ServiceRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
+import com.quocbao.bookingreser.request.OrderDetailRequest;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.service.OrderService;
 
@@ -29,7 +34,12 @@ public class OrderServiceImpl implements OrderService {
 	private ServiceRepository serviceRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private OrderDetailRepository orderDetailRepository;
+	@Autowired
+	private FoodRepository foodRepository;
 
+	// Order
 	@Override
 	public void createOrder(OrderRequest orderRequest) {
 		Employee employee = employeeRepository.findById(orderRequest.getEmployeeId());
@@ -73,4 +83,29 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.getAll(User.class, Order_.USERID, "id", userId);
 	}
 
+	// OrderDetail
+	@Override
+	public void createOrderDetail(OrderDetailRequest orderDetailRequest) {
+		orderDetailRepository
+				.save(new OrderDetail(orderDetailRequest, orderRepository.findById(orderDetailRequest.getOrderId()),
+						foodRepository.findById(orderDetailRequest.getFoodId())));
+	}
+
+	@Override
+	public List<OrderDetail> orderDetails(Long orderId) {
+		return orderDetailRepository.getAll(Order.class, OrderDetail_.ORDERID, "id", orderId);
+	}
+
+	@Override
+	public void updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
+		OrderDetail orderDetail = orderDetailRepository.findById(id);
+		orderDetail.setOrderDetail(orderDetailRequest);
+		orderDetailRepository.update(orderDetail);
+	}
+
+	@Override
+	// trang thai phuc vu mon an
+	public void uStatusOrderDetail(Long id, int value) {
+		orderDetailRepository.uColumn(id, OrderDetail_.STATUS, value);
+	}
 }
