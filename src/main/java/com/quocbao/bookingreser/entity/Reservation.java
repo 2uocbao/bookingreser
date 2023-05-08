@@ -25,11 +25,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "Reservation")
 @DynamicUpdate
+@NoArgsConstructor
 public class Reservation implements Serializable {
 
 	/**
