@@ -7,9 +7,15 @@ import lombok.Getter;
 @Getter
 public class RateRequest {
 
+	@JsonProperty("companyId")
+	public Long companyId;
+
+	@JsonProperty("userId")
+	public Long userId;
+
 	@JsonProperty("point")
 	public int point;
-	
+
 	@JsonProperty("comment")
 	public String comment;
 }
