@@ -19,11 +19,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "service")
 @DynamicUpdate
+@NoArgsConstructor
 public class Service implements Serializable {
 
 	/**
