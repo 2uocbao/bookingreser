@@ -31,14 +31,14 @@ public class OrderDetail implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "quantity")
 	private float quantity;
 	
 	@Column(name = "status")
-	private int status;
+	private String status;
 	
 	//relationship
 	
@@ -53,6 +53,10 @@ public class OrderDetail implements Serializable{
 	public OrderDetail(OrderDetailRequest orderDetailRequest, Order order, Food food) {
 		this.order = order;
 		this.food = food;
+		this.quantity = orderDetailRequest.getQuantity();
+	}
+	
+	public void setOrderDetail(OrderDetailRequest orderDetailRequest) {
 		this.quantity = orderDetailRequest.getQuantity();
 	}
 }
