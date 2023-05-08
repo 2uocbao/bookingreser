@@ -18,11 +18,13 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "account")
 @DynamicUpdate
+@NoArgsConstructor
 public class Account implements Serializable {
 
 	/**
