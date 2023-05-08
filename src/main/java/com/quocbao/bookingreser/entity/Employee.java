@@ -23,11 +23,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "employee")
 @DynamicUpdate
+@NoArgsConstructor
 public class Employee implements Serializable {
 
 	/**
