@@ -17,11 +17,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "food_detail")
 @DynamicUpdate
+@NoArgsConstructor
 public class FoodDetail implements Serializable{
 
 	/**
