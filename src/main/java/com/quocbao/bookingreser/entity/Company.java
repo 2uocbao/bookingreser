@@ -2,6 +2,7 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +16,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -85,6 +89,10 @@ public class Company implements Serializable {
 	@OneToMany(mappedBy = "company")
 	private Set<Food> foods;
 
+	@ManyToMany
+	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+	private Set<Types> types = new HashSet<>();
+
 	public Company(CompanyRequest companyRequest) {
 		this.name = companyRequest.getName();
 		this.email = companyRequest.getEmail();
@@ -102,7 +110,7 @@ public class Company implements Serializable {
 		this.infor = companyRequest.getInfor();
 		this.address = companyRequest.getAddress();
 	}
-	
+
 	public Company() {
 
 	}
