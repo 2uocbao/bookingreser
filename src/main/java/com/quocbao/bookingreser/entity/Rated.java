@@ -20,11 +20,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "rated")
 @DynamicUpdate
+@NoArgsConstructor
 public class Rated implements Serializable{
 
 	/**
