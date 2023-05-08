@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.quocbao.bookingreser.request.ServiceRequest;
 
 import jakarta.persistence.Column;
@@ -16,16 +18,12 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "service")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
 public class Service implements Serializable {
 
 	/**
@@ -34,7 +32,7 @@ public class Service implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "name")
