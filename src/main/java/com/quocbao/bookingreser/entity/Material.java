@@ -1,6 +1,8 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.quocbao.bookingreser.request.MaterialRequest;
 
@@ -10,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -22,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "material")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Material implements Serializable{
+public class Material implements Serializable {
 
 	/**
 	 * 
@@ -32,31 +36,35 @@ public class Material implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "code")
 	private String code;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "cost")
 	private float cost;
-	
+
 	@Column(name = "quantity")
 	private float quantity;
-	
+
 	@Column(name = "stock_end")
 	private float stockEnd;
-	
+
 	@Column(name = "status")
 	private int status;
-	
-	//relationship
-	
+
+	// relationship
+
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
-	
+
+	@ManyToMany
+	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "material_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+	private Set<Types> types = new HashSet<>();
+
 	public Material(MaterialRequest materialRequest, Company company) {
 		this.company = company;
 		this.code = materialRequest.getCode();
@@ -65,7 +73,7 @@ public class Material implements Serializable{
 		this.quantity = materialRequest.getQuantity();
 		this.stockEnd = materialRequest.getStockEnd();
 	}
-	
+
 	public void setMaterial(MaterialRequest materialRequest) {
 		this.code = materialRequest.getCode();
 		this.name = materialRequest.getName();
