@@ -2,6 +2,8 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.quocbao.bookingreser.request.FoodDetailRequest;
 
 import jakarta.persistence.CascadeType;
@@ -14,16 +16,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "food_detail")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
 public class FoodDetail implements Serializable{
 
 	/**
@@ -32,7 +30,7 @@ public class FoodDetail implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "quantity")
