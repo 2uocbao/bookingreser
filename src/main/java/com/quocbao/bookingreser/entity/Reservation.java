@@ -5,6 +5,10 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.quocbao.bookingreser.request.ReservationRequest;
 
 import jakarta.persistence.CascadeType;
@@ -18,16 +22,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "Reservation")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
 public class Reservation implements Serializable {
 
 	/**
@@ -36,7 +38,7 @@ public class Reservation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "checkin_date")
@@ -48,9 +50,13 @@ public class Reservation implements Serializable {
 	@Column(name = "deposit")
 	private float deposit;
 
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
 	private Timestamp createdAt;
 
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
