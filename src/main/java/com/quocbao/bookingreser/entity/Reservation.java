@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -74,13 +75,26 @@ public class Reservation implements Serializable {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "company_id", nullable = false)
+	private Company company;
+
 	@ManyToMany
 	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
-	public Reservation(ReservationRequest reservationRequest, Employee employee, Service service, User user) {
+	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Service service, User user) {
+		this.company = company;
 		this.employee = employee;
 		this.user = user;
+		this.service = service;
+		this.checkinDate = reservationRequest.getCheckinDate();
+		this.note = reservationRequest.getNote();
+		this.deposit = reservationRequest.getDeposit();
+	}
+	
+	public void setReservation(ReservationRequest reservationRequest, Employee employee, Service service) {
+		this.employee = employee;
 		this.service = service;
 		this.checkinDate = reservationRequest.getCheckinDate();
 		this.note = reservationRequest.getNote();
