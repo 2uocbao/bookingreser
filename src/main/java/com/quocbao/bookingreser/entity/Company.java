@@ -86,6 +86,9 @@ public class Company implements Serializable {
 
 	@OneToMany(mappedBy = "company")
 	private Set<Food> foods;
+	
+	@OneToMany(mappedBy = "company")
+	private Set<Reservation> reservations;
 
 	@ManyToMany
 	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
