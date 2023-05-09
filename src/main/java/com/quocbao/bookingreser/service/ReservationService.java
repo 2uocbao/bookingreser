@@ -9,7 +9,7 @@ public interface ReservationService {
 	
 	public void createReservation(ReservationRequest reservationRequest);
 
-	public void updateReservation(ReservationRequest reservationRequest);
+	public void updateReservation(Long id, ReservationRequest reservationRequest);
 
 	public Reservation detailReservation(Long id);
 
