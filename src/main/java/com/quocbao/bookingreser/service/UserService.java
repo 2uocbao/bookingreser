@@ -7,9 +7,9 @@ public interface UserService {
 
 	public void createUser(EmpUserRequest empUserRequest);
 
-	public User updateUser(Long id, EmpUserRequest empUserRequest);
+	public void updateUser(Long id, EmpUserRequest empUserRequest);
 
-	public void detailUser(Long id);
+	public User detailUser(Long id);
 
 	public void deleteUser(Long id);
 }
