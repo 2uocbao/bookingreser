@@ -21,25 +21,34 @@ import lombok.NoArgsConstructor;
 @Table(name = "table")
 @DynamicUpdate
 @NoArgsConstructor
-public class Warehouse implements Serializable{
+public class Warehouse implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@OneToOne
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
-	
+
 	@OneToOne
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
-	
+
 	@OneToMany(mappedBy = "warehouse")
 	private Set<WarehouseDetail> warehouseDetails;
+
+	public Warehouse(Material material, Company company) {
+		this.material = material;
+		this.company = company;
+	}
+
+	public void setWarehouse(Material material) {
+		this.material = material;
+	}
 }
