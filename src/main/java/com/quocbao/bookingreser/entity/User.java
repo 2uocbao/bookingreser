@@ -84,4 +84,15 @@ public class User implements Serializable{
 		this.email = empUserRequest.getEmail();
 		this.address = empUserRequest.getAddress();
 	}
+	
+	public void setUser(EmpUserRequest empUserRequest) {
+		this.firstName = empUserRequest.getFirstName();
+		this.lastName = empUserRequest.getLastName();
+		this.dateofBirth = empUserRequest.getDateofBirth();
+		this.gender = empUserRequest.getGender();
+		this.image = empUserRequest.getImage();
+		this.phone = empUserRequest.getPhone();
+		this.email = empUserRequest.getEmail();
+		this.address = empUserRequest.getAddress();
+	}
 }
