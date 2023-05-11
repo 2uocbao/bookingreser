@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.User;
+import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.EmpUserRequest;
 import com.quocbao.bookingreser.service.UserService;
@@ -28,7 +29,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User detailUser(Long id) {
-		return userRepository.findById(id);
+		User user = userRepository.findById(id);
+		if (user != null) {
+			throw new NotFoundException("User not found with: " + id.toString());
+		}
+		return user;
 	}
 
 	@Override
