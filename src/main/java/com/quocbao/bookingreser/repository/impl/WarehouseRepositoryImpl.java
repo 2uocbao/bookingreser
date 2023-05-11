@@ -10,7 +10,8 @@ import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
-public class WarehouseRepositoryImpl extends RepositoryImpl<Warehouse> implements WarehouseRepository {
+public class WarehouseRepositoryImpl extends RepositoryImpl<Warehouse>
+		implements WarehouseRepository {
 
 	protected WarehouseRepositoryImpl() {
 		super(Warehouse.class);
