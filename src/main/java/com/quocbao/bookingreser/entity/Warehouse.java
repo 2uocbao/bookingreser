@@ -1,24 +1,31 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.sql.Timestamp;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import com.quocbao.bookingreser.request.WarehouseRequest;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "table")
+@Table(name = "warehouse")
 @DynamicUpdate
 @NoArgsConstructor
 public class Warehouse implements Serializable {
@@ -32,23 +39,46 @@ public class Warehouse implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "cost")
+	private float cost;
+
+	@Column(name = "vat")
+	private float vat;
+
+	@Column(name = "quantity")
+	private float quantity;
+
+	@Column(name = "total_amount")
+	private float totalAmount;
+
+	@Column(name = "status")
+	private int status;
+
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at")
+	private Timestamp createdAt;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at")
+	private Timestamp updatedAt;
+
+	// relationship
+
 	@OneToOne
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
 
-	@OneToOne
-	@JoinColumn(name = "company_id", referencedColumnName = "id")
-	private Company company;
+	@ManyToOne
+	@JoinColumn(name = "employee_id", referencedColumnName = "id")
+	private Employee employee;
 
-	@OneToMany(mappedBy = "warehouse")
-	private Set<WarehouseDetail> warehouseDetails;
-
-	public Warehouse(Material material, Company company) {
+	public Warehouse(WarehouseRequest warehouseRequest, Material material, Employee employee) {
 		this.material = material;
-		this.company = company;
-	}
-
-	public void setWarehouse(Material material) {
-		this.material = material;
+		this.employee = employee;
+		this.cost = warehouseRequest.getCost();
+		this.vat = warehouseRequest.getVat();
+		this.quantity = warehouseRequest.getQuantity();
 	}
 }
