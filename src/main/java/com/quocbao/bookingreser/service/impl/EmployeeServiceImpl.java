@@ -32,10 +32,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee detailEmployee(Long id) {
-		if (employeeRepository.findById(id) == null) {
+		Employee employee = employeeRepository.findById(id);
+		if (employee == null) {
 			throw new NotFoundException("Employee not found with id: " + id);
 		}
-		return employeeRepository.findById(id);
+		return employee;
 	}
 
 	@Override
@@ -49,9 +50,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> listEmployeeByCompanyId(Long companyId) {
-		return employeeRepository.getAll(Company.class ,Employee_.COMPANYID, "id", companyId);
+		return employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId);
 	}
-	
+
 	@Override
 	public void updateKPA(String phone) {
 		Employee employee = employeeRepository.findByColumn(Employee_.PHONE, phone);
