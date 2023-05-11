@@ -9,7 +9,7 @@ import com.quocbao.bookingreser.request.OrderRequest;
 
 public interface OrderService {
 
-	//Order
+	// Order
 	public void createOrder(OrderRequest orderRequest);
 
 	public Order detailOrder(Long id);
@@ -19,13 +19,17 @@ public interface OrderService {
 	public List<Order> listOrderByCompanyId(Long companyId);
 
 	public List<Order> listOrderByUserId(Long userId);
-	
-	//OrderDetail
+
+	public void uStatus(Long id, int value);
+
+	public Order payOrder(Long id);
+
+	// OrderDetail
 	public void createOrderDetail(OrderDetailRequest orderDetailRequest);
-	
+
 	public List<OrderDetail> orderDetails(Long orderId);
-	
+
 	public void updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest);
-	
-	public void uStatusOrderDetail(Long id, int value);
+
+	public void uStatusOrderDetail(Long id);
 }
