@@ -10,7 +10,7 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Warehouse.class)
 public abstract class Warehouse_ {
 
-	public static volatile SingularAttribute<Warehouse, Long> companyId;
+	public static volatile SingularAttribute<Warehouse, Long> materialId;
 
-	public static final String COMPANYID = "company";
+	public static final String MATERIALID = "material";
 }
