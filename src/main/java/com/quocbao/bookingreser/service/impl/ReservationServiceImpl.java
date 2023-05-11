@@ -10,6 +10,7 @@ import com.quocbao.bookingreser.entity.Employee;
 import com.quocbao.bookingreser.entity.Reservation;
 import com.quocbao.bookingreser.entity.User;
 import com.quocbao.bookingreser.entity.metamodel.Reservation_;
+import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.ReservationRepository;
 import com.quocbao.bookingreser.repository.ServiceRepository;
@@ -52,7 +53,11 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public Reservation detailReservation(Long id) {
-		return reservationRepository.findById(id);
+		Reservation reservation = reservationRepository.findById(id);
+		if (reservation != null) {
+			throw new NotFoundException("Reservation not found with: " + id.toString());
+		}
+		return reservation;
 	}
 
 	@Override
