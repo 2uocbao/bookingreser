@@ -26,10 +26,11 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company detailCompany(Long id) {
-		if (companyRepository.findById(id) == null) {
+		Company company = companyRepository.findById(id);
+		if (company == null) {
 			throw new NotFoundException("The company info is not available: " + id);
 		}
-		return companyRepository.findById(id);
+		return company;
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void uStatusCompany(Long id,  int status) {
-		companyRepository.uColumn(id, Company_.STATUS ,status);
+	public void uStatusCompany(Long id, int status) {
+		companyRepository.uColumn(id, Company_.STATUS, status);
 	}
 }
