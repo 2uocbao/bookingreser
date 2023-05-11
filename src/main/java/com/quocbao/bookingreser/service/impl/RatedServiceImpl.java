@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Rated;
 import com.quocbao.bookingreser.entity.metamodel.Rated_;
+import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.RatedRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
@@ -32,7 +33,11 @@ public class RatedServiceImpl implements RatedService {
 
 	@Override
 	public Rated detailRated(Long id) {
-		return ratedRepository.findById(id);
+		Rated rated = ratedRepository.findById(id);
+		if (rated != null) {
+			throw new NotFoundException("Rated information not found with: " + id.toString());
+		}
+		return rated;
 	}
 
 	@Override
