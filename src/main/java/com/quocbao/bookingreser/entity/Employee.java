@@ -88,7 +88,7 @@ public class Employee implements Serializable {
 	private Company company;
 
 	@OneToMany(mappedBy = "employee")
-	private Set<WarehouseDetail> warehouseDetails;
+	private Set<Warehouse> warehouse;
 
 	public Employee(EmpUserRequest employeeRequest, Company company) {
 		this.company = company;
