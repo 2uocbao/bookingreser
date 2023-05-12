@@ -1,14 +1,19 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.quocbao.bookingreser.request.TypeRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +37,15 @@ public class Types implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "type")
+	@Column(name = "types")
 	private String type;
+	
+	@ManyToMany(mappedBy = "types")
+	private Set<Company> companies = new HashSet<>();
+
+	public Types(TypeRequest typeRequest) {
+		this.name = typeRequest.getName();
+		this.type = typeRequest.getType();
+	}
+
 }
