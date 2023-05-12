@@ -8,12 +8,12 @@ import lombok.Setter;
 
 @Setter
 public class TypeResponse extends TypeRequest{
-	
-	@JsonProperty("name")
-	private String name;
+
+	@JsonProperty("id")
+	private Long id;
 	
 	public TypeResponse(Types types) {
-		this.typeId = types.getId();
+		this.id = types.getId();
 		this.name = types.getName();
 	}
 }
