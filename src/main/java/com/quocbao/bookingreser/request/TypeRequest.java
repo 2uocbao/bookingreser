@@ -7,6 +7,9 @@ import lombok.Getter;
 @Getter
 public class TypeRequest {
 
-	@JsonProperty("type_id")
-	public Long typeId;
+	@JsonProperty("name")
+	public String name;
+	
+	@JsonProperty("type")
+	public String type;
 }
