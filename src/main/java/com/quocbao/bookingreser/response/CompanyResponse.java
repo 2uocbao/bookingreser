@@ -1,6 +1,7 @@
 package com.quocbao.bookingreser.response;
 
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Company;
@@ -30,12 +31,18 @@ public class CompanyResponse {
 
 	@JsonProperty("address")
 	private String address;
-	
+
 	@JsonProperty("status")
 	private int status;
 
 	@JsonProperty("type")
-	private Set<String> types;
+	private List<String> types;
+
+	@JsonProperty("createdAt")
+	private Timestamp createdAt;
+
+	@JsonProperty("updateAt")
+	private Timestamp updatedAt;
 
 	public CompanyResponse(Company company) {
 		this.id = company.getId();
@@ -46,5 +53,7 @@ public class CompanyResponse {
 		this.infor = company.getInfor();
 		this.address = company.getAddress();
 		this.status = company.getStatus();
+		this.createdAt = company.getCreatedAt();
+		this.updatedAt = company.getUpdatedAt();
 	}
 }
