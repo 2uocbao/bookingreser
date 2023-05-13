@@ -1,6 +1,7 @@
 package com.quocbao.bookingreser.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public void createCompany(CompanyRequest companyRequest) {
 		checkInfor(companyRequest.getEmail(), companyRequest.getPhone());
 		Company company = new Company(companyRequest);
-		Set<Types> types = new HashSet<>();
-		companyRequest.getTypes().stream().forEach(x -> types.add(typeRepository.findById(x)));
-		company.setTypes(types);
+		company.setTypes(types(companyRequest.getTypes()));
 		companyRepository.save(company);
 	}
 
@@ -51,9 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
 		Company company = companyRepository.findById(id);
 		checkInfor(companyRequest.getEmail(), companyRequest.getPhone());
 		company.sompany(companyRequest);
-		Set<Types> types = new HashSet<>();
-		companyRequest.getTypes().stream().forEach(x -> types.add(typeRepository.findById(x)));
-		company.setTypes(types);
+		company.setTypes(types(companyRequest.getTypes()));
 		companyRepository.update(company);
 	}
 
@@ -69,5 +66,11 @@ public class CompanyServiceImpl implements CompanyService {
 		if (companyRepository.findByColumn(Company_.EMAIL, email) != null) {
 			throw new AlreadyExistException("Email already exist");
 		}
+	}
+
+	public Set<Types> types(List<Long> typeIds) {
+		Set<Types> types = new HashSet<>();
+		typeIds.stream().forEach(x -> types.add(typeRepository.findById(x)));
+		return types;
 	}
 }
