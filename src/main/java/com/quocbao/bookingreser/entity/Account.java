@@ -9,9 +9,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.quocbao.bookingreser.request.AccountRequest;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -33,9 +33,6 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
 	@Column(name = "username")
 	private String username;
 
@@ -43,6 +40,7 @@ public class Account implements Serializable {
 	private String password;
 
 	@ManyToMany
+	@ElementCollection(fetch = FetchType.EAGER)
 	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
