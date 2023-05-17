@@ -49,8 +49,8 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public void uStatusMaterial(Long id, int value) {
-		materialRepository.uColumn(id, Material_.STATUS, value);
+	public void uStatusMaterial(Long id, String status) {
+		materialRepository.uColumn(id, Material_.STATUS, status);
 	}
 
 	@Override
