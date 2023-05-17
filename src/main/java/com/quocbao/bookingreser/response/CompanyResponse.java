@@ -33,7 +33,7 @@ public class CompanyResponse {
 	private String address;
 
 	@JsonProperty("status")
-	private int status;
+	private String status;
 
 	@JsonProperty("type")
 	private List<String> types;
