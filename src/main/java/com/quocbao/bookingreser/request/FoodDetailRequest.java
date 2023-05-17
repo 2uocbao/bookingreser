@@ -7,9 +7,6 @@ import lombok.Getter;
 @Getter
 public class FoodDetailRequest {
 
-	@JsonProperty("foodId")
-	public Long foodId;
-
 	@JsonProperty("materialId")
 	public Long materialId;
 
