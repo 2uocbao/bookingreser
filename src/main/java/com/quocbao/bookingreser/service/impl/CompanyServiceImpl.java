@@ -55,7 +55,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void uStatusCompany(Long id, int status) {
+	public void uStatusCompany(Long id, String status) {
 		companyRepository.uColumn(id, Company_.STATUS, status);
 	}
 
