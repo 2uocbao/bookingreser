@@ -12,9 +12,6 @@ public class OrderDetailResponse extends OrderDetailRequest {
 	@JsonProperty("id")
 	private Long id;
 
-	@JsonProperty("food_id")
-	private Long foodId;
-
 	public OrderDetailResponse(OrderDetail orderDetail) {
 		this.id = orderDetail.getId();
 		this.foodId = orderDetail.getFood().getId();
