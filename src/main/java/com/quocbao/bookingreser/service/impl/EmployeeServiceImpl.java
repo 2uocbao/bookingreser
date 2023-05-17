@@ -13,6 +13,7 @@ import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.request.EmpUserRequest;
+import com.quocbao.bookingreser.response.EmployeeResponse;
 import com.quocbao.bookingreser.service.EmployeeService;
 
 @Service
@@ -31,12 +32,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee detailEmployee(Long id) {
+	public EmployeeResponse detailEmployee(Long id) {
 		Employee employee = employeeRepository.findById(id);
 		if (employee == null) {
-			throw new NotFoundException("Employee not found with id: " + id);
+			throw new NotFoundException("Employee not found with: " + id.toString());
 		}
-		return employee;
+		return new EmployeeResponse(employee);
 	}
 
 	@Override
@@ -49,14 +50,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> listEmployeeByCompanyId(Long companyId) {
-		return employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId);
+	public List<EmployeeResponse> listEmployeeByCompanyId(Long companyId) {
+		return new EmployeeResponse().employeeResponses(employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId));
+	}
+
+	@Override
+	public void updateStatus(Long id, String status) {
+		employeeRepository.uColumn(id, Employee_.STATUS, status);
 	}
 
 	@Override
 	public void updateKPA(String phone) {
 		Employee employee = employeeRepository.findByColumn(Employee_.PHONE, phone);
-		employeeRepository.uColumn(employee.getId(), "KPA", employee.getKpa() + 1);
+		employee.setKpa(employee.getKpa() + 1);
+		employeeRepository.update(employee);
 	}
 
 	public void checkInfor(String email, String phone) {
