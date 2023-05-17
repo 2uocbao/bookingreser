@@ -1,5 +1,7 @@
 package com.quocbao.bookingreser.request;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -18,4 +20,7 @@ public class FoodRequest {
 	
 	@JsonProperty("image")
 	public String image;
+	
+	@JsonProperty("foodDetails")
+	public List<FoodDetailRequest> foodDetailRequests;
 }
