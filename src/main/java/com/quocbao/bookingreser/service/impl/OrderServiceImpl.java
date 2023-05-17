@@ -95,8 +95,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void uStatus(Long id, int value) {
-		orderRepository.uColumn(id, "status", value);
+	public void uStatus(Long id, String status) {
+		orderRepository.uColumn(id, Order_.STATUS, status);
 	}
 
 	@Override
