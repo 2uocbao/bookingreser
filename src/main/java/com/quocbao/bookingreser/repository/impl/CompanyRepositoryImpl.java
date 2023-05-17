@@ -21,10 +21,10 @@ public class CompanyRepositoryImpl extends RepositoryImpl<Company> implements Co
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Types> types(Long id) {
-		String query = "SELECT c.types FROM Company c WHERE c.id = :employeeId";
+		String sqlQuery = "SELECT c.types FROM Company c WHERE c.id = :id";
 		@SuppressWarnings("deprecation")
-		Query query2 = this.getSession().createQuery(query);
-		query2.setParameter("employeeId", id);
-		return query2.getResultList();
+		Query query = this.getSession().createNativeQuery(sqlQuery).setParameter("id", id);
+		return query.getResultList();
 	}
+
 }
