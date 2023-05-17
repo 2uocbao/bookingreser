@@ -27,6 +27,7 @@ import com.quocbao.bookingreser.repository.ServiceRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.OrderDetailRequest;
 import com.quocbao.bookingreser.request.OrderRequest;
+import com.quocbao.bookingreser.response.OrderResponse;
 import com.quocbao.bookingreser.service.OrderService;
 import com.quocbao.bookingreser.util.Status;
 
@@ -60,12 +61,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order detailOrder(Long id) {
+	public OrderResponse detailOrder(Long id) {
 		Order order = orderRepository.findById(id);
 		if (order == null) {
 			throw new NotFoundException("Order information not found with: " + id.toString());
 		}
-		return order;
+		return new OrderResponse(order);
 	}
 
 	@Override
@@ -85,13 +86,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> listOrderByCompanyId(Long companyId) {
-		return orderRepository.getAll(Company.class, Order_.COMPANYID, "id", companyId);
+	public List<OrderResponse> listOrderByCompanyId(Long companyId) {
+		return new OrderResponse()
+				.orderResponses(orderRepository.getAll(Company.class, Order_.COMPANYID, "id", companyId));
 	}
 
 	@Override
-	public List<Order> listOrderByUserId(Long userId) {
-		return orderRepository.getAll(User.class, Order_.USERID, "id", userId);
+	public List<OrderResponse> listOrderByUserId(Long userId) {
+		return new OrderResponse().orderResponses(orderRepository.getAll(User.class, Order_.USERID, "id", userId));
 	}
 
 	@Override
