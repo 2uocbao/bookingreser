@@ -82,7 +82,7 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void uColumn(Long id, String nColumn, int value) {
+	public void uColumn(Long id, String nColumn, String value) {
 		CriteriaBuilder builder = getCriteriaBuilder();
 		CriteriaUpdate<E> update = builder.createCriteriaUpdate(claz);
 		Root<E> root = update.from(claz);
