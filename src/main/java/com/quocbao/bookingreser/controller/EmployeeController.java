@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.quocbao.bookingreser.request.EmpUserRequest;
-import com.quocbao.bookingreser.response.EmployeeResponse;
 import com.quocbao.bookingreser.service.EmployeeService;
 
 @RestController
@@ -30,7 +29,7 @@ public class EmployeeController {
 
 	@GetMapping("/{id}")
 	ResponseEntity<Object> detailEmployee(@PathVariable Long id) {
-		return new ResponseEntity<>(new EmployeeResponse(employeeService.detailEmployee(id)), HttpStatus.OK);
+		return new ResponseEntity<>(employeeService.detailEmployee(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
@@ -41,8 +40,6 @@ public class EmployeeController {
 
 	@GetMapping("/{companyId}/byCompany")
 	ResponseEntity<Object> allEmployeeByCompany(@PathVariable Long companyId) {
-		return new ResponseEntity<>(
-				new EmployeeResponse().employeeResponses(employeeService.listEmployeeByCompanyId(companyId)),
-				HttpStatus.OK);
+		return new ResponseEntity<>(employeeService.listEmployeeByCompanyId(companyId), HttpStatus.OK);
 	}
 }
