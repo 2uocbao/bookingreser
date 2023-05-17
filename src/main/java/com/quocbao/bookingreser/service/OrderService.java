@@ -20,7 +20,7 @@ public interface OrderService {
 
 	public List<Order> listOrderByUserId(Long userId);
 
-	public void uStatus(Long id, int value);
+	public void uStatus(Long id, String status);
 
 	public Order payOrder(Long id);
 
