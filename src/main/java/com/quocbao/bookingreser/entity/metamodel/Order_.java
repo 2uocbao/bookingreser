@@ -12,8 +12,10 @@ public abstract class Order_ {
 
 	public static volatile SingularAttribute<Order, Long> companyId;
 	public static volatile SingularAttribute<Order, Long> userId;
+	public static volatile SingularAttribute<Order, String> status;
 
 	public static final String COMPANYID = "company";
 	public static final String USERID = "user";
+	public static final String STATUS = "status";
 	
 }
