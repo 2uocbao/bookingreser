@@ -13,7 +13,7 @@ public interface MaterialService {
 	
 	public void updateMaterial(Long id, MaterialRequest materialRequest);
 	
-	public void uStatusMaterial(Long id, int value);
+	public void uStatusMaterial(Long id, String status);
 	
 	public List<Material> findByCode(Long companyId, String code);
 	
