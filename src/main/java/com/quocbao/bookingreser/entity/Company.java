@@ -61,7 +61,7 @@ public class Company implements Serializable {
 	private String address;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
