@@ -1,5 +1,7 @@
 package com.quocbao.bookingreser.response;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.FoodDetail;
 import com.quocbao.bookingreser.request.FoodDetailRequest;
@@ -12,12 +14,19 @@ public class FoodDetailResponse extends FoodDetailRequest{
 	@JsonProperty("id")
 	private Long id;
 	
-	@JsonProperty("food_id")
-	private Long foodId;
+	@JsonProperty("material")
+	private String materail;
 	
 	public FoodDetailResponse(FoodDetail foodDetail) {
-		this.id = foodDetail.getId();
-		this.foodId = foodDetail.getFood().getId();
+		this.materail = foodDetail.getMaterial().getName();
 		this.quantity = foodDetail.getQuantity();
+	}
+	
+	public List<FoodDetailResponse> foodDetailResponses(List<FoodDetail> foodDetails){
+		return foodDetails.stream().map(FoodDetailResponse::new).toList();
+	}
+
+	public FoodDetailResponse() {
+		
 	}
 }
