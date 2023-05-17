@@ -2,14 +2,17 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.quocbao.bookingreser.request.FoodRequest;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,7 +51,7 @@ public class Food implements Serializable {
 	private String image;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
 	// relationship
 
@@ -56,8 +59,8 @@ public class Food implements Serializable {
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
 
-	@OneToMany(mappedBy = "food")
-	private Set<FoodDetail> foodDetails;
+	@OneToMany(mappedBy = "food", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<FoodDetail> foodDetails;
 
 	@ManyToMany
 	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "food_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
