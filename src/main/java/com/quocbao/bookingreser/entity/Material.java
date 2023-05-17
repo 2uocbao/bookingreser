@@ -53,7 +53,7 @@ public class Material implements Serializable {
 	private float stockEnd;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
 	// relationship
 
