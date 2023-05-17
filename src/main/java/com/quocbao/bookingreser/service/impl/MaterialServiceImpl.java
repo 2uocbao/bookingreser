@@ -13,6 +13,7 @@ import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.request.MaterialRequest;
+import com.quocbao.bookingreser.response.MaterialResponse;
 import com.quocbao.bookingreser.service.MaterialService;
 
 @Service
@@ -33,17 +34,17 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public Material detailMaterial(Long id) {
+	public MaterialResponse detailMaterial(Long id) {
 		Material material = materialRepository.findById(id);
 		if (material == null) {
 			throw new NotFoundException("Material not found with id: " + id.toString());
 		}
-		return material;
+		return new MaterialResponse(material);
 	}
 
 	@Override
 	public void updateMaterial(Long id, MaterialRequest materialRequest) {
-		Material material = detailMaterial(id);
+		Material material = materialRepository.findById(id);
 		material.setMaterial(materialRequest);
 		materialRepository.update(material);
 	}
@@ -54,13 +55,15 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public List<Material> findByCode(Long companyId, String code) {
-		return materialRepository.getAll(Company.class, Material_.CODE, "id", companyId).stream()
-				.filter(x -> x.getCode().contains(code)).toList();
+	public List<MaterialResponse> findByCode(Long companyId, String code) {
+		return new MaterialResponse()
+				.materialResponses(materialRepository.getAll(Company.class, Material_.CODE, "id", companyId).stream()
+						.filter(x -> x.getCode().contains(code)).toList());
 	}
 
 	@Override
-	public List<Material> materials(Long companyId) {
-		return materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId);
+	public List<MaterialResponse> materials(Long companyId) {
+		return new MaterialResponse()
+				.materialResponses(materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId));
 	}
 }
