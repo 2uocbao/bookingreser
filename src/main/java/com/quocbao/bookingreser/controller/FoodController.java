@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.request.FoodDetailRequest;
 import com.quocbao.bookingreser.request.FoodRequest;
 import com.quocbao.bookingreser.service.FoodService;
 
@@ -30,26 +29,13 @@ public class FoodController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> detailFood(@PathVariable Long id) {
-		foodService.foodDetail(id);
+		foodService.detailFood(id);
 		return new ResponseEntity<>(foodService.detailFood(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
 	public ResponseEntity<Object> updateFood(@PathVariable Long id, @RequestBody FoodRequest foodRequest) {
 		foodService.updateFood(id, foodRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@PostMapping("/food_detail/create")
-	public ResponseEntity<Object> createFoodDetail(@RequestBody FoodDetailRequest detailRequest) {
-		foodService.createFoodDetail(detailRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@PutMapping("/food_detail/{id}/update")
-	public ResponseEntity<Object> updateFoodDetail(@PathVariable Long id,
-			@RequestBody FoodDetailRequest detailRequest) {
-		foodService.updateFoodDetail(id, detailRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
