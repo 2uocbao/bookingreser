@@ -40,7 +40,7 @@ public class CompanyController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> uStatusCompany(@PathVariable Long id, @RequestParam("status") int status) {
+	public ResponseEntity<Object> uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
 		companyService.uStatusCompany(id, status);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
