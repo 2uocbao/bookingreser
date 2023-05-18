@@ -13,6 +13,7 @@ import com.quocbao.bookingreser.request.CompanyRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -90,7 +91,7 @@ public class Company implements Serializable {
 	@OneToMany(mappedBy = "company")
 	private Set<Reservation> reservations;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
