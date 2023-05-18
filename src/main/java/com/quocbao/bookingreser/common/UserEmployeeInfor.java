@@ -11,9 +11,6 @@ import lombok.Setter;
 @Getter
 public class UserEmployeeInfor {
 	
-	@JsonProperty("companyId")
-	public Long companyId;
-	
 	@JsonProperty("lastname")
 	public String lastName;
 	
