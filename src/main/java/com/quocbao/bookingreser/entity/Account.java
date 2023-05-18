@@ -16,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,11 +41,8 @@ public class Account implements Serializable {
 
 	@ManyToMany
 	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	
-	@OneToOne(mappedBy = "account")
-	private Employee employee;
 
 	public Account(AccountRequest accountRequest) {
 		this.username = accountRequest.getUsername();
