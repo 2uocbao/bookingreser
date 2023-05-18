@@ -32,8 +32,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	AccountRepository accountRepository;
 	@Autowired
 	RoleRepository roleRepository;
-	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	
+	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	public void createAccount(AccountRequest accountRequest) {
