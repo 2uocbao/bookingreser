@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class RoleRequest {
 
-	@JsonProperty("id")
-	private Long id;
+	@JsonProperty("name")
+	private String name;
 }
