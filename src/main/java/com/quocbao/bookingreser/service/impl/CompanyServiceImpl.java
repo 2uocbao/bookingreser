@@ -40,9 +40,7 @@ public class CompanyServiceImpl implements CompanyService {
 		if (company == null) {
 			throw new NotFoundException("The company info is not available: " + id);
 		}
-		CompanyResponse companyResponse = new CompanyResponse(company);
-		companyResponse.setTypes(companyRepository.types(company.getId()).stream().map(Types::getName).toList());
-		return companyResponse;
+		return new CompanyResponse(company);
 	}
 
 	@Override
