@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Company;
+import com.quocbao.bookingreser.entity.Types;
 
 import lombok.Setter;
 
@@ -53,6 +54,7 @@ public class CompanyResponse {
 		this.infor = company.getInfor();
 		this.address = company.getAddress();
 		this.status = company.getStatus();
+		this.types = company.getTypes().stream().map(Types::getName).toList();
 		this.createdAt = company.getCreatedAt();
 		this.updatedAt = company.getUpdatedAt();
 	}
