@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.quocbao.bookingreser.request.EmpUserRequest;
@@ -38,8 +39,20 @@ public class EmployeeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PutMapping("/{id}")
+	ResponseEntity<Object> uStatusEmployee(@PathVariable Long id, @RequestParam("status") String status) {
+		employeeService.updateStatus(id, status);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@GetMapping("/{companyId}/byCompany")
 	ResponseEntity<Object> allEmployeeByCompany(@PathVariable Long companyId) {
 		return new ResponseEntity<>(employeeService.listEmployeeByCompanyId(companyId), HttpStatus.OK);
+	}
+
+	@PutMapping("/")
+	ResponseEntity<Object> kpa(@RequestParam("phone") String phone) {
+		employeeService.updateKPA(phone);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
