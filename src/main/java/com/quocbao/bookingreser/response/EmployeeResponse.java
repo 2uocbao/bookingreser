@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.quocbao.bookingreser.common.UserEmployeeInfor;
 import com.quocbao.bookingreser.entity.Employee;
+import com.quocbao.bookingreser.request.EmpUserRequest;
 
 import lombok.Setter;
 
 @Setter
-public class EmployeeResponse extends UserEmployeeInfor {
+public class EmployeeResponse extends EmpUserRequest {
 
 	@JsonProperty("id")
 	private Long id;
