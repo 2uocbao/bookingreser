@@ -23,7 +23,7 @@ public class CompanyRepositoryImpl extends RepositoryImpl<Company> implements Co
 	public List<Types> types(Long id) {
 		String sqlQuery = "SELECT c.types FROM Company c WHERE c.id = :id";
 		@SuppressWarnings("deprecation")
-		Query query = this.getSession().createNativeQuery(sqlQuery).setParameter("id", id);
+		Query query = this.getSession().createQuery(sqlQuery).setParameter("id", id);
 		return query.getResultList();
 	}
 
