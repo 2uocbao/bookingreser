@@ -69,9 +69,6 @@ public class Employee implements Serializable {
 	@Column(name = "kpa")
 	private int kpa;
 
-	@Column(name = "status")
-	private String status;
-
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
