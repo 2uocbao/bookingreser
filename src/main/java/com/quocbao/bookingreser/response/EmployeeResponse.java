@@ -18,9 +18,6 @@ public class EmployeeResponse extends EmpUserRequest {
 	@JsonProperty("kpa")
 	private int kpa;
 	
-	@JsonProperty("status")
-	private String status;
-	
 	@JsonProperty("createdAt")
 	private Timestamp createdAt;
 
@@ -36,7 +33,6 @@ public class EmployeeResponse extends EmpUserRequest {
 		this.email = employee.getEmail();
 		this.address = employee.getAddress();
 		this.kpa = employee.getKpa();
-		this.status = employee.getStatus();
 		this.createdAt = employee.getCreatedAt();
 	}
 
