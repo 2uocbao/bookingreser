@@ -39,12 +39,6 @@ public class EmployeeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
-	ResponseEntity<Object> uStatusEmployee(@PathVariable Long id, @RequestParam("status") String status) {
-		employeeService.updateStatus(id, status);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
 	@GetMapping("/{companyId}/byCompany")
 	ResponseEntity<Object> allEmployeeByCompany(@PathVariable Long companyId) {
 		return new ResponseEntity<>(employeeService.listEmployeeByCompanyId(companyId), HttpStatus.OK);
