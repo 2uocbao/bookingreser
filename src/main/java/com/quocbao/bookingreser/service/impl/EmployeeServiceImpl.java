@@ -28,7 +28,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void createEmployee(Long companyId, EmpUserRequest empUserRequest) {
 		checkInfor(empUserRequest.getEmail(), empUserRequest.getPhone());
 		Employee employee = new Employee(empUserRequest, companyRepository.findById(companyId));
-		employee.setStatus("OFF");
 		employeeRepository.save(employee);
 	}
 
@@ -54,11 +53,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeResponse> listEmployeeByCompanyId(Long companyId) {
 		return new EmployeeResponse()
 				.employeeResponses(employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId));
-	}
-
-	@Override
-	public void updateStatus(Long id, String status) {
-		employeeRepository.uColumn(id, Employee_.STATUS, status);
 	}
 
 	@Override
