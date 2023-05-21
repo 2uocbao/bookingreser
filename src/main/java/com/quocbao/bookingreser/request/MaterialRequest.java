@@ -1,7 +1,5 @@
 package com.quocbao.bookingreser.request;
 
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -20,13 +18,7 @@ public class MaterialRequest {
 	
 	@JsonProperty("cost")
 	public float cost;
-	
-	@JsonProperty("quantity")
-	public float quantity;
-	
+
 	@JsonProperty("stockend")
 	public float stockEnd;
-	
-	@JsonProperty("type")
-	public Set<TypeRequest> typeRequest;
 }
