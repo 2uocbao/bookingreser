@@ -26,7 +26,8 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Override
 	public void createMaterial(MaterialRequest materialRequest) {
-		if (findByCode(materialRequest.getCompanyId(), materialRequest.getCode()) != null) {
+		if (!materialRepository.getAll(Company.class, Material_.COMPANYID, "id", materialRequest.getCompanyId()).stream()
+				.filter(x -> x.getCode().contains(materialRequest.getCode())).toList().isEmpty()) {
 			throw new AlreadyExistException("Material already exist with code: " + materialRequest.getCode());
 		}
 		materialRepository
@@ -57,8 +58,8 @@ public class MaterialServiceImpl implements MaterialService {
 	@Override
 	public List<MaterialResponse> findByCode(Long companyId, String code) {
 		return new MaterialResponse()
-				.materialResponses(materialRepository.getAll(Company.class, Material_.CODE, "id", companyId).stream()
-						.filter(x -> x.getCode().contains(code)).toList());
+				.materialResponses(materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId).stream()
+						.filter(x -> x.getCode().toLowerCase().contains(code)).toList());
 	}
 
 	@Override
