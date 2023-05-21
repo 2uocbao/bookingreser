@@ -94,7 +94,7 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> search(Long id,String column, String keySearch) {
-		String hql = "from " + claz.getName() + " e where lower(e." + column + ") like :keySearch";
+		String hql = "FROM " + claz.getName() + " e WHERE (e." + column + ") like :keySearch";
 		@SuppressWarnings("deprecation")
 		Query<E> query = getSession().createQuery(hql);
 		query.setParameter("keySearch", "%" + keySearch.toLowerCase() + "%");
