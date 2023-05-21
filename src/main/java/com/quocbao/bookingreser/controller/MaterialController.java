@@ -45,7 +45,7 @@ public class MaterialController {
 	}
 
 	@GetMapping("/{companyId}/search")
-	ResponseEntity<Object> searchMaterial(@PathVariable Long companyId, @RequestParam String keySearch) {
+	ResponseEntity<Object> searchMaterial(@PathVariable Long companyId, @RequestParam("key") String keySearch) {
 		return new ResponseEntity<>(materialService.findByCode(companyId, keySearch), HttpStatus.OK);
 	}
 }
