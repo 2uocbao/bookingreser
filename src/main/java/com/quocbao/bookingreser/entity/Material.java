@@ -1,21 +1,19 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.quocbao.bookingreser.request.MaterialRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -57,28 +55,24 @@ public class Material implements Serializable {
 
 	// relationship
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 
-	@ManyToMany
-	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "material_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
-	private Set<Types> types = new HashSet<>();
-
 	public Material(MaterialRequest materialRequest, Company company) {
+		Status over = Status.OVER;
 		this.company = company;
 		this.code = materialRequest.getCode();
 		this.name = materialRequest.getName();
 		this.cost = materialRequest.getCost();
-		this.quantity = materialRequest.getQuantity();
 		this.stockEnd = materialRequest.getStockEnd();
+		this.status = over.toString();
 	}
 
 	public void setMaterial(MaterialRequest materialRequest) {
 		this.code = materialRequest.getCode();
 		this.name = materialRequest.getName();
 		this.cost = materialRequest.getCost();
-		this.quantity = materialRequest.getQuantity();
 		this.stockEnd = materialRequest.getStockEnd();
 	}
 }
