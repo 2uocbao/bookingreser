@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.WarehouseRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,7 +53,7 @@ public class Warehouse implements Serializable {
 	private float totalAmount;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -75,8 +76,16 @@ public class Warehouse implements Serializable {
 	private Employee employee;
 
 	public Warehouse(WarehouseRequest warehouseRequest, Material material, Employee employee) {
+		Status processing = Status.PROCESSING;
 		this.material = material;
 		this.employee = employee;
+		this.cost = warehouseRequest.getCost();
+		this.vat = warehouseRequest.getVat();
+		this.quantity = warehouseRequest.getQuantity();
+		this.status = processing.toString();
+	}
+	
+	public void setWarehouse(WarehouseRequest warehouseRequest) {
 		this.cost = warehouseRequest.getCost();
 		this.vat = warehouseRequest.getVat();
 		this.quantity = warehouseRequest.getQuantity();
