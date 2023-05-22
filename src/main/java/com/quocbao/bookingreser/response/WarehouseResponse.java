@@ -4,43 +4,52 @@ import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Warehouse;
-import com.quocbao.bookingreser.request.WarehouseRequest;
 
 import lombok.Setter;
 
 @Setter
-public class WarehouseResponse extends WarehouseRequest{
+public class WarehouseResponse {
 
 	@JsonProperty("id")
 	private Long id;
-	
-	@JsonProperty("material_id")
-	private Long warehouseId;
-	
-	@JsonProperty("employee_id")
-	private Long employeeId;
-	
+
+	@JsonProperty("material")
+	public MaterialResponse materialId;
+
+	@JsonProperty("employeeId")
+	public EmployeeResponse employeeId;
+
+	@JsonProperty("cost")
+	public float cost;
+
+	@JsonProperty("vat")
+	public float vat;
+
+	@JsonProperty("quantity")
+	public float quantity;
+
 	@JsonProperty("total_amount")
 	private float totalAmount;
-	
+
 	@JsonProperty("status")
-	private int status;
-	
+	private String status;
+
 	@JsonProperty("created_at")
 	private Timestamp createdAt;
-	
+
 	@JsonProperty("updated_at")
 	private Timestamp updatedAt;
-	
-	public WarehouseResponse(Warehouse warehouseDetail) {
-		this.id = warehouseDetail.getId();
-		this.employeeId = warehouseDetail.getEmployee().getId();
-		this.cost = warehouseDetail.getCost();
-		this.quantity = warehouseDetail.getQuantity();
-		this.vat = warehouseDetail.getVat();
-		this.totalAmount = warehouseDetail.getTotalAmount();
-		this.status = warehouseDetail.getStatus();
-		this.createdAt = warehouseDetail.getCreatedAt();
-		this.updatedAt = warehouseDetail.getUpdatedAt();
+
+	public WarehouseResponse(Warehouse warehouse) {
+		this.id = warehouse.getId();
+		this.materialId = new MaterialResponse(warehouse.getMaterial());
+		this.employeeId = new EmployeeResponse(warehouse.getEmployee());
+		this.cost = warehouse.getCost();
+		this.quantity = warehouse.getQuantity();
+		this.vat = warehouse.getVat();
+		this.totalAmount = warehouse.getTotalAmount();
+		this.status = warehouse.getStatus();
+		this.createdAt = warehouse.getCreatedAt();
+		this.updatedAt = warehouse.getUpdatedAt();
 	}
 }
