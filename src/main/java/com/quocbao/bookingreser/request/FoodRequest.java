@@ -21,6 +21,9 @@ public class FoodRequest {
 	@JsonProperty("image")
 	public String image;
 	
+	@JsonProperty("type")
+	public List<Long> types;
+	
 	@JsonProperty("foodDetails")
 	public List<FoodDetailRequest> foodDetailRequests;
 }
