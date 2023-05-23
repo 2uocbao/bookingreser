@@ -63,7 +63,7 @@ public class Food implements Serializable {
 	private List<FoodDetail> foodDetails;
 
 	@ManyToMany
-	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "food_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+	@JoinTable(name = "food_types", joinColumns = @JoinColumn(name = "food_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
 	public Food(FoodRequest foodRequest, Company company) {
