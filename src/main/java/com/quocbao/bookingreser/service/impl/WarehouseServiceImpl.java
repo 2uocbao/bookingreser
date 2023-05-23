@@ -44,7 +44,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public List<WarehouseResponse> warehouses(Long materialId, LocalDate fromDate, LocalDate toDate) {
-		//Between to day, don't get start day and end day
+		// Between to day, don't get start day and end day
 		ConvertTime convertTime = new ConvertTime();
 		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", materialId)
 				.stream().filter(x -> fromDate.isBefore(convertTime.fromTimestamp(x.getCreatedAt())))
@@ -72,6 +72,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			Material material = materialRepository.findById(warehouse.getId());
 			material.setQuantity(warehouse.getQuantity());
 			material.setStatus(Status.STOCKING.toString());
+			material.setCost(warehouse.getCost());
 			materialRepository.update(material);
 		}
 		warehouseRepository.uColumn(id, Warehouse_.STATUS, status);
