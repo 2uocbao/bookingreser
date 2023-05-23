@@ -44,4 +44,9 @@ public class RatedController {
 		ratedService.deleteRated(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+	@GetMapping("/{companyId}")
+	ResponseEntity<Object> listByCompany(@PathVariable Long companyId) {
+		return new ResponseEntity<>(ratedService.listRatedByCompanyId(companyId), HttpStatus.OK);
+	}
 }
