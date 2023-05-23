@@ -82,6 +82,7 @@ public class Warehouse implements Serializable {
 		this.cost = warehouseRequest.getCost();
 		this.vat = warehouseRequest.getVat();
 		this.quantity = warehouseRequest.getQuantity();
+		this.totalAmount = (cost * quantity * vat) + (cost * quantity);
 		this.status = processing.toString();
 	}
 	
@@ -89,5 +90,6 @@ public class Warehouse implements Serializable {
 		this.cost = warehouseRequest.getCost();
 		this.vat = warehouseRequest.getVat();
 		this.quantity = warehouseRequest.getQuantity();
+		this.totalAmount = (cost * quantity * vat) + (cost * quantity);
 	}
 }
