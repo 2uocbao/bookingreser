@@ -43,16 +43,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 	@Override
-	public List<Warehouse> warehouseDetails(Long warehouseId, LocalDate fromDate, LocalDate toDate) {
+	public List<WarehouseResponse> warehouses(Long materialId, LocalDate fromDate, LocalDate toDate) {
+		//Between to day, don't get start day and end day
 		ConvertTime convertTime = new ConvertTime();
-		List<Warehouse> warehouseDetails = warehouseRepository
-				.getAll(Warehouse.class, Warehouse_.MATERIALID, "id", warehouseId).stream()
-				.filter(x -> fromDate.isBefore(convertTime.fromTimestamp(x.getCreatedAt())))
-				.filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isAfter(toDate)).toList();
-		if (warehouseDetails.isEmpty()) {
-			throw new NotFoundException("Warehouse detail not found with: " + warehouseId.toString());
+		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", materialId)
+				.stream().filter(x -> fromDate.isBefore(convertTime.fromTimestamp(x.getCreatedAt())))
+				.filter(x -> toDate.isAfter(convertTime.fromTimestamp(x.getCreatedAt()))).toList();
+		if (warehouses.isEmpty()) {
+			throw new NotFoundException("Warehouse detail not found with: " + materialId.toString());
 		}
-		return warehouseDetails;
+		return new WarehouseResponse().warehouseResponses(warehouses);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		if (warehouse.getStatus().equals(Status.SUCCESS.toString())) {
 			throw new AlreadyExistException("Action not taken");
 		}
-		if (status.equals(Status.APPROVE.toString())) {
+		if (status.equals(Status.SUCCESS.toString())) {
 			Material material = materialRepository.findById(warehouse.getId());
 			material.setQuantity(warehouse.getQuantity());
 			material.setStatus(Status.STOCKING.toString());
