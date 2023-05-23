@@ -47,7 +47,7 @@ public class Service implements Serializable {
 	private Company company;
 
 	@ManyToMany
-	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "service_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+	@JoinTable(name = "service_types", joinColumns = @JoinColumn(name = "service_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
 	public Service(ServiceRequest serviceRequest, Company company) {
