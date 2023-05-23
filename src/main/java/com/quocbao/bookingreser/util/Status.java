@@ -8,5 +8,5 @@ public enum Status {
 
 	ON, OFF,
 
-	APPROVE, SUCCESS
+	UNCONFIMRED, APPROVE, SUCCESS
 }
