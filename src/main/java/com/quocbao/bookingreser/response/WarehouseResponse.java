@@ -1,6 +1,7 @@
 package com.quocbao.bookingreser.response;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Warehouse;
@@ -51,5 +52,13 @@ public class WarehouseResponse {
 		this.status = warehouse.getStatus();
 		this.createdAt = warehouse.getCreatedAt();
 		this.updatedAt = warehouse.getUpdatedAt();
+	}
+
+	public List<WarehouseResponse> warehouseResponses(List<Warehouse> warehouses) {
+		return warehouses.stream().map(WarehouseResponse::new).toList();
+	}
+
+	public WarehouseResponse() {
+
 	}
 }
