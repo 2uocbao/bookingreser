@@ -76,14 +76,14 @@ public class Warehouse implements Serializable {
 	private Employee employee;
 
 	public Warehouse(WarehouseRequest warehouseRequest, Material material, Employee employee) {
-		Status processing = Status.PROCESSING;
+		Status unconfimred = Status.UNCONFIMRED;
 		this.material = material;
 		this.employee = employee;
 		this.cost = warehouseRequest.getCost();
 		this.vat = warehouseRequest.getVat();
 		this.quantity = warehouseRequest.getQuantity();
 		this.totalAmount = (cost * quantity * vat) + (cost * quantity);
-		this.status = processing.toString();
+		this.status = unconfimred.toString();
 	}
 	
 	public void setWarehouse(WarehouseRequest warehouseRequest) {
