@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "food_detail")
 @DynamicUpdate
 @NoArgsConstructor
-public class FoodDetail implements Serializable{
+public class FoodDetail implements Serializable {
 
 	/**
 	 * 
@@ -33,19 +33,20 @@ public class FoodDetail implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "quantity")
-	private int quantity;
-	
+	private float quantity;
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "food_id", referencedColumnName = "id")
+	@JoinColumn(name = "food_id", nullable = false)
 	private Food food;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
-	
-	public FoodDetail(FoodDetailRequest foodDetailRequest, Material material) {
+
+	public FoodDetail(FoodDetailRequest foodDetailRequest, Material material, Food food) {
+		this.food = food;
 		this.material = material;
 		this.quantity = foodDetailRequest.getQuantity();
 	}
