@@ -32,6 +32,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public void createWarehouse(WarehouseRequest warehouseRequest) {
+		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id",
+				warehouseRequest.getMaterialId());
+		warehouses.stream().forEach(x -> {
+			// If status of warehouse for material have not success.
+			//New warehouse will not be created for that material
+			if (!x.getStatus().equals(Status.SUCCESS.toString())) {
+				throw new AlreadyExistException("There is at least one unfinished activity with this material");
+			}
+		});
 		warehouseRepository
 				.save(new Warehouse(warehouseRequest, materialRepository.findById(warehouseRequest.getMaterialId()),
 						employeeRepository.findById(warehouseRequest.getEmployeeId())));
