@@ -4,18 +4,17 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.FoodDetail;
-import com.quocbao.bookingreser.request.FoodDetailRequest;
 
 import lombok.Setter;
 
 @Setter
-public class FoodDetailResponse extends FoodDetailRequest{
-
-	@JsonProperty("id")
-	private Long id;
+public class FoodDetailResponse {
 	
 	@JsonProperty("material")
 	private String materail;
+	
+	@JsonProperty("quantity")
+	private float quantity;
 	
 	public FoodDetailResponse(FoodDetail foodDetail) {
 		this.materail = foodDetail.getMaterial().getName();
