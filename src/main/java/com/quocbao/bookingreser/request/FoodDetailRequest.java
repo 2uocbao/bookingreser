@@ -6,10 +6,10 @@ import lombok.Getter;
 
 @Getter
 public class FoodDetailRequest {
-
+	
 	@JsonProperty("materialId")
 	public Long materialId;
 
 	@JsonProperty("quantity")
-	public int quantity;
+	public float quantity;
 }
