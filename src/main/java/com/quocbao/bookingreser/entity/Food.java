@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.quocbao.bookingreser.request.FoodRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -55,14 +56,14 @@ public class Food implements Serializable {
 
 	// relationship
 
-	@ManyToOne
-	@JoinColumn(name = "company_id", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "company_id")
 	private Company company;
 
-	@OneToMany(mappedBy = "food", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "food", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<FoodDetail> foodDetails;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "food_types", joinColumns = @JoinColumn(name = "food_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
@@ -71,6 +72,7 @@ public class Food implements Serializable {
 		this.name = foodRequest.getName();
 		this.price = foodRequest.getPrice();
 		this.image = foodRequest.getImage();
+		this.status = Status.OFF.toString();
 	}
 
 	public void setFood(FoodRequest foodRequest) {
