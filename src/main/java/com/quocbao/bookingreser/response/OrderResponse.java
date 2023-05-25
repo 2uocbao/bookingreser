@@ -5,33 +5,51 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Order;
-import com.quocbao.bookingreser.request.OrderRequest;
 
 import lombok.Setter;
 
 @Setter
-public class OrderResponse extends OrderRequest {
+public class OrderResponse {
 
 	@JsonProperty("id")
 	private Long id;
+	
+	@JsonProperty("companyId")
+	public Long companyId;
+	
+	@JsonProperty("serviceId")
+	public Long serviceId;
+	
+	@JsonProperty("employeeId")
+	public Long employeeId;
+	
+	@JsonProperty("userId")
+	public Long userId;
+
+	@JsonProperty("description")
+	public String description;
 
 	@JsonProperty("total_amount")
 	private float totalAmount;
 
 	@JsonProperty("status")
-	private int status;
+	private String status;
 
 	@JsonProperty("created_at")
 	private Timestamp createdAt;
 
 	@JsonProperty("updated_at")
 	private Timestamp updatedAt;
+	
+	@JsonProperty("order_detail")
+	private List<OrderDetailResponse> orderDetailResponses;
 
 	public OrderResponse() {
 
 	}
 
 	public OrderResponse(Order order) {
+		OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
 		this.id = order.getId();
 		this.companyId = order.getCompany().getId();
 		this.employeeId = order.getEmployee().getId();
@@ -42,6 +60,7 @@ public class OrderResponse extends OrderRequest {
 		this.status = order.getStatus();
 		this.createdAt = order.getCreatedAt();
 		this.updatedAt = order.getUpdatedAt();
+		this.orderDetailResponses = orderDetailResponse.orderDetailResponses(order.getOrderDetails());
 	}
 
 	public List<OrderResponse> orderResponses(List<Order> orders) {
