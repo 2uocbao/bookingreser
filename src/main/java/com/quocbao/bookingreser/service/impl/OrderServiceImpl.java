@@ -1,5 +1,7 @@
 package com.quocbao.bookingreser.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Employee;
-import com.quocbao.bookingreser.entity.Food;
-import com.quocbao.bookingreser.entity.FoodDetail;
-import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.Order;
 import com.quocbao.bookingreser.entity.OrderDetail;
 import com.quocbao.bookingreser.entity.User;
-import com.quocbao.bookingreser.entity.metamodel.FoodDetail_;
 import com.quocbao.bookingreser.entity.metamodel.OrderDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Order_;
 import com.quocbao.bookingreser.exception.NotFoundException;
@@ -25,7 +23,6 @@ import com.quocbao.bookingreser.repository.OrderDetailRepository;
 import com.quocbao.bookingreser.repository.OrderRepository;
 import com.quocbao.bookingreser.repository.ServiceRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
-import com.quocbao.bookingreser.request.OrderDetailRequest;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.response.OrderResponse;
 import com.quocbao.bookingreser.service.OrderService;
@@ -51,13 +48,16 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private MaterialRepository materialRepository;
 
-	// Order
 	@Override
 	public void createOrder(OrderRequest orderRequest) {
 		Employee employee = employeeRepository.findById(orderRequest.getEmployeeId());
-		orderRepository.save(
-				new Order(orderRequest, employee.getCompany(), serviceRepository.findById(orderRequest.getServiceId()),
-						employee, userRepository.findById(orderRequest.getUserId())));
+		Order order = new Order(orderRequest, employee.getCompany(),
+				serviceRepository.findById(orderRequest.getServiceId()), employee,
+				userRepository.findById(orderRequest.getUserId()));
+		List<OrderDetail> orderDetails = orderRequest.getOrderDetailRequests().stream()
+				.map(x -> new OrderDetail(x, foodRepository.findById(x.getFoodId()))).toList();
+		order.setOrderDetails(orderDetails);
+		orderRepository.save(order);
 	}
 
 	@Override
@@ -72,16 +72,18 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void updateOrder(Long id, OrderRequest orderRequest) {
 		Order order = orderRepository.findById(id);
-		order.setOrder(orderRequest,
-				!order.getService().getId().equals(orderRequest.getServiceId())
-						? serviceRepository.findById(orderRequest.getServiceId())
-						: order.getService(),
-				!order.getEmployee().getId().equals(orderRequest.getEmployeeId())
-						? employeeRepository.findById(orderRequest.getEmployeeId())
-						: order.getEmployee(),
-				!order.getUser().getId().equals(orderRequest.getUserId())
-						? userRepository.findById(orderRequest.getUserId())
-						: order.getUser());
+		if (!order.getEmployee().getId().equals(orderRequest.getEmployeeId())) {
+			order.setEmployee(employeeRepository.findById(orderRequest.getEmployeeId()));
+		}
+		if (!order.getService().getId().equals(orderRequest.getServiceId())) {
+			order.setService(serviceRepository.findById(orderRequest.getServiceId()));
+		}
+		if (!order.getUser().getId().equals(orderRequest.getUserId())) {
+			order.setUser(userRepository.findById(orderRequest.getUserId()));
+		}
+		if (!order.getDescription().contains(orderRequest.getDescription())) {
+			order.setDescription(orderRequest.getDescription());
+		}
 		orderRepository.update(order);
 	}
 
@@ -116,55 +118,5 @@ public class OrderServiceImpl implements OrderService {
 		order.setTotalAmount(total);
 		orderRepository.update(order);
 		return order;
-	}
-
-	// OrderDetail
-	@Override
-	public void createOrderDetail(OrderDetailRequest orderDetailRequest) {
-		orderDetailRepository
-				.save(new OrderDetail(orderDetailRequest, orderRepository.findById(orderDetailRequest.getOrderId()),
-						foodRepository.findById(orderDetailRequest.getFoodId())));
-	}
-
-	@Override
-	public List<OrderDetail> orderDetails(Long orderId) {
-		List<OrderDetail> orderDetails = orderDetailRepository.getAll(Order.class, OrderDetail_.ORDERID, "id", orderId);
-		if (orderDetails.isEmpty()) {
-			throw new NotFoundException("Order detail not found with: " + orderId.toString());
-		}
-		return orderDetails;
-	}
-
-	@Override
-	public void updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
-		OrderDetail orderDetail = orderDetailRepository.findById(id);
-		orderDetail.setOrderDetail(orderDetailRequest);
-		orderDetailRepository.update(orderDetail);
-	}
-
-	@Override
-	public void uStatusOrderDetail(Long id) {
-		Status served = Status.SERVED;
-		Status procesing = Status.PROCESSING;
-		Status received = Status.RECEIVED;
-		// Mon an cap nhat trang thai
-		OrderDetail orderDetail = orderDetailRepository.findById(id);
-		if (orderDetail.getStatus().equals(served.toString())) {
-			orderDetail.setStatus(procesing.toString());
-			orderDetailRepository.update(orderDetail);
-			throw new NotFoundException(orderDetail.getFood().getName() + "is being prepared");
-		}
-		// Chi tiet mon an
-		List<FoodDetail> foodDetails = foodDetailRepository.getAll(Food.class, FoodDetail_.FOODID, "id",
-				orderDetail.getFood().getId());
-		// Cap nhat nguyen lieu
-		foodDetails.stream().forEach(x -> {
-			Material material = materialRepository.findById(x.getMaterial().getId());
-			material.setQuantity(material.getQuantity() - x.getQuantity() * orderDetail.getQuantity());
-			materialRepository.update(material);
-		});
-		// Cap nhat trang thai mon an
-		orderDetail.setStatus(received.toString());
-		orderDetailRepository.update(orderDetail);
 	}
 }
