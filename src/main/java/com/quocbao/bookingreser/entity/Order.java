@@ -2,17 +2,19 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.OrderRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -49,7 +51,7 @@ public class Order implements Serializable {
 	private float totalAmount;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -64,30 +66,31 @@ public class Order implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
-	
-	@OneToMany(mappedBy = "order")
-	private Set<OrderDetail> orderDetails;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private List<OrderDetail> orderDetails;
+
+	@OneToOne
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
 	private Service service;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
-	
+
 	public Order(OrderRequest orderRequest, Company company, Service service, Employee employee, User user) {
 		this.company = company;
 		this.employee = employee;
 		this.user = user;
 		this.service = service;
 		this.description = orderRequest.getDescription();
+		this.status = Status.UNCONFIMRED.toString();
 	}
-	
+
 	public void setOrder(OrderRequest orderRequest, Service service, Employee employee, User user) {
 		this.employee = employee;
 		this.user = user;
