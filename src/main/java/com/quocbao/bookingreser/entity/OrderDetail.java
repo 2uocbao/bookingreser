@@ -8,6 +8,7 @@ import com.quocbao.bookingreser.request.OrderDetailRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,39 +24,38 @@ import lombok.NoArgsConstructor;
 @Table(name = "order_detail")
 @DynamicUpdate
 @NoArgsConstructor
-public class OrderDetail implements Serializable{
+public class OrderDetail implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "quantity")
 	private float quantity;
-	
+
 	@Column(name = "status")
 	private String status;
-	
-	//relationship
-	
-	@ManyToOne
+
+	// relationship
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id", referencedColumnName = "id")
 	private Order order;
-	
-	@OneToOne
+
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "food_id", referencedColumnName = "id")
 	private Food food;
-	
-	public OrderDetail(OrderDetailRequest orderDetailRequest, Order order, Food food) {
-		this.order = order;
+
+	public OrderDetail(OrderDetailRequest orderDetailRequest, Food food) {
 		this.food = food;
 		this.quantity = orderDetailRequest.getQuantity();
 	}
-	
+
 	public void setOrderDetail(OrderDetailRequest orderDetailRequest) {
 		this.quantity = orderDetailRequest.getQuantity();
 	}
