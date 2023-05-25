@@ -15,7 +15,9 @@ public interface FoodService {
 
 	public void uStatus(Long id, String status);
 
-	public List<FoodResponse> listFoodByColumn(Long companyId, String nameColumn, String keySearch);
+	public List<FoodResponse> listFoodByColumn(Long companyId, String keySearch);
+	
+	public List<FoodResponse> listFoodByType(Long companyId, String type);
 
 	public List<FoodResponse> listFoodByCompanyId(Long companyId);
 }
