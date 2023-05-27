@@ -7,21 +7,19 @@ import com.quocbao.bookingreser.request.RateRequest;
 import lombok.Setter;
 
 @Setter
-public class RateResponse extends RateRequest{
+public class RateResponse extends RateRequest {
 
 	@JsonProperty("id")
 	private Long id;
-	
-	@JsonProperty("company_id")
-	private Long companyId;
-	
-	@JsonProperty("user_id")
-	private Long userId;
-	
+
+	@JsonProperty("user")
+	private String user;
+
 	public RateResponse(Rated rated) {
 		this.id = rated.getId();
 		this.companyId = rated.getCompany().getId();
 		this.userId = rated.getUser().getId();
+		this.user = rated.getUser().getLastName() + rated.getUser().getFirstName();
 		this.point = rated.getPoint();
 		this.comment = rated.getComment();
 	}
