@@ -6,7 +6,7 @@ import com.quocbao.bookingreser.common.UserEmployeeInfor;
 import lombok.Getter;
 
 @Getter
-public class EmpUserRequest extends UserEmployeeInfor{
+public class EmpUserRequest extends UserEmployeeInfor {
 
 	@JsonProperty("companyId")
 	public Long companyId;
