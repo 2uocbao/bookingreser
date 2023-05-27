@@ -5,34 +5,42 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Reservation;
-import com.quocbao.bookingreser.request.ReservationRequest;
 
 import lombok.Setter;
 
 @Setter
-public class ReservationResponse extends ReservationRequest{
+public class ReservationResponse {
 
 	@JsonProperty("id")
 	private Long id;
-	
+
 	@JsonProperty("employee_id")
 	private Long employeeId;
-	
+
 	@JsonProperty("service_id")
 	private Long serviceId;
-	
+
 	@JsonProperty("user_id")
 	private Long userId;
-	
+
+	@JsonProperty("checkindate")
+	public Timestamp checkinDate;
+
+	@JsonProperty("note")
+	public String note;
+
+	@JsonProperty("deposit")
+	public float deposit;
+
 	@JsonProperty("type")
 	private Set<TypeResponse> typeReponse;
-	
+
 	@JsonProperty("created_at")
 	private Timestamp createdAt;
-	
+
 	@JsonProperty("updated_at")
 	private Timestamp updatedAt;
-	
+
 	public ReservationResponse(Reservation reservation) {
 		this.id = reservation.getId();
 		this.employeeId = reservation.getEmployee().getId();
