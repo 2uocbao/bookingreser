@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "rated")
 @DynamicUpdate
 @NoArgsConstructor
-public class Rated implements Serializable{
+public class Rated implements Serializable {
 
 	/**
 	 * 
@@ -37,13 +37,13 @@ public class Rated implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "point")
 	private int point;
-	
+
 	@Column(name = "comment")
 	private String comment;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
@@ -53,25 +53,25 @@ public class Rated implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
-	
+
 	// relationship
-	
+
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
-	
+
 	@OneToOne
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
-	
+
 	public Rated(RateRequest rateRequest, Company company, User user) {
 		this.company = company;
 		this.user = user;
 		this.point = rateRequest.getPoint();
 		this.comment = rateRequest.getComment();
 	}
-	
-	public void  setRated(RateRequest rateRequest) {
+
+	public void setRated(RateRequest rateRequest) {
 		this.point = rateRequest.getPoint();
 		this.comment = rateRequest.getComment();
 	}
