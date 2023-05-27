@@ -6,7 +6,7 @@ import com.quocbao.bookingreser.entity.Reservation;
 import com.quocbao.bookingreser.request.ReservationRequest;
 
 public interface ReservationService {
-	
+
 	public void createReservation(ReservationRequest reservationRequest);
 
 	public void updateReservation(Long id, ReservationRequest reservationRequest);
