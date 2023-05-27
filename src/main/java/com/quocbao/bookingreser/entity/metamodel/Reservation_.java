@@ -12,7 +12,7 @@ public abstract class Reservation_ {
 
 	public static volatile SingularAttribute<Reservation, Long> companyId;
 	public static volatile SingularAttribute<Reservation, Long> userId;
-	
+
 	public static final String COMPANYID = "company";
 	public static final String USERID = "user";
 }
