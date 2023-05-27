@@ -15,5 +15,5 @@ public class FoodRepositoryImpl extends RepositoryImpl<Food> implements FoodRepo
 	protected FoodRepositoryImpl() {
 		super(Food.class);
 	}
-	
+
 }
