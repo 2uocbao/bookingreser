@@ -36,7 +36,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 				warehouseRequest.getMaterialId());
 		warehouses.stream().forEach(x -> {
 			// If status of warehouse for material have not success.
-			//New warehouse will not be created for that material
+			// New warehouse will not be created for that material
 			if (!x.getStatus().equals(Status.SUCCESS.toString())) {
 				throw new AlreadyExistException("There is at least one unfinished activity with this material");
 			}
