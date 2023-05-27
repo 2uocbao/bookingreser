@@ -12,5 +12,5 @@ public interface CompanyService {
 	public void updateCompany(Long id, CompanyRequest companyRequest);
 
 	public void uStatusCompany(Long id, String status);
-	
+
 }
