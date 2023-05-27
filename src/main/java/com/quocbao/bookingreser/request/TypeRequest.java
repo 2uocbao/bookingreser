@@ -9,7 +9,7 @@ public class TypeRequest {
 
 	@JsonProperty("name")
 	public String name;
-	
+
 	@JsonProperty("type")
 	public String type;
 }
