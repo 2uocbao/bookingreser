@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 @DynamicUpdate
 @NoArgsConstructor
-public class User implements Serializable{
+public class User implements Serializable {
 
 	/**
 	 * 
@@ -36,34 +36,34 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "last_name")
 	private String lastName;
-	
+
 	@Column(name = "first_name")
 	private String firstName;
-	
+
 	@Column(name = "dateof_birth")
 	private Date dateofBirth;
-	
+
 	@Column(name = "gender")
 	private String gender;
-	
+
 	@Column(name = "image")
 	private String image;
-	
+
 	@Column(name = "phone")
 	private String phone;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "address")
 	private String address;
-	
+
 	@Column(name = "status")
 	private int status;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
@@ -73,7 +73,7 @@ public class User implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
-	
+
 	public User(EmpUserRequest empUserRequest) {
 		this.firstName = empUserRequest.getFirstName();
 		this.lastName = empUserRequest.getLastName();
@@ -84,7 +84,7 @@ public class User implements Serializable{
 		this.email = empUserRequest.getEmail();
 		this.address = empUserRequest.getAddress();
 	}
-	
+
 	public void setUser(EmpUserRequest empUserRequest) {
 		this.firstName = empUserRequest.getFirstName();
 		this.lastName = empUserRequest.getLastName();
