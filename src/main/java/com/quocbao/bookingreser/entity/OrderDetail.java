@@ -36,7 +36,7 @@ public class OrderDetail implements Serializable {
 	private Long id;
 
 	@Column(name = "quantity")
-	private float quantity;
+	private int quantity;
 
 	@Column(name = "status")
 	private String status;
