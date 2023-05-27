@@ -83,8 +83,8 @@ public class FoodServiceImpl implements FoodService {
 				if (foodDetail.getMaterial().getId().equals(newFoodDetail.getMaterial().getId())
 						&& foodDetail.getQuantity() == newFoodDetail.getQuantity()) {
 					exist = true;
-					// Check if existing food detail object and new food detail equals materail and
-					// quantity
+					// Check if existing food detail object and new food detail
+					// equals materail and quantity
 					// Add that in no change list
 					noChange.add(foodDetail);
 				} else if (foodDetail.getMaterial().getId().equals(newFoodDetail.getMaterial().getId())
@@ -167,9 +167,9 @@ public class FoodServiceImpl implements FoodService {
 		return types;
 	}
 
-	public FoodDetail findExistingFoodDetail(List<FoodDetail> existFoodDetails, Long id) {
+	public FoodDetail findExistingFoodDetail(List<FoodDetail> existFoodDetails, Long materialId) {
 		for (FoodDetail foodDetail : existFoodDetails) {
-			if (foodDetail.getMaterial().getId().equals(id)) {
+			if (foodDetail.getMaterial().getId().equals(materialId)) {
 				return foodDetail;
 			}
 		}
