@@ -14,10 +14,10 @@ public class EmployeeResponse extends EmpUserRequest {
 
 	@JsonProperty("id")
 	private Long id;
-	
+
 	@JsonProperty("kpa")
 	private int kpa;
-	
+
 	@JsonProperty("createdAt")
 	private Timestamp createdAt;
 
