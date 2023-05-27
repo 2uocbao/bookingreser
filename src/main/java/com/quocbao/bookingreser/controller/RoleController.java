@@ -17,9 +17,9 @@ public class RoleController {
 
 	@Autowired
 	RoleService roleService;
-	
+
 	@PostMapping("/create")
-	ResponseEntity<Object> createRole(@RequestBody RoleRequest roleRequest){
+	ResponseEntity<Object> createRole(@RequestBody RoleRequest roleRequest) {
 		roleService.createRole(roleRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
