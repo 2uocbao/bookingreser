@@ -25,9 +25,9 @@ public class TypeController {
 		typeService.addType(typeRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/")
-	ResponseEntity<Object> types(@RequestParam("type") String type){
+	ResponseEntity<Object> types(@RequestParam("type") String type) {
 		return new ResponseEntity<>(typeService.types(type), HttpStatus.OK);
 	}
 }
