@@ -83,7 +83,8 @@ public class Reservation implements Serializable {
 	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
-	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Service service, User user) {
+	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Service service,
+			User user) {
 		this.company = company;
 		this.employee = employee;
 		this.user = user;
@@ -92,7 +93,7 @@ public class Reservation implements Serializable {
 		this.note = reservationRequest.getNote();
 		this.deposit = reservationRequest.getDeposit();
 	}
-	
+
 	public void setReservation(ReservationRequest reservationRequest, Employee employee, Service service) {
 		this.employee = employee;
 		this.service = service;
