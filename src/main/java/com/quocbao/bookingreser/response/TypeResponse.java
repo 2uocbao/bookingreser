@@ -9,11 +9,11 @@ import com.quocbao.bookingreser.request.TypeRequest;
 import lombok.Setter;
 
 @Setter
-public class TypeResponse extends TypeRequest{
+public class TypeResponse extends TypeRequest {
 
 	@JsonProperty("id")
 	private Long id;
-	
+
 	public TypeResponse(Types types) {
 		this.id = types.getId();
 		this.name = types.getName();
@@ -23,7 +23,7 @@ public class TypeResponse extends TypeRequest{
 
 	}
 
-	public List<TypeResponse> typeResponses(List<Types> types){
+	public List<TypeResponse> typeResponses(List<Types> types) {
 		return types.stream().map(TypeResponse::new).toList();
 	}
 }
