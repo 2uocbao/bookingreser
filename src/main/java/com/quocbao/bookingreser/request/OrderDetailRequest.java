@@ -11,5 +11,5 @@ public class OrderDetailRequest {
 	public Long foodId;
 
 	@JsonProperty("quantity")
-	public float quantity;
+	public int quantity;
 }
