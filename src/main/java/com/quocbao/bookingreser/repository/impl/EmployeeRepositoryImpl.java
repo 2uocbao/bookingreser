@@ -15,5 +15,5 @@ public class EmployeeRepositoryImpl extends RepositoryImpl<Employee> implements 
 	protected EmployeeRepositoryImpl() {
 		super(Employee.class);
 	}
-	
+
 }
