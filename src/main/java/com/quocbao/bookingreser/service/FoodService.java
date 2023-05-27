@@ -6,7 +6,7 @@ import com.quocbao.bookingreser.request.FoodRequest;
 import com.quocbao.bookingreser.response.FoodResponse;
 
 public interface FoodService {
-	
+
 	public void createFood(FoodRequest foodRequest);
 
 	public FoodResponse detailFood(Long id);
@@ -16,7 +16,7 @@ public interface FoodService {
 	public void uStatus(Long id, String status);
 
 	public List<FoodResponse> listFoodByColumn(Long companyId, String keySearch);
-	
+
 	public List<FoodResponse> listFoodByType(Long companyId, String type);
 
 	public List<FoodResponse> listFoodByCompanyId(Long companyId);
