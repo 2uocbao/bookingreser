@@ -14,7 +14,7 @@ public abstract class Employee_ {
 	public static volatile SingularAttribute<Employee, String> email;
 	public static volatile SingularAttribute<Employee, Long> companyId;
 	public static volatile SingularAttribute<Employee, String> status;
-	
+
 	public static final String PHONE = "phone";
 	public static final String EMAIL = "email";
 	public static final String COMPANYID = "company";
