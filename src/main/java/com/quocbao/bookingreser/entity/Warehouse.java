@@ -85,7 +85,7 @@ public class Warehouse implements Serializable {
 		this.totalAmount = (cost * quantity * vat) + (cost * quantity);
 		this.status = unconfimred.toString();
 	}
-	
+
 	public void setWarehouse(WarehouseRequest warehouseRequest) {
 		this.cost = warehouseRequest.getCost();
 		this.vat = warehouseRequest.getVat();
