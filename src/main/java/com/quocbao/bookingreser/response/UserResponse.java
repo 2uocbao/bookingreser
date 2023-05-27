@@ -7,11 +7,11 @@ import com.quocbao.bookingreser.entity.User;
 import lombok.Setter;
 
 @Setter
-public class UserResponse extends UserEmployeeInfor{
+public class UserResponse extends UserEmployeeInfor {
 
 	@JsonProperty("id")
 	private Long id;
-	
+
 	public UserResponse(User user) {
 		this.id = user.getId();
 		this.firstName = user.getFirstName();
