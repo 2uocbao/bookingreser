@@ -12,13 +12,13 @@ public class MaterialResponse {
 
 	@JsonProperty("id")
 	private Long id;
-	
+
 	@JsonProperty("code")
 	public String code;
-	
+
 	@JsonProperty("name")
 	public String name;
-	
+
 	@JsonProperty("cost")
 	public float cost;
 
@@ -27,7 +27,7 @@ public class MaterialResponse {
 
 	@JsonProperty("quantity")
 	private float quantity;
-	
+
 	@JsonProperty("status")
 	private String status;
 
