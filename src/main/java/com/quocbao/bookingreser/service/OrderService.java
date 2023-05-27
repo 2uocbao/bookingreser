@@ -2,7 +2,6 @@ package com.quocbao.bookingreser.service;
 
 import java.util.List;
 
-import com.quocbao.bookingreser.entity.Order;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.response.OrderResponse;
 
@@ -19,6 +18,8 @@ public interface OrderService {
 	public List<OrderResponse> listOrderByUserId(Long userId);
 
 	public void uStatus(Long id, String status);
+	
+	public void uStatusOrderDetails(Long orderDetailId, String status);
 
-	public Order payOrder(Long id);
+	public OrderResponse payOrder(Long id);
 }
