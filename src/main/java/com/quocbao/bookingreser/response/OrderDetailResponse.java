@@ -10,18 +10,30 @@ import lombok.Setter;
 @Setter
 public class OrderDetailResponse {
 
-	@JsonProperty("foodId")
-	public Long foodId;
+	@JsonProperty("order_detail_id")
+	private Long orderDetailId;
+
+	@JsonProperty("food")
+	private String food;
 
 	@JsonProperty("quantity")
-	public float quantity;
+	private float quantity;
+
+	@JsonProperty("price")
+	private float price;
+
+	@JsonProperty("total_amount")
+	private float totalAmout;
 
 	public OrderDetailResponse(OrderDetail orderDetail) {
-		this.foodId = orderDetail.getFood().getId();
+		this.orderDetailId = orderDetail.getId();
+		this.food = orderDetail.getFood().getName();
 		this.quantity = orderDetail.getQuantity();
+		this.price = orderDetail.getFood().getPrice();
+		this.totalAmout = orderDetail.getQuantity() * orderDetail.getFood().getPrice();
 	}
-	
-	public List<OrderDetailResponse> orderDetailResponses(List<OrderDetail> orderDetails){
+
+	public List<OrderDetailResponse> orderDetailResponses(List<OrderDetail> orderDetails) {
 		return orderDetails.stream().map(OrderDetailResponse::new).toList();
 	}
 
