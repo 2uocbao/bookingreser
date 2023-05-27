@@ -11,7 +11,7 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 public abstract class FoodDetail_ {
 
 	public static volatile SingularAttribute<FoodDetail, Long> foodId;
-	
+
 	public static final String FOODID = "food";
 
 }
