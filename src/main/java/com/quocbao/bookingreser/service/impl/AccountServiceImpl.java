@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	AccountRepository accountRepository;
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
@@ -52,8 +52,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 		account.setRoles(roles(accountRequest.getRoles()));
 		accountRepository.update(account);
 	}
-	
-	public Set<Role> roles(List<Long> roleIds){
+
+	public Set<Role> roles(List<Long> roleIds) {
 		Set<Role> roles = new HashSet<>();
 		roleIds.stream().forEach(x -> roles.add(roleRepository.findById(x)));
 		return roles;
