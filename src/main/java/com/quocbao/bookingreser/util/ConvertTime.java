@@ -8,5 +8,5 @@ public class ConvertTime {
 	public LocalDate fromTimestamp(Timestamp timestamp) {
 		return timestamp.toLocalDateTime().toLocalDate();
 	}
-	
+
 }
