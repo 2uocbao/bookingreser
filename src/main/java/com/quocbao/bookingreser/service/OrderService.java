@@ -18,7 +18,7 @@ public interface OrderService {
 	public List<OrderResponse> listOrderByUserId(Long userId);
 
 	public void uStatus(Long id, String status);
-	
+
 	public void uStatusOrderDetails(Long orderDetailId, String status);
 
 	public OrderResponse payOrder(Long id);
