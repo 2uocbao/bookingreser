@@ -17,5 +17,5 @@ public abstract class Order_ {
 	public static final String COMPANYID = "company";
 	public static final String USERID = "user";
 	public static final String STATUS = "status";
-	
+
 }
