@@ -13,16 +13,16 @@ public class OrderResponse {
 
 	@JsonProperty("id")
 	private Long id;
-	
+
 	@JsonProperty("companyId")
 	public Long companyId;
-	
+
 	@JsonProperty("serviceId")
 	public Long serviceId;
-	
+
 	@JsonProperty("employeeId")
 	public Long employeeId;
-	
+
 	@JsonProperty("userId")
 	public Long userId;
 
@@ -40,7 +40,7 @@ public class OrderResponse {
 
 	@JsonProperty("updated_at")
 	private Timestamp updatedAt;
-	
+
 	@JsonProperty("order_detail")
 	private List<OrderDetailResponse> orderDetailResponses;
 
