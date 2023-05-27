@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.request.OrderDetailRequest;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.service.OrderService;
 
@@ -54,27 +54,10 @@ public class OrderController {
 		return new ResponseEntity<>(orderService.listOrderByUserId(userId), HttpStatus.OK);
 	}
 
-	@PostMapping("/orderdetail/create")
-	ResponseEntity<Object> createOrderDetail(@RequestBody OrderDetailRequest orderDetailRequest) {
-		orderService.createOrderDetail(orderDetailRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@GetMapping("/orderdetail/{id}")
-	ResponseEntity<Object> detailOrderDetail(@PathVariable Long id) {
-		return new ResponseEntity<>(orderService.orderDetails(id), HttpStatus.OK);
-	}
-
-	@PutMapping("/orderdetail/{id}/update")
-	ResponseEntity<Object> updateOrderDetail(@PathVariable Long id,
-			@RequestBody OrderDetailRequest orderDetailRequest) {
-		orderService.updateOrderDetail(id, orderDetailRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@PutMapping("/orderdetail/{id}/update_status")
-	ResponseEntity<Object> upStatusOrderDetail(@PathVariable Long id) {
-		orderService.uStatusOrderDetail(id);
+	@PutMapping("/{orderDetailId}/orderDetail")
+	ResponseEntity<Object> updateStatusOrderDetail(@PathVariable Long orderDetailId,
+			@RequestParam("status") String status) {
+		orderService.uStatusOrderDetails(orderDetailId, status);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
