@@ -12,7 +12,7 @@ public abstract class OrderDetail_ {
 
 	public static volatile SingularAttribute<OrderDetail, Long> orderId;
 	public static volatile SingularAttribute<OrderDetail, String> status;
-	
+
 	public static final String ORDERID = "order";
 	public static final String STATUS = "status";
 }
