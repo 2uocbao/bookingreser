@@ -8,16 +8,16 @@ import lombok.Getter;
 
 @Getter
 public class ReservationRequest {
-	
+
 	@JsonProperty("employeeId")
 	public Long employeeId;
-	
+
 	@JsonProperty("userId")
 	public Long userId;
-	
+
 	@JsonProperty("serviceId")
 	public Long serviceId;
-	
+
 	@JsonProperty("checkindate")
 	public Timestamp checkinDate;
 
