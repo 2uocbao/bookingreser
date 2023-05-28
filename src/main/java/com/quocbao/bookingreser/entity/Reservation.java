@@ -65,7 +65,7 @@ public class Reservation implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
-	private Service service;
+	private Services service;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
@@ -83,7 +83,7 @@ public class Reservation implements Serializable {
 	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
-	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Service service,
+	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Services service,
 			User user) {
 		this.company = company;
 		this.employee = employee;
@@ -94,7 +94,7 @@ public class Reservation implements Serializable {
 		this.deposit = reservationRequest.getDeposit();
 	}
 
-	public void setReservation(ReservationRequest reservationRequest, Employee employee, Service service) {
+	public void setReservation(ReservationRequest reservationRequest, Employee employee, Services service) {
 		this.employee = employee;
 		this.service = service;
 		this.checkinDate = reservationRequest.getCheckinDate();
