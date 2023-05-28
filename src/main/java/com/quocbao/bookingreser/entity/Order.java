@@ -72,7 +72,7 @@ public class Order implements Serializable {
 
 	@OneToOne
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
-	private Service service;
+	private Services service;
 
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -82,7 +82,7 @@ public class Order implements Serializable {
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
 
-	public Order(OrderRequest orderRequest, Company company, Service service, Employee employee, User user) {
+	public Order(OrderRequest orderRequest, Company company, Services service, Employee employee, User user) {
 		this.company = company;
 		this.employee = employee;
 		this.user = user;
@@ -91,7 +91,7 @@ public class Order implements Serializable {
 		this.status = Status.UNCONFIMRED.toString();
 	}
 
-	public void setOrder(OrderRequest orderRequest, Service service, Employee employee, User user) {
+	public void setOrder(OrderRequest orderRequest, Services service, Employee employee, User user) {
 		this.employee = employee;
 		this.user = user;
 		this.service = service;
