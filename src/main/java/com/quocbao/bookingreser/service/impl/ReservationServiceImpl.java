@@ -13,7 +13,7 @@ import com.quocbao.bookingreser.entity.metamodel.Reservation_;
 import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.ReservationRepository;
-import com.quocbao.bookingreser.repository.ServiceRepository;
+import com.quocbao.bookingreser.repository.ServicesRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.ReservationRequest;
 import com.quocbao.bookingreser.service.ReservationService;
@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 	@Autowired
-	ServiceRepository serviceRepository;
+	ServicesRepository serviceRepository;
 	@Autowired
 	UserRepository userRepository;
 
