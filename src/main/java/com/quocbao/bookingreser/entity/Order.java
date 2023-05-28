@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "order")
+@Table(name = "orders")
 @DynamicUpdate
 @NoArgsConstructor
 public class Order implements Serializable {
