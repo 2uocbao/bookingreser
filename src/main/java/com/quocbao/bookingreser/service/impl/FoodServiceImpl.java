@@ -41,10 +41,9 @@ public class FoodServiceImpl implements FoodService {
 	public void createFood(FoodRequest foodRequest) {
 		Food food = new Food(foodRequest, companyRepository.findById(foodRequest.getCompanyId()));
 		food.setTypes(types(foodRequest.getTypes()));
-		List<FoodDetail> foodDetails = foodRequest.getFoodDetailRequests().stream()
-				.map(x -> new FoodDetail(x, materialRepository.findById(x.getMaterialId()), food)).toList();
-		food.setFoodDetails(foodDetails);
 		foodRepository.save(food);
+		foodRequest.getFoodDetailRequests().stream().forEach(x -> foodDetailRepository
+				.save(new FoodDetail(x, materialRepository.findById(x.getMaterialId()), food)));
 	}
 
 	@Override
