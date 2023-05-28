@@ -21,7 +21,7 @@ import com.quocbao.bookingreser.repository.FoodRepository;
 import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.repository.OrderDetailRepository;
 import com.quocbao.bookingreser.repository.OrderRepository;
-import com.quocbao.bookingreser.repository.ServiceRepository;
+import com.quocbao.bookingreser.repository.ServicesRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.response.OrderDetailResponse;
@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	@Autowired
-	private ServiceRepository serviceRepository;
+	private ServicesRepository serviceRepository;
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
