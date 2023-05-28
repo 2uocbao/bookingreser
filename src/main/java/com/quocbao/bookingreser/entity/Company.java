@@ -80,7 +80,7 @@ public class Company implements Serializable {
 	private Set<Employee> employees;
 
 	@OneToMany(mappedBy = "company")
-	private Set<Service> services;
+	private Set<Services> services;
 
 	@OneToMany(mappedBy = "company")
 	private Set<Material> materials;
