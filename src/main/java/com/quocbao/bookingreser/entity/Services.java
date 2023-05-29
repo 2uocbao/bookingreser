@@ -9,7 +9,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.quocbao.bookingreser.request.ServiceRequest;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +25,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "service")
+@Table(name = "services")
 @DynamicUpdate
 @NoArgsConstructor
 public class Services implements Serializable {
@@ -47,6 +49,7 @@ public class Services implements Serializable {
 	private Company company;
 
 	@ManyToMany
+	@ElementCollection(fetch = FetchType.EAGER)
 	@JoinTable(name = "service_types", joinColumns = @JoinColumn(name = "service_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
