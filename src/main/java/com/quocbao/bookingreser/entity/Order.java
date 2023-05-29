@@ -74,26 +74,24 @@ public class Order implements Serializable {
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
 	private Services service;
 
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
 
-	public Order(OrderRequest orderRequest, Company company, Services service, Employee employee, User user) {
+	public Order(OrderRequest orderRequest, Company company, Services service, Employee employee) {
 		this.company = company;
 		this.employee = employee;
-		this.user = user;
 		this.service = service;
 		this.description = orderRequest.getDescription();
 		this.status = Status.UNCONFIMRED.toString();
 	}
 
-	public void setOrder(OrderRequest orderRequest, Services service, Employee employee, User user) {
+	public void setOrder(OrderRequest orderRequest, Services service, Employee employee) {
 		this.employee = employee;
-		this.user = user;
 		this.service = service;
 		this.description = orderRequest.getDescription();
 	}
