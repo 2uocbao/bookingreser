@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Services;
-import com.quocbao.bookingreser.entity.Types;
 
 import lombok.Setter;
 
@@ -23,7 +22,6 @@ public class ServiceResponse {
 	public ServiceResponse(Services services) {
 		this.id = services.getId();
 		this.name = services.getName();
-		this.types = services.getTypes().stream().map(Types::getName).toList();
 	}
 
 	public List<ServiceResponse> serviceResponses(List<Services> services) {
