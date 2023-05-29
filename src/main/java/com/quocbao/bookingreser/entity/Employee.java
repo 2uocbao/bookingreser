@@ -81,7 +81,7 @@ public class Employee implements Serializable {
 
 	// relationship
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 
