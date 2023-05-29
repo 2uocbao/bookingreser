@@ -11,9 +11,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.ReservationRequest;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -63,24 +63,24 @@ public class Reservation implements Serializable {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
 	private Services service;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 
-	@ManyToMany
-	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "reservation_type", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
 	private Set<Types> types = new HashSet<>();
 
 	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Services service,
