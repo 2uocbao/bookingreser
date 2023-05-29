@@ -18,7 +18,10 @@ import com.quocbao.bookingreser.request.ServiceRequest;
 import com.quocbao.bookingreser.response.ServiceResponse;
 import com.quocbao.bookingreser.service.ServicesService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ServiceServiceImpl implements ServicesService {
 
 	@Autowired
@@ -31,20 +34,32 @@ public class ServiceServiceImpl implements ServicesService {
 	@Override
 	public void createService(ServiceRequest serviceRequest) {
 		Services services = new Services(serviceRequest, companyRepository.findById(serviceRequest.getCompanyId()));
-		Set<Types> types = new HashSet<>();
-		serviceRequest.getType().stream().forEach(x -> types.add(typeRepository.findById(x)));
-		services.setTypes(types);
+		services.setTypes(types(serviceRequest.getType()));
 		serviceRepository.save(services);
 	}
 
 	@Override
 	public ServiceResponse detailService(Long id) {
-		return new ServiceResponse(serviceRepository.findById(id));
+		Services services = serviceRepository.findById(id);
+		return serviceResponse(services);
 	}
 
 	@Override
 	public List<ServiceResponse> listServiceByCompany(Long companyId) {
-		return new ServiceResponse()
-				.serviceResponses(serviceRepository.getAll(Company.class, Services_.COMPANYID, "id", companyId));
+		List<Services> services = serviceRepository.getAll(Company.class, Services_.COMPANYID, "id", companyId);
+		return services.stream().map(this::serviceResponse).toList();
+	}
+
+	public Set<Types> types(List<Long> typeIds) {
+		Set<Types> types = new HashSet<>();
+		typeIds.stream().forEach(x -> types.add(typeRepository.findById(x)));
+		return types;
+	}
+
+	public ServiceResponse serviceResponse(Services services) {
+		ServiceResponse serviceResponse = new ServiceResponse(services);
+		List<String> strings = services.getTypes().stream().map(Types::getName).toList();
+		serviceResponse.setTypes(strings);
+		return serviceResponse;
 	}
 }
