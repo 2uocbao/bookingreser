@@ -12,5 +12,5 @@ public class Services_ {
 
 	public static volatile SingularAttribute<Services, Long> companyId;
 
-	public static final String COMPANYID = "companyId";
+	public static final String COMPANYID = "company";
 }
