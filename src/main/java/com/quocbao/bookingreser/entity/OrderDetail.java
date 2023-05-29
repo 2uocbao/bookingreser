@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.quocbao.bookingreser.request.OrderDetailRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,9 +52,11 @@ public class OrderDetail implements Serializable {
 	@JoinColumn(name = "food_id", referencedColumnName = "id")
 	private Food food;
 
-	public OrderDetail(OrderDetailRequest orderDetailRequest, Food food) {
+	public OrderDetail(OrderDetailRequest orderDetailRequest, Food food, Order order) {
+		this.order = order;
 		this.food = food;
 		this.quantity = orderDetailRequest.getQuantity();
+		this.status = Status.PROCESSING.toString();
 	}
 
 	public void setOrderDetail(OrderDetailRequest orderDetailRequest) {
