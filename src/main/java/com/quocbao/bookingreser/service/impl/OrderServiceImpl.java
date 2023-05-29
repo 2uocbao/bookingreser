@@ -1,6 +1,7 @@
 package com.quocbao.bookingreser.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.quocbao.bookingreser.entity.OrderDetail;
 import com.quocbao.bookingreser.entity.User;
 import com.quocbao.bookingreser.entity.metamodel.OrderDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Order_;
+import com.quocbao.bookingreser.entity.metamodel.Services_;
 import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.FoodRepository;
@@ -29,7 +31,10 @@ import com.quocbao.bookingreser.response.OrderResponse;
 import com.quocbao.bookingreser.service.OrderService;
 import com.quocbao.bookingreser.util.Status;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
@@ -51,12 +56,11 @@ public class OrderServiceImpl implements OrderService {
 	public void createOrder(OrderRequest orderRequest) {
 		Employee employee = employeeRepository.findById(orderRequest.getEmployeeId());
 		Order order = new Order(orderRequest, employee.getCompany(),
-				serviceRepository.findById(orderRequest.getServiceId()), employee,
-				userRepository.findById(orderRequest.getUserId()));
-		List<OrderDetail> orderDetails = orderRequest.getOrderDetailRequests().stream()
-				.map(x -> new OrderDetail(x, foodRepository.findById(x.getFoodId()))).toList();
-		order.setOrderDetails(orderDetails);
+				serviceRepository.findById(orderRequest.getServiceId()), employee);
 		orderRepository.save(order);
+		orderRequest.getOrderDetailRequests().stream().forEach(
+				x -> orderDetailRepository.save(new OrderDetail(x, foodRepository.findById(x.getFoodId()), order)));
+		serviceRepository.uColumn(orderRequest.getServiceId(), Services_.STATUS, Status.USED.toString());
 	}
 
 	@Override
@@ -78,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
 		List<OrderDetail> existingOrderDetails = order.getOrderDetails();
 		// Retrieve a list of new or update order details
 		List<OrderDetail> upnewOrderDetails = orderRequest.getOrderDetailRequests().stream()
-				.map(x -> new OrderDetail(x, foodRepository.findById(x.getFoodId()))).toList();
+				.map(x -> new OrderDetail(x, foodRepository.findById(x.getFoodId()), order)).toList();
 		// Create a list of order details no change
 		List<OrderDetail> nochangeOrderDetails = new ArrayList<>();
 		// Create a list of update order details
@@ -167,20 +171,21 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderResponse payOrder(Long id) {
-		float total;
 		Order order = orderRepository.findById(id);
 		// Retrieve a list of existing order details
 		List<OrderDetail> orderDetails = order.getOrderDetails();
 		// Remove order detail object if this status was not served
 		orderDetails.removeIf(x -> !x.getStatus().equals(Status.SERVED.toString()));
-		total = orderDetails.stream().map(x -> x.getFood().getPrice() * x.getQuantity()).count();
-		order.setTotalAmount(total);
+		orderDetails.stream().forEach(
+				x -> order.setTotalAmount(order.getTotalAmount() + (x.getQuantity() * x.getFood().getPrice())));
+		order.setStatus(Status.SUCCESS.toString());
 		// Retrieve detail order reponse
 		List<OrderDetailResponse> orderDetailResponses = new ArrayList<>();
 		orderDetails.stream().forEach(x -> orderDetailResponses.add(new OrderDetailResponse(x)));
 		orderRepository.update(order);
 		OrderResponse orderResponse = new OrderResponse(order);
 		orderResponse.setOrderDetailResponses(orderDetailResponses);
+		serviceRepository.uColumn(order.getService().getId(), Services_.STATUS, Status.EMPTY.toString());
 		return orderResponse;
 	}
 
