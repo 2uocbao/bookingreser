@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.quocbao.bookingreser.request.ServiceRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -41,6 +42,9 @@ public class Services implements Serializable {
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "status")
+	private String status;
 
 	// relationship
 
@@ -56,6 +60,7 @@ public class Services implements Serializable {
 	public Services(ServiceRequest serviceRequest, Company company) {
 		this.name = serviceRequest.getName();
 		this.company = company;
+		this.status = Status.EMPTY.toString();
 	}
 
 }
