@@ -9,9 +9,6 @@ import lombok.Getter;
 @Getter
 public class OrderRequest {
 
-	@JsonProperty("companyId")
-	public Long companyId;
-
 	@JsonProperty("serviceId")
 	public Long serviceId;
 
