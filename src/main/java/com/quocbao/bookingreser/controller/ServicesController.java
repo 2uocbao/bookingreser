@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,13 +26,13 @@ public class ServicesController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Object> detailService(@RequestAttribute Long id) {
+	@GetMapping("/{id}/detail")
+	public ResponseEntity<Object> detailService(@PathVariable Long id) {
 		return new ResponseEntity<>(servicesService.detailService(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/{companyId}/getAll")
-	public ResponseEntity<Object> getAllService(@RequestAttribute Long companyId) {
+	public ResponseEntity<Object> getAllService(@PathVariable Long companyId) {
 		return new ResponseEntity<>(servicesService.listServiceByCompany(companyId), HttpStatus.OK);
 	}
 }
