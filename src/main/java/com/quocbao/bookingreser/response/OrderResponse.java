@@ -53,7 +53,7 @@ public class OrderResponse {
 		this.id = order.getId();
 		this.companyId = order.getCompany().getId();
 		this.employeeId = order.getEmployee().getId();
-		this.userId = order.getUser().getId();
+		this.userId = order.getUser() == null ? null : order.getUser().getId();
 		this.serviceId = order.getService().getId();
 		this.description = order.getDescription();
 		this.totalAmount = order.getTotalAmount();
