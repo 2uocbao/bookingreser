@@ -11,6 +11,8 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 public class Services_ {
 
 	public static volatile SingularAttribute<Services, Long> companyId;
+	public static volatile SingularAttribute<Services, String> status;
 
 	public static final String COMPANYID = "company";
+	public static final String STATUS = "status";
 }
