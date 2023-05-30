@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.request.EmpUserRequest;
+import com.quocbao.bookingreser.request.UserRequest;
 import com.quocbao.bookingreser.service.UserService;
 
 @RestController
@@ -23,7 +23,7 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createUser(@RequestBody EmpUserRequest userRequest) {
+	ResponseEntity<Object> createUser(@RequestBody UserRequest userRequest) {
 		userService.createUser(userRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -34,7 +34,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody EmpUserRequest empUserRequest) {
+	ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody UserRequest empUserRequest) {
 		userService.updateUser(id, empUserRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
