@@ -1,7 +1,6 @@
 package com.quocbao.bookingreser.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +76,9 @@ public class OrderServiceImpl implements OrderService {
 	public void updateOrder(Long id, OrderRequest orderRequest) {
 		Order order = orderRepository.findById(id);
 		order.setDescription(orderRequest.getDescription());
+		if (orderRequest.getUserId() != null) {
+			order.setUser(userRepository.findById(orderRequest.getUserId()));
+		}
 		orderRepository.update(order);
 
 		// Retrieve a list of existing order details
