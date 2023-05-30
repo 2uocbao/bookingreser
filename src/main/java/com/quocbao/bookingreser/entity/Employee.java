@@ -9,7 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.quocbao.bookingreser.request.EmpUserRequest;
+import com.quocbao.bookingreser.request.EmployeeRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -88,7 +88,7 @@ public class Employee implements Serializable {
 	@OneToMany(mappedBy = "employee")
 	private Set<Warehouse> warehouse;
 
-	public Employee(EmpUserRequest employeeRequest, Company company) {
+	public Employee(EmployeeRequest employeeRequest, Company company) {
 		this.company = company;
 		this.firstName = employeeRequest.getFirstName();
 		this.lastName = employeeRequest.getLastName();
@@ -100,7 +100,7 @@ public class Employee implements Serializable {
 		this.address = employeeRequest.getAddress();
 	}
 
-	public void setEmployee(EmpUserRequest employeeRequest) {
+	public void setEmployee(EmployeeRequest employeeRequest) {
 		this.firstName = employeeRequest.getFirstName();
 		this.lastName = employeeRequest.getLastName();
 		this.dateofBirth = employeeRequest.getDateofBirth();
