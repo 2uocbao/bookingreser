@@ -1,19 +1,46 @@
 package com.quocbao.bookingreser.response;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Employee;
-import com.quocbao.bookingreser.request.EmpUserRequest;
 
 import lombok.Setter;
 
 @Setter
-public class EmployeeResponse extends EmpUserRequest {
+public class EmployeeResponse {
 
 	@JsonProperty("id")
 	private Long id;
+
+	@JsonProperty("companyId")
+	private Long companyId;
+
+	@JsonProperty("lastname")
+	private String lastName;
+
+	@JsonProperty("firstname")
+	private String firstName;
+
+	@JsonProperty("dateofbirth")
+	private Date dateofBirth;
+
+	@JsonProperty("gender")
+	private String gender;
+
+	@JsonProperty("image")
+	private String image;
+
+	@JsonProperty("phone")
+	private String phone;
+
+	@JsonProperty("email")
+	private String email;
+
+	@JsonProperty("address")
+	private String address;
 
 	@JsonProperty("kpa")
 	private int kpa;
