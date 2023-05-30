@@ -12,7 +12,7 @@ import com.quocbao.bookingreser.exception.AlreadyExistException;
 import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
-import com.quocbao.bookingreser.request.EmpUserRequest;
+import com.quocbao.bookingreser.request.EmployeeRequest;
 import com.quocbao.bookingreser.response.EmployeeResponse;
 import com.quocbao.bookingreser.service.EmployeeService;
 
@@ -25,9 +25,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	CompanyRepository companyRepository;
 
 	@Override
-	public void createEmployee(Long companyId, EmpUserRequest empUserRequest) {
-		checkInfor(empUserRequest.getEmail(), empUserRequest.getPhone());
-		Employee employee = new Employee(empUserRequest, companyRepository.findById(companyId));
+	public void createEmployee(Long companyId, EmployeeRequest employeeRequest) {
+		checkInfor(employeeRequest.getEmail(), employeeRequest.getPhone());
+		Employee employee = new Employee(employeeRequest, companyRepository.findById(companyId));
 		employeeRepository.save(employee);
 	}
 
@@ -41,11 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void updateEmployee(Long id, EmpUserRequest empUserRequest) {
+	public void updateEmployee(Long id, EmployeeRequest employeeRequest) {
 		Employee employee = employeeRepository.findById(id);
-		checkInfor(employee.getEmail().equals(empUserRequest.getEmail()) ? null : empUserRequest.getEmail(),
-				employee.getPhone().equals(empUserRequest.getPhone()) ? null : empUserRequest.getPhone());
-		employee.setEmployee(empUserRequest);
+		checkInfor(employee.getEmail().equals(employeeRequest.getEmail()) ? null : employeeRequest.getEmail(),
+				employee.getPhone().equals(employeeRequest.getPhone()) ? null : employeeRequest.getPhone());
+		employee.setEmployee(employeeRequest);
 		employeeRepository.update(employee);
 	}
 
