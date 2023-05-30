@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.CompanyRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -102,6 +103,7 @@ public class Company implements Serializable {
 		this.image = companyRequest.getImage();
 		this.infor = companyRequest.getInfor();
 		this.address = companyRequest.getAddress();
+		this.status = Status.OFF.toString();
 	}
 
 	public void sompany(CompanyRequest companyRequest) {
