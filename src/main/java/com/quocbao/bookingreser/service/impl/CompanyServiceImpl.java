@@ -46,7 +46,8 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public void updateCompany(Long id, CompanyRequest companyRequest) {
 		Company company = companyRepository.findById(id);
-		checkInfor(companyRequest.getEmail(), companyRequest.getPhone());
+		checkInfor(company.getEmail().equals(companyRequest.getEmail()) ? null : companyRequest.getEmail(),
+				company.getPhone().equals(companyRequest.getPhone()) ? null : companyRequest.getPhone());
 		company.sompany(companyRequest);
 		company.setTypes(types(companyRequest.getTypes()));
 		companyRepository.update(company);
