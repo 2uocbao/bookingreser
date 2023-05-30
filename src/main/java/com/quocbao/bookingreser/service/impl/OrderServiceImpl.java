@@ -14,6 +14,7 @@ import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.Order;
 import com.quocbao.bookingreser.entity.OrderDetail;
 import com.quocbao.bookingreser.entity.User;
+import com.quocbao.bookingreser.entity.metamodel.Food_;
 import com.quocbao.bookingreser.entity.metamodel.OrderDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Order_;
 import com.quocbao.bookingreser.entity.metamodel.Services_;
@@ -200,6 +201,10 @@ public class OrderServiceImpl implements OrderService {
 				// Update quantity of material used for food
 				Material material = materialRepository.findById(x.getMaterial().getId());
 				material.setQuantity(material.getQuantity() - (x.getQuantity() * orderDetail.getQuantity()));
+				if (material.getQuantity() < material.getStockEnd()) {
+					material.setStatus(Status.OVER.toString());
+					foodRepository.uColumn(x.getFood().getId(), Food_.STATUS, Status.OFF.toString());
+				}
 				materialRepository.update(material);
 			});
 		}
