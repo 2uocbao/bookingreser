@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.request.EmpUserRequest;
+import com.quocbao.bookingreser.request.EmployeeRequest;
 import com.quocbao.bookingreser.service.EmployeeService;
 
 @RestController
@@ -23,8 +23,8 @@ public class EmployeeController {
 	EmployeeService employeeService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createEmployee(@RequestBody EmpUserRequest empUserRequest) {
-		employeeService.createEmployee(empUserRequest.getCompanyId(), empUserRequest);
+	ResponseEntity<Object> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
+		employeeService.createEmployee(employeeRequest.getCompanyId(), employeeRequest);
 		return new ResponseEntity<>("Create employee success", HttpStatus.OK);
 	}
 
@@ -34,8 +34,8 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateEmployee(@PathVariable Long id, EmpUserRequest empUserRequest) {
-		employeeService.updateEmployee(id, empUserRequest);
+	ResponseEntity<Object> updateEmployee(@PathVariable Long id,@RequestBody EmployeeRequest employeeRequest) {
+		employeeService.updateEmployee(id, employeeRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
