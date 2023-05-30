@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.quocbao.bookingreser.request.EmpUserRequest;
+import com.quocbao.bookingreser.request.UserRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -74,25 +74,25 @@ public class User implements Serializable {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	public User(EmpUserRequest empUserRequest) {
-		this.firstName = empUserRequest.getFirstName();
-		this.lastName = empUserRequest.getLastName();
-		this.dateofBirth = empUserRequest.getDateofBirth();
-		this.gender = empUserRequest.getGender();
-		this.image = empUserRequest.getImage();
-		this.phone = empUserRequest.getPhone();
-		this.email = empUserRequest.getEmail();
-		this.address = empUserRequest.getAddress();
+	public User(UserRequest userRequest) {
+		this.firstName = userRequest.getFirstName();
+		this.lastName = userRequest.getLastName();
+		this.dateofBirth = userRequest.getDateofBirth();
+		this.gender = userRequest.getGender();
+		this.image = userRequest.getImage();
+		this.phone = userRequest.getPhone();
+		this.email = userRequest.getEmail();
+		this.address = userRequest.getAddress();
 	}
 
-	public void setUser(EmpUserRequest empUserRequest) {
-		this.firstName = empUserRequest.getFirstName();
-		this.lastName = empUserRequest.getLastName();
-		this.dateofBirth = empUserRequest.getDateofBirth();
-		this.gender = empUserRequest.getGender();
-		this.image = empUserRequest.getImage();
-		this.phone = empUserRequest.getPhone();
-		this.email = empUserRequest.getEmail();
-		this.address = empUserRequest.getAddress();
+	public void setUser(UserRequest userRequest) {
+		this.firstName = userRequest.getFirstName();
+		this.lastName = userRequest.getLastName();
+		this.dateofBirth = userRequest.getDateofBirth();
+		this.gender = userRequest.getGender();
+		this.image = userRequest.getImage();
+		this.phone = userRequest.getPhone();
+		this.email = userRequest.getEmail();
+		this.address = userRequest.getAddress();
 	}
 }
