@@ -1,10 +1,14 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.quocbao.bookingreser.request.AccountRequest;
 
@@ -25,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "account")
 @DynamicUpdate
 @NoArgsConstructor
-public class Account implements Serializable {
+public class Account implements Serializable, UserDetails {
 
 	/**
 	 * 
@@ -47,5 +51,30 @@ public class Account implements Serializable {
 	public Account(AccountRequest accountRequest) {
 		this.username = accountRequest.getUsername();
 		this.password = accountRequest.getPassword();
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName())).toList();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }
