@@ -25,7 +25,10 @@ import com.quocbao.bookingreser.repository.RoleRepository;
 import com.quocbao.bookingreser.request.AccountRequest;
 import com.quocbao.bookingreser.service.AccountService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class AccountServiceImpl implements AccountService, UserDetailsService {
 
 	@Autowired
@@ -63,7 +66,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Account account = accountRepository.findByColumn(Account_.USERNAME, username);
 		if (account == null) {
-			throw new NotFoundException("Username or password incorrect");
+			throw new NotFoundException("Username already exist");
 		}
 		return new User(account.getUsername(), account.getPassword(), getAuthorities(account.getRoles()));
 	}
