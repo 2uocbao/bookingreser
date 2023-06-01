@@ -1,13 +1,10 @@
 package com.quocbao.bookingreser.service.impl;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -68,11 +65,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 		if (account == null) {
 			throw new NotFoundException("Username already exist");
 		}
-		return new User(account.getUsername(), account.getPassword(), getAuthorities(account.getRoles()));
+		return new User(account.getUsername(), account.getPassword(), account.getAuthorities());
 	}
-
-	private Collection<? extends GrantedAuthority> getAuthorities(Set<Role> roles) {
-		return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName())).toList();
-	}
-
 }
