@@ -20,6 +20,8 @@ import com.quocbao.bookingreser.exception.NotFoundException;
 import com.quocbao.bookingreser.repository.AccountRepository;
 import com.quocbao.bookingreser.repository.RoleRepository;
 import com.quocbao.bookingreser.request.AccountRequest;
+import com.quocbao.bookingreser.response.AccountResponse;
+import com.quocbao.bookingreser.security.jwt.JwtTokenProvider;
 import com.quocbao.bookingreser.service.AccountService;
 
 import jakarta.transaction.Transactional;
@@ -32,11 +34,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	AccountRepository accountRepository;
 	@Autowired
 	RoleRepository roleRepository;
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
 
 	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
-	public void createAccount(AccountRequest accountRequest) {
+	public AccountResponse createAccount(AccountRequest accountRequest) {
 		Account account = new Account(accountRequest);
 		if (accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername()) != null) {
 			throw new AlreadyExistException("Username already exit");
@@ -44,6 +48,15 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 		account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
 		account.setRoles(roles(accountRequest.getRoles()));
 		accountRepository.save(account);
+		var jwtToken = jwtTokenProvider.generateToken(account);
+		return AccountResponse.builder().accessToken(jwtToken).build();
+	}
+
+	@Override
+	public AccountResponse login(AccountRequest accountRequest) {
+		Account account = accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername());
+		String accessToken = jwtTokenProvider.generateToken(account);
+		return AccountResponse.builder().accessToken(accessToken).build();
 	}
 
 	@Override
