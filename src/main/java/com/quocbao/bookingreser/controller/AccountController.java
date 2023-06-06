@@ -12,7 +12,7 @@ import com.quocbao.bookingreser.request.AccountRequest;
 import com.quocbao.bookingreser.service.AccountService;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/bookingreser/account")
 public class AccountController {
 
 	@Autowired
@@ -20,7 +20,11 @@ public class AccountController {
 
 	@PostMapping("/create")
 	public ResponseEntity<Object> createAccount(@RequestBody AccountRequest accountRequest) {
-		accountService.createAccount(accountRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(accountService.createAccount(accountRequest), HttpStatus.OK);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<Object> login(@RequestBody AccountRequest accountRequest){
+		return new ResponseEntity<>(accountService.login(accountRequest), HttpStatus.OK); 
 	}
 }
