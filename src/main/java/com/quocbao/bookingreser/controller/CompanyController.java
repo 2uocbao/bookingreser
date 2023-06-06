@@ -16,7 +16,7 @@ import com.quocbao.bookingreser.request.CompanyRequest;
 import com.quocbao.bookingreser.service.CompanyService;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/bookingreser/company")
 public class CompanyController {
 
 	@Autowired
