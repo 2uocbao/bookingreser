@@ -52,6 +52,9 @@ public class Warehouse implements Serializable {
 	@Column(name = "total_amount")
 	private float totalAmount;
 
+	@Column(name = "unit")
+	private String unit;
+
 	@Column(name = "status")
 	private String status;
 
@@ -76,14 +79,14 @@ public class Warehouse implements Serializable {
 	private Employee employee;
 
 	public Warehouse(WarehouseRequest warehouseRequest, Material material, Employee employee) {
-		Status unconfimred = Status.UNCONFIMRED;
 		this.material = material;
 		this.employee = employee;
 		this.cost = warehouseRequest.getCost();
 		this.vat = warehouseRequest.getVat();
 		this.quantity = warehouseRequest.getQuantity();
 		this.totalAmount = (cost * quantity * vat) + (cost * quantity);
-		this.status = unconfimred.toString();
+		this.status = Status.UNCONFIMRED.toString();
+		this.unit = warehouseRequest.getUnit();
 	}
 
 	public void setWarehouse(WarehouseRequest warehouseRequest) {
