@@ -8,17 +8,20 @@ import lombok.Getter;
 public class WarehouseRequest {
 
 	@JsonProperty("materialId")
-	public Long materialId;
+	private Long materialId;
 
 	@JsonProperty("employeeId")
-	public Long employeeId;
+	private Long employeeId;
 
 	@JsonProperty("cost")
-	public float cost;
+	private float cost;
 
 	@JsonProperty("vat")
-	public float vat;
+	private float vat;
 
 	@JsonProperty("quantity")
-	public float quantity;
+	private float quantity;
+
+	@JsonProperty("unit")
+	private String unit;
 }
