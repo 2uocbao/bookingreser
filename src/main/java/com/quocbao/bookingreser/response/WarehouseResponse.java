@@ -15,22 +15,25 @@ public class WarehouseResponse {
 	private Long id;
 
 	@JsonProperty("material")
-	public MaterialResponse materialId;
+	private MaterialResponse materialId;
 
 	@JsonProperty("employeeId")
-	public EmployeeResponse employeeId;
+	private EmployeeResponse employeeId;
 
 	@JsonProperty("cost")
-	public float cost;
+	private float cost;
 
 	@JsonProperty("vat")
-	public float vat;
+	private float vat;
 
 	@JsonProperty("quantity")
-	public float quantity;
+	private float quantity;
 
 	@JsonProperty("total_amount")
 	private float totalAmount;
+
+	@JsonProperty("unit")
+	private String unit;
 
 	@JsonProperty("status")
 	private String status;
@@ -49,6 +52,7 @@ public class WarehouseResponse {
 		this.quantity = warehouse.getQuantity();
 		this.vat = warehouse.getVat();
 		this.totalAmount = warehouse.getTotalAmount();
+		this.unit = warehouse.getUnit();
 		this.status = warehouse.getStatus();
 		this.createdAt = warehouse.getCreatedAt();
 		this.updatedAt = warehouse.getUpdatedAt();
