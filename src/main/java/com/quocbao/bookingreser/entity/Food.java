@@ -56,7 +56,7 @@ public class Food implements Serializable {
 
 	// relationship
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id")
 	private Company company;
 
