@@ -33,6 +33,7 @@ public class SecurityConfig {
 		http.csrf(cf -> cf.disable());
 		http.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/anonymous*").anonymous()
+				.requestMatchers("/payment/**").permitAll()
 				.requestMatchers("/account/**").permitAll()
 				.requestMatchers("/company/**").hasRole("ADMIN")
 				.requestMatchers("/").hasRole("ADMIN")
