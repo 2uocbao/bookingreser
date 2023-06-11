@@ -39,12 +39,12 @@ public class ReservationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/{companyId}/byCompany")
+	@GetMapping("/byCompany/{companyId}")
 	ResponseEntity<Object> getByCompany(@PathVariable Long companyId) {
 		return new ResponseEntity<>(reservationService.listReservationByCompany(companyId), HttpStatus.OK);
 	}
 
-	@GetMapping("/{userId}/byUser")
+	@GetMapping("/byUser/{userId}")
 	ResponseEntity<Object> getByUser(@PathVariable Long userId) {
 		return new ResponseEntity<>(reservationService.listReservationByUserId(userId), HttpStatus.OK);
 	}
