@@ -31,8 +31,6 @@ public class PaymentController {
 	public ResponseEntity<Object> createPayment(@RequestParam("orderType") String orderType,
 			@RequestParam("amountTotal") int amountTotal, @RequestParam("bankCode") String bankCode)
 			throws UnsupportedEncodingException {
-		long amount = amountTotal * 100;
-
 		String vnp_TxnRef = PaymentConfig.getRandomNumber(8);
 		String vnp_TmnCode = PaymentConfig.vnpTmnCode;
 
@@ -40,7 +38,7 @@ public class PaymentController {
 		vnp_Params.put("vnp_Version", PaymentConfig.vnpVersion);
 		vnp_Params.put("vnp_Command", PaymentConfig.vnpCommand);
 		vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-		vnp_Params.put("vnp_Amount", String.valueOf(amount));
+		vnp_Params.put("vnp_Amount", String.valueOf(amountTotal * 100));
 		vnp_Params.put("vnp_CurrCode", "VND");
 		vnp_Params.put("vnp_Locale", "vn");
 		vnp_Params.put("vnp_ReturnUrl", PaymentConfig.vnpReturnurl);
@@ -63,29 +61,27 @@ public class PaymentController {
 
 		List fieldNames = new ArrayList(vnp_Params.keySet());
 		Collections.sort(fieldNames);
-		StringBuilder hashData = new StringBuilder();
-		StringBuilder query = new StringBuilder();
+		String hashData = null;
+		String query = null;
 		Iterator itr = fieldNames.iterator();
 		while (itr.hasNext()) {
 			String fieldName = (String) itr.next();
 			String fieldValue = vnp_Params.get(fieldName);
 			if ((fieldValue != null) && (fieldValue.length() > 0)) {
 				// Build hash data
-				hashData.append(fieldName);
-				hashData.append('=');
-				hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+				hashData = hashData + fieldName;
+				hashData = hashData + "=" + URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString());
 				// Build query
-				query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
-				query.append('=');
-				query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+				query = query + URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()) + "="
+						+ URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString());
 				if (itr.hasNext()) {
-					query.append('&');
-					hashData.append('&');
+					query = query + "&";
+					hashData = hashData + "&";
 				}
 			}
 		}
-		String queryUrl = query.toString();
-		String vnp_SecureHash = PaymentConfig.hmacSHA512(PaymentConfig.vnpHashSecret, hashData.toString());
+		String queryUrl = query;
+		String vnp_SecureHash = PaymentConfig.hmacSHA512(PaymentConfig.vnpHashSecret, hashData);
 		queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 		String paymentUrl = PaymentConfig.vnpPayUrl + "?" + queryUrl;
 		return new ResponseEntity<>(paymentUrl, HttpStatus.OK);
