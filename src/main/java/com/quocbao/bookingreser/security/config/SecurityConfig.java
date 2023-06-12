@@ -24,6 +24,9 @@ import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 
 import static com.quocbao.bookingreser.util.Permission.ADMIN;
+import static com.quocbao.bookingreser.util.Permission.ADMIN_WAREHOUSE;
+import static com.quocbao.bookingreser.util.Permission.ADMIN_KITCHEN;
+import static com.quocbao.bookingreser.util.Permission.ADMIN_STAFF;
 import static com.quocbao.bookingreser.util.Permission.STAFF;
 import static com.quocbao.bookingreser.util.Permission.USER;
 
@@ -47,41 +50,41 @@ public class SecurityConfig {
 				
 				.requestMatchers("/company/**").hasRole(ADMIN.toString())
 
-				.requestMatchers("/employee/**").hasRole(ADMIN.toString())
+				.requestMatchers("/employee/**").hasAnyRole(ADMIN.toString(), ADMIN_KITCHEN.toString(), ADMIN_STAFF.toString(), ADMIN_WAREHOUSE.toString())
 				.requestMatchers(GET, "/employee/**").hasRole(STAFF.toString())
 				.requestMatchers(PUT, "/employee/**").hasRole(STAFF.toString())
 
 				.requestMatchers(GET, "/food/**").permitAll()
-				.requestMatchers("/food/**").hasAnyRole(ADMIN.toString(), STAFF.toString())
+				.requestMatchers("/food/**").hasAnyRole(ADMIN.toString(), ADMIN_KITCHEN.toString())
 
-				.requestMatchers("/material/**").hasRole(ADMIN.toString())
+				.requestMatchers("/material/**").hasAnyRole(ADMIN.toString(), ADMIN_KITCHEN.toString())
 
 				.requestMatchers(GET, "/order/**").hasRole(USER.toString())
 				.requestMatchers(POST, "/order/**").hasRole(USER.toString())
-				.requestMatchers("/order/**").hasAnyRole(STAFF.toString(), ADMIN.toString())
+				.requestMatchers("/order/**").hasAnyRole(STAFF.toString(), ADMIN_STAFF.toString())
 
-				.requestMatchers("/payment/**").hasAnyRole(STAFF.toString(), USER.toString())
+				.requestMatchers("/payment/**").hasAnyRole(ADMIN.toString(), ADMIN_STAFF.toString(), STAFF.toString(), USER.toString())
 
 				.requestMatchers("/rated/**").hasRole(USER.toString())
 				.requestMatchers(GET, "/rated/**").permitAll()
-				.requestMatchers(DELETE, "/rated/**").hasAnyRole(STAFF.toString())
+				.requestMatchers(DELETE, "/rated/**").hasAnyRole(ADMIN_STAFF.toString(), STAFF.toString())
 
 				.requestMatchers("/report/**").hasRole(ADMIN.toString())
 
-				.requestMatchers("/reservation/byCompany/**").hasRole(ADMIN.toString())
+				.requestMatchers("/reservation/byCompany/**").hasAnyRole(ADMIN.toString(), ADMIN_STAFF.toString())
 				.requestMatchers("/reservation/byUser/**").hasRole(USER.toString())
-				.requestMatchers("/reservation/**").hasAnyRole(STAFF.toString(), USER.toString())
+				.requestMatchers("/reservation/**").hasAnyRole(ADMIN_STAFF.toString(), STAFF.toString(), USER.toString())
 				
 				.requestMatchers("/role/**").hasRole(ADMIN.toString())
 				
-				.requestMatchers(POST, "/service/**").hasRole(ADMIN.toString())
-				.requestMatchers(GET, "/service/**").hasAnyRole(STAFF.toString(), USER.toString())
+				.requestMatchers(POST, "/service/**").hasAnyRole(ADMIN.toString(), ADMIN_STAFF.toString())
+				.requestMatchers(GET, "/service/**").hasAnyRole(ADMIN_STAFF.toString(), STAFF.toString(), USER.toString())
 				
 				.requestMatchers("/type/**").hasRole(ADMIN.toString())
 				
 				.requestMatchers("/user/**").hasRole(USER.toString())
 				
-				.requestMatchers("/warehouse/**").hasRole(ADMIN.toString())
+				.requestMatchers("/warehouse/**").hasAnyRole(ADMIN.toString(), ADMIN_WAREHOUSE.toString())
 				
 				.anyRequest().authenticated());
 		
