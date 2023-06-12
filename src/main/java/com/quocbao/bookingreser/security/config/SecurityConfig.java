@@ -45,43 +45,43 @@ public class SecurityConfig {
 				
 				.requestMatchers("/account/**").permitAll()
 				
-				.requestMatchers("/company/**").hasRole(ADMIN.getPermission())
+				.requestMatchers("/company/**").hasRole(ADMIN.toString())
 
-				.requestMatchers("/employee/**").hasRole(ADMIN.getPermission())
-				.requestMatchers(GET, "/employee/**").hasRole(STAFF.getPermission())
-				.requestMatchers(PUT, "/employee/**").hasRole(STAFF.getPermission())
+				.requestMatchers("/employee/**").hasRole(ADMIN.toString())
+				.requestMatchers(GET, "/employee/**").hasRole(STAFF.toString())
+				.requestMatchers(PUT, "/employee/**").hasRole(STAFF.toString())
 
 				.requestMatchers(GET, "/food/**").permitAll()
-				.requestMatchers("/food/**").hasAnyRole(ADMIN.getPermission(), STAFF.getPermission())
+				.requestMatchers("/food/**").hasAnyRole(ADMIN.toString(), STAFF.toString())
 
-				.requestMatchers("/material/**").hasRole(ADMIN.getPermission())
+				.requestMatchers("/material/**").hasRole(ADMIN.toString())
 
-				.requestMatchers(GET, "/order/**").hasRole(USER.getPermission())
-				.requestMatchers(POST, "/order/**").hasRole(USER.getPermission())
-				.requestMatchers("/order/**").hasAnyRole(STAFF.getPermission(), ADMIN.getPermission())
+				.requestMatchers(GET, "/order/**").hasRole(USER.toString())
+				.requestMatchers(POST, "/order/**").hasRole(USER.toString())
+				.requestMatchers("/order/**").hasAnyRole(STAFF.toString(), ADMIN.toString())
 
-				.requestMatchers("/payment/**").hasAnyRole(STAFF.getPermission(), USER.getPermission())
+				.requestMatchers("/payment/**").hasAnyRole(STAFF.toString(), USER.toString())
 
-				.requestMatchers("/rated/**").hasRole(USER.getPermission())
+				.requestMatchers("/rated/**").hasRole(USER.toString())
 				.requestMatchers(GET, "/rated/**").permitAll()
-				.requestMatchers(DELETE, "/rated/**").hasAnyRole(STAFF.getPermission())
+				.requestMatchers(DELETE, "/rated/**").hasAnyRole(STAFF.toString())
 
-				.requestMatchers("/report/**").hasRole(ADMIN.getPermission())
+				.requestMatchers("/report/**").hasRole(ADMIN.toString())
 
-				.requestMatchers("/reservation/byCompany/**").hasRole(ADMIN.getPermission())
-				.requestMatchers("/reservation/byUser/**").hasRole(USER.getPermission())
-				.requestMatchers("/reservation/**").hasAnyRole(STAFF.getPermission(), USER.getPermission())
+				.requestMatchers("/reservation/byCompany/**").hasRole(ADMIN.toString())
+				.requestMatchers("/reservation/byUser/**").hasRole(USER.toString())
+				.requestMatchers("/reservation/**").hasAnyRole(STAFF.toString(), USER.toString())
 				
-				.requestMatchers("/role/**").hasRole(ADMIN.getPermission())
+				.requestMatchers("/role/**").hasRole(ADMIN.toString())
 				
-				.requestMatchers(POST, "/service/**").hasRole(ADMIN.getPermission())
-				.requestMatchers(GET, "/service/**").hasAnyRole(STAFF.getPermission(), USER.getPermission())
+				.requestMatchers(POST, "/service/**").hasRole(ADMIN.toString())
+				.requestMatchers(GET, "/service/**").hasAnyRole(STAFF.toString(), USER.toString())
 				
-				.requestMatchers("/type/**").hasRole(ADMIN.getPermission())
+				.requestMatchers("/type/**").hasRole(ADMIN.toString())
 				
-				.requestMatchers("/user/**").hasRole(USER.getPermission())
+				.requestMatchers("/user/**").hasRole(USER.toString())
 				
-				.requestMatchers("/warehouse/**").hasRole(ADMIN.getPermission())
+				.requestMatchers("/warehouse/**").hasRole(ADMIN.toString())
 				
 				.anyRequest().authenticated());
 		
