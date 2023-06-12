@@ -22,9 +22,9 @@ public class AccountController {
 	public ResponseEntity<Object> createAccount(@RequestBody AccountRequest accountRequest) {
 		return new ResponseEntity<>(accountService.createAccount(accountRequest), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody AccountRequest accountRequest){
-		return new ResponseEntity<>(accountService.login(accountRequest), HttpStatus.OK); 
+	public ResponseEntity<Object> login(@RequestBody AccountRequest accountRequest) {
+		return new ResponseEntity<>(accountService.login(accountRequest), HttpStatus.OK);
 	}
 }
