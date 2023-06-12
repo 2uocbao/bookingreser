@@ -12,7 +12,7 @@ import com.quocbao.bookingreser.request.AccountRequest;
 import com.quocbao.bookingreser.service.AccountService;
 
 @RestController
-@RequestMapping("/bookingreser/account")
+@RequestMapping("/account")
 public class AccountController {
 
 	@Autowired
