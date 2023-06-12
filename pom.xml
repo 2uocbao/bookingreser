@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.quocbao</groupId>
 	<artifactId>bookingreser</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>bookingreser</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
