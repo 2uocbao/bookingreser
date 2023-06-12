@@ -62,21 +62,19 @@ public class PaymentConfig {
 	public static String hashAllFields(Map fields) {
 		List fieldNames = new ArrayList(fields.keySet());
 		Collections.sort(fieldNames);
-		StringBuilder sb = new StringBuilder();
+		String sb = null;
 		Iterator itr = fieldNames.iterator();
 		while (itr.hasNext()) {
 			String fieldName = (String) itr.next();
 			String fieldValue = (String) fields.get(fieldName);
 			if ((fieldValue != null) && (fieldValue.length() > 0)) {
-				sb.append(fieldName);
-				sb.append("=");
-				sb.append(fieldValue);
+				sb = sb + fieldName + "=" + fieldValue;
 			}
 			if (itr.hasNext()) {
-				sb.append("&");
+				sb = sb + "&";
 			}
 		}
-		return hmacSHA512(vnpHashSecret, sb.toString());
+		return hmacSHA512(vnpHashSecret, sb);
 	}
 
 	public static String hmacSHA512(final String key, final String data) {
