@@ -47,8 +47,7 @@ public class SecurityConfig {
 				
 				.requestMatchers("/account/**").permitAll()
 				
-				.requestMatchers("/company/**").permitAll()
-//				hasRole(ADMIN.toString())
+				.requestMatchers("/company/**").hasRole(ADMIN.toString())
 
 				.requestMatchers("/employee/**").hasAnyRole(ADMIN.toString(), ADMIN_KITCHEN.toString(), ADMIN_STAFF.toString(), ADMIN_WAREHOUSE.toString())
 				.requestMatchers(GET, "/employee/**").hasRole(STAFF.toString())
