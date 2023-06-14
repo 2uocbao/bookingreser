@@ -1,5 +1,16 @@
 package com.quocbao.bookingreser.security.config;
 
+import static com.quocbao.bookingreser.util.Permission.ADMIN;
+import static com.quocbao.bookingreser.util.Permission.ADMIN_KITCHEN;
+import static com.quocbao.bookingreser.util.Permission.ADMIN_STAFF;
+import static com.quocbao.bookingreser.util.Permission.ADMIN_WAREHOUSE;
+import static com.quocbao.bookingreser.util.Permission.STAFF;
+import static com.quocbao.bookingreser.util.Permission.USER;
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,18 +28,6 @@ import com.quocbao.bookingreser.security.CustomLogoutSuccessHandler;
 import com.quocbao.bookingreser.security.jwt.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
-
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
-
-import static com.quocbao.bookingreser.util.Permission.ADMIN;
-import static com.quocbao.bookingreser.util.Permission.ADMIN_WAREHOUSE;
-import static com.quocbao.bookingreser.util.Permission.ADMIN_KITCHEN;
-import static com.quocbao.bookingreser.util.Permission.ADMIN_STAFF;
-import static com.quocbao.bookingreser.util.Permission.STAFF;
-import static com.quocbao.bookingreser.util.Permission.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -89,10 +88,10 @@ public class SecurityConfig {
 				
 				.anyRequest().authenticated());
 		
-//		http.logout(logout -> logout.invalidateHttpSession(true).clearAuthentication(true)
-//				.logoutSuccessHandler(logoutSuccessHandler()));
-//		http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter,
-//				UsernamePasswordAuthenticationFilter.class);
+		http.logout(logout -> logout.invalidateHttpSession(true).clearAuthentication(true)
+				.logoutSuccessHandler(logoutSuccessHandler()));
+		http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter,
+				UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
