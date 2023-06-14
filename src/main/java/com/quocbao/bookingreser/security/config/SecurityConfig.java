@@ -89,10 +89,10 @@ public class SecurityConfig {
 				
 				.anyRequest().authenticated());
 		
-		http.logout(logout -> logout.invalidateHttpSession(true).clearAuthentication(true)
-				.logoutSuccessHandler(logoutSuccessHandler()));
-		http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter,
-				UsernamePasswordAuthenticationFilter.class);
+//		http.logout(logout -> logout.invalidateHttpSession(true).clearAuthentication(true)
+//				.logoutSuccessHandler(logoutSuccessHandler()));
+//		http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter,
+//				UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
