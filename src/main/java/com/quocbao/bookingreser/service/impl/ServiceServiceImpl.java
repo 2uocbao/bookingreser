@@ -34,7 +34,7 @@ public class ServiceServiceImpl implements ServicesService {
 	@Override
 	public void createService(ServiceRequest serviceRequest) {
 		Services services = new Services(serviceRequest, companyRepository.findById(serviceRequest.getCompanyId()));
-		services.setTypes(types(serviceRequest.getType()));
+		services.setTypes(types(serviceRequest.getTypes()));
 		serviceRepository.save(services);
 	}
 
@@ -50,16 +50,15 @@ public class ServiceServiceImpl implements ServicesService {
 		return services.stream().map(this::serviceResponse).toList();
 	}
 
-	public Set<Types> types(List<Long> typeIds) {
+	public Set<Types> types(List<String> typeIds) {
 		Set<Types> types = new HashSet<>();
-		typeIds.stream().forEach(x -> types.add(typeRepository.findById(x)));
+		typeIds.stream().forEach(x -> types.add(typeRepository.findById(Long.parseLong(x))));
 		return types;
 	}
 
 	public ServiceResponse serviceResponse(Services services) {
 		ServiceResponse serviceResponse = new ServiceResponse(services);
-		List<String> strings = services.getTypes().stream().map(Types::getName).toList();
-		serviceResponse.setTypes(strings);
+		serviceResponse.setTypes(services.getTypes().stream().map(Types::getName).toList());
 		return serviceResponse;
 	}
 }
