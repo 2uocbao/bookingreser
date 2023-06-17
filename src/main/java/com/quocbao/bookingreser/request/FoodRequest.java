@@ -10,20 +10,20 @@ import lombok.Getter;
 public class FoodRequest {
 
 	@JsonProperty("companyId")
-	public Long companyId;
+	protected Long companyId;
 
 	@JsonProperty("name")
-	public String name;
+	protected String name;
 
 	@JsonProperty("price")
-	public float price;
+	protected float price;
 
 	@JsonProperty("image")
-	public String image;
+	protected String image;
 
 	@JsonProperty("type")
-	public List<Long> types;
+	protected List<String> types;
 
 	@JsonProperty("foodDetails")
-	public List<FoodDetailRequest> foodDetailRequests;
+	protected List<FoodDetailRequest> foodDetailRequests;
 }
