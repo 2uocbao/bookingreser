@@ -8,5 +8,5 @@ import lombok.Getter;
 public class EmployeeRequest extends UserRequest {
 
 	@JsonProperty("companyId")
-	private Long companyId;
+	protected Long companyId;
 }
