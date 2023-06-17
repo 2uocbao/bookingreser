@@ -10,26 +10,26 @@ import lombok.Getter;
 public class UserRequest {
 
 	@JsonProperty("lastname")
-	private String lastName;
+	protected String lastName;
 
 	@JsonProperty("firstname")
-	private String firstName;
+	protected String firstName;
 
 	@JsonProperty("dateofbirth")
-	private Date dateofBirth;
+	protected Date dateofBirth;
 
 	@JsonProperty("gender")
-	private String gender;
+	protected String gender;
 
 	@JsonProperty("image")
-	private String image;
+	protected String image;
 
 	@JsonProperty("phone")
-	private String phone;
+	protected String phone;
 
 	@JsonProperty("email")
-	private String email;
+	protected String email;
 
 	@JsonProperty("address")
-	private String address;
+	protected String address;
 }
