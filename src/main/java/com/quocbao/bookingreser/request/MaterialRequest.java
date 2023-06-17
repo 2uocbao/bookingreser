@@ -8,17 +8,17 @@ import lombok.Getter;
 public class MaterialRequest {
 
 	@JsonProperty("companyId")
-	public Long companyId;
+	protected Long companyId;
 
 	@JsonProperty("code")
-	public String code;
+	protected String code;
 
 	@JsonProperty("name")
-	public String name;
+	protected String name;
 
 	@JsonProperty("cost")
-	public float cost;
+	protected float cost;
 
 	@JsonProperty("stockend")
-	public float stockEnd;
+	protected float stockEnd;
 }
