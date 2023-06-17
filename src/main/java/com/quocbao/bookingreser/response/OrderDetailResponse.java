@@ -4,20 +4,18 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.OrderDetail;
+import com.quocbao.bookingreser.request.OrderDetailRequest;
 
 import lombok.Setter;
 
 @Setter
-public class OrderDetailResponse {
+public class OrderDetailResponse extends OrderDetailRequest{
 
 	@JsonProperty("order_detail_id")
 	private Long orderDetailId;
 
 	@JsonProperty("food")
 	private String food;
-
-	@JsonProperty("quantity")
-	private float quantity;
 
 	@JsonProperty("price")
 	private float price;
