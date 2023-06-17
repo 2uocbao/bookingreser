@@ -10,20 +10,20 @@ import lombok.Getter;
 public class ReservationRequest {
 
 	@JsonProperty("employeeId")
-	public Long employeeId;
+	protected Long employeeId;
 
 	@JsonProperty("userId")
-	public Long userId;
+	protected Long userId;
 
 	@JsonProperty("serviceId")
-	public Long serviceId;
+	protected Long serviceId;
 
 	@JsonProperty("checkindate")
-	public Timestamp checkinDate;
+	protected Timestamp checkinDate;
 
 	@JsonProperty("note")
-	public String note;
+	protected String note;
 
 	@JsonProperty("deposit")
-	public float deposit;
+	protected float deposit;
 }
