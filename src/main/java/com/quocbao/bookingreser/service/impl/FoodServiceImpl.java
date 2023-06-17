@@ -160,9 +160,9 @@ public class FoodServiceImpl implements FoodService {
 		foodRepository.uColumn(id, Food_.STATUS, status);
 	}
 
-	public Set<Types> types(List<Long> ids) {
+	public Set<Types> types(List<String> ids) {
 		Set<Types> types = new HashSet<>();
-		ids.stream().forEach(x -> types.add(typeRepository.findById(x)));
+		ids.stream().forEach(x -> types.add(typeRepository.findById(Long.parseLong(x))));
 		return types;
 	}
 
