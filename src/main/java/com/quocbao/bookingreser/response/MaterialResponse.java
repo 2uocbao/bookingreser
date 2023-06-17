@@ -4,26 +4,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Material;
+import com.quocbao.bookingreser.request.MaterialRequest;
 
 import lombok.Setter;
 
 @Setter
-public class MaterialResponse {
+public class MaterialResponse extends MaterialRequest{
 
 	@JsonProperty("id")
 	private Long id;
-
-	@JsonProperty("code")
-	public String code;
-
-	@JsonProperty("name")
-	public String name;
-
-	@JsonProperty("cost")
-	public float cost;
-
-	@JsonProperty("stockend")
-	public float stockEnd;
 
 	@JsonProperty("quantity")
 	private float quantity;
