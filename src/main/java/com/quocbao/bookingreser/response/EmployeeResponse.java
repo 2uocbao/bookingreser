@@ -6,17 +6,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Employee;
+import com.quocbao.bookingreser.request.EmployeeRequest;
 
 import lombok.Setter;
 
 @Setter
-public class EmployeeResponse {
+public class EmployeeResponse extends EmployeeRequest{
 
 	@JsonProperty("id")
 	private Long id;
-
-	@JsonProperty("companyId")
-	private Long companyId;
 
 	@JsonProperty("lastname")
 	private String lastName;
