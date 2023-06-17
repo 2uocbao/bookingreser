@@ -8,14 +8,14 @@ import lombok.Getter;
 public class RateRequest {
 
 	@JsonProperty("companyId")
-	public Long companyId;
+	protected Long companyId;
 
 	@JsonProperty("userId")
-	public Long userId;
+	protected Long userId;
 
 	@JsonProperty("point")
-	public int point;
+	protected int point;
 
 	@JsonProperty("comment")
-	public String comment;
+	protected String comment;
 }
