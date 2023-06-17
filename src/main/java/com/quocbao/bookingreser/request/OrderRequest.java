@@ -10,16 +10,16 @@ import lombok.Getter;
 public class OrderRequest {
 
 	@JsonProperty("serviceId")
-	public Long serviceId;
+	protected Long serviceId;
 
 	@JsonProperty("employeeId")
-	public Long employeeId;
+	protected Long employeeId;
 
 	@JsonProperty("userId")
-	public Long userId;
+	protected Long userId;
 
 	@JsonProperty("description")
-	public String description;
+	protected String description;
 
 	@JsonProperty("order_detail")
 	public List<OrderDetailRequest> orderDetailRequests;
