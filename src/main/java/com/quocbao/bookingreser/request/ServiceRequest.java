@@ -5,16 +5,18 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class ServiceRequest {
 
 	@JsonProperty("companyId")
-	private Long companyId;
+	protected Long companyId;
 
 	@JsonProperty("name")
-	private String name;
+	protected String name;
 
 	@JsonProperty("type")
-	private List<Long> type;
+	protected List<String> types;
 }
