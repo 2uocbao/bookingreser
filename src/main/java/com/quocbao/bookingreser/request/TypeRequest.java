@@ -8,8 +8,8 @@ import lombok.Getter;
 public class TypeRequest {
 
 	@JsonProperty("name")
-	public String name;
+	protected String name;
 
 	@JsonProperty("type")
-	public String type;
+	protected String type;
 }
