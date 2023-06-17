@@ -1,41 +1,16 @@
 package com.quocbao.bookingreser.response;
 
-import java.sql.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.User;
+import com.quocbao.bookingreser.request.UserRequest;
 
 import lombok.Setter;
 
 @Setter
-public class UserResponse {
+public class UserResponse extends UserRequest{
 
 	@JsonProperty("id")
 	private Long id;
-
-	@JsonProperty("lastname")
-	private String lastName;
-
-	@JsonProperty("firstname")
-	private String firstName;
-
-	@JsonProperty("dateofbirth")
-	private Date dateofBirth;
-
-	@JsonProperty("gender")
-	private String gender;
-
-	@JsonProperty("image")
-	private String image;
-
-	@JsonProperty("phone")
-	private String phone;
-
-	@JsonProperty("email")
-	private String email;
-
-	@JsonProperty("address")
-	private String address;
 
 	public UserResponse(User user) {
 		this.id = user.getId();
@@ -46,5 +21,6 @@ public class UserResponse {
 		this.phone = user.getPhone();
 		this.gender = user.getGender();
 		this.image = user.getEmail();
+		this.address = user.getAddress();
 	}
 }
