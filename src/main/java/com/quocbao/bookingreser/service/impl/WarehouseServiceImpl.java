@@ -33,7 +33,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public void createWarehouse(WarehouseRequest warehouseRequest) {
 		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id",
-				warehouseRequest.getMaterialId());
+				Long.parseLong(warehouseRequest.getMaterialId()));
 		warehouses.stream().forEach(x -> {
 			// If status of warehouse for material have not success.
 			// New warehouse will not be created for that material
@@ -42,8 +42,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			}
 		});
 		warehouseRepository
-				.save(new Warehouse(warehouseRequest, materialRepository.findById(warehouseRequest.getMaterialId()),
-						employeeRepository.findById(warehouseRequest.getEmployeeId())));
+				.save(new Warehouse(warehouseRequest, materialRepository.findById(Long.parseLong(warehouseRequest.getMaterialId())),
+						employeeRepository.findById(Long.parseLong(warehouseRequest.getEmployeeId()))));
 	}
 
 	@Override
