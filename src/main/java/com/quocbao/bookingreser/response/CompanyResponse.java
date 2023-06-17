@@ -6,32 +6,15 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Types;
+import com.quocbao.bookingreser.request.CompanyRequest;
 
 import lombok.Setter;
 
 @Setter
-public class CompanyResponse {
+public class CompanyResponse extends CompanyRequest{
 
 	@JsonProperty("id")
 	private Long id;
-
-	@JsonProperty("name")
-	private String name;
-
-	@JsonProperty("email")
-	private String email;
-
-	@JsonProperty("phone")
-	private String phone;
-
-	@JsonProperty("image")
-	private String image;
-
-	@JsonProperty("infor")
-	private String infor;
-
-	@JsonProperty("address")
-	private String address;
 
 	@JsonProperty("status")
 	private String status;
