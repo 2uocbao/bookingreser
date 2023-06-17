@@ -10,23 +10,23 @@ import lombok.Getter;
 public class CompanyRequest {
 
 	@JsonProperty("name")
-	private String name;
+	protected String name;
 
 	@JsonProperty("email")
-	private String email;
+	protected String email;
 
 	@JsonProperty("phone")
-	private String phone;
+	protected String phone;
 
 	@JsonProperty("image")
-	private String image;
+	protected String image;
 
 	@JsonProperty("infor")
-	private String infor;
+	protected String infor;
 
 	@JsonProperty("address")
-	private String address;
+	protected String address;
 
 	@JsonProperty("type")
-	private List<Long> types;
+	protected List<Long> types;
 }
