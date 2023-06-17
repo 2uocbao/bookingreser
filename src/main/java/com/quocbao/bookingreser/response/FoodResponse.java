@@ -4,26 +4,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Food;
+import com.quocbao.bookingreser.entity.Types;
+import com.quocbao.bookingreser.request.FoodRequest;
 
 import lombok.Setter;
 
 @Setter
-public class FoodResponse {
+public class FoodResponse extends FoodRequest{
 
 	@JsonProperty("id")
 	private Long id;
-
-	@JsonProperty("companyId")
-	public Long companyId;
-
-	@JsonProperty("name")
-	public String name;
-
-	@JsonProperty("price")
-	public float price;
-
-	@JsonProperty("image")
-	public String image;
 
 	@JsonProperty("status")
 	private String status;
@@ -43,6 +33,7 @@ public class FoodResponse {
 		this.image = food.getImage();
 		this.price = food.getPrice();
 		this.status = food.getStatus();
+		this.types = food.getTypes().stream().map(Types::getName).toList();
 		this.foodDetailResponses = foodDetailResponse.foodDetailResponses(food.getFoodDetails());
 	}
 
