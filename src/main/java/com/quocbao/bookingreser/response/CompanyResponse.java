@@ -19,14 +19,15 @@ public class CompanyResponse extends CompanyRequest{
 	@JsonProperty("status")
 	private String status;
 
-	@JsonProperty("type")
-	private List<String> types;
-
 	@JsonProperty("createdAt")
 	private Timestamp createdAt;
 
 	@JsonProperty("updateAt")
 	private Timestamp updatedAt;
+	
+	public CompanyResponse() {
+		
+	}
 
 	public CompanyResponse(Company company) {
 		this.id = company.getId();
@@ -40,5 +41,9 @@ public class CompanyResponse extends CompanyRequest{
 		this.types = company.getTypes().stream().map(Types::getName).toList();
 		this.createdAt = company.getCreatedAt();
 		this.updatedAt = company.getUpdatedAt();
+	}
+	
+	public List<CompanyResponse> companyResponses(List<Company> companies){
+		return companies.stream().map(CompanyResponse::new).toList();
 	}
 }
