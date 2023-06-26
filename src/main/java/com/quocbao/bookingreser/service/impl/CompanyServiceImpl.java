@@ -17,6 +17,7 @@ import com.quocbao.bookingreser.repository.TypeRepository;
 import com.quocbao.bookingreser.request.CompanyRequest;
 import com.quocbao.bookingreser.response.CompanyResponse;
 import com.quocbao.bookingreser.service.CompanyService;
+import com.quocbao.bookingreser.util.Status;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -58,6 +59,20 @@ public class CompanyServiceImpl implements CompanyService {
 		companyRepository.uColumn(id, Company_.STATUS, status);
 	}
 
+	@Override
+	public List<CompanyResponse> companyByType(String type) {
+		List<Company> companies = companyRepository.search(Company_.STATUS, Status.ON.toString());
+		if (type.equals("ALL")) {
+			return new CompanyResponse().companyResponses(companies);
+		}
+		companies.stream().forEach(x -> x.getTypes().stream().forEach(y -> {
+			if (!y.getName().equals(type)) {
+				companies.remove(x);
+			}
+		}));
+		return new CompanyResponse().companyResponses(companies);
+	}
+
 	public void checkInfor(String email, String phone) {
 		if (companyRepository.findByColumn(Company_.PHONE, phone) != null) {
 			throw new AlreadyExistException("Phone number already exist");
@@ -67,9 +82,9 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 	}
 
-	public Set<Types> types(List<Long> typeIds) {
+	public Set<Types> types(List<String> typeIds) {
 		Set<Types> types = new HashSet<>();
-		typeIds.stream().forEach(x -> types.add(typeRepository.findById(x)));
+		typeIds.stream().forEach(x -> types.add(typeRepository.findById(Long.parseLong(x))));
 		return types;
 	}
 }
