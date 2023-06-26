@@ -44,4 +44,9 @@ public class CompanyController {
 		companyService.uStatusCompany(id, status);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping("/getAll")
+	public ResponseEntity<Object> getAllCompany(@RequestParam("type") String type){
+		return new ResponseEntity<>(companyService.companyByType(type), HttpStatus.OK);
+	}
 }
