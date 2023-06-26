@@ -28,5 +28,5 @@ public class CompanyRequest {
 	protected String address;
 
 	@JsonProperty("type")
-	protected List<Long> types;
+	protected List<String> types;
 }
