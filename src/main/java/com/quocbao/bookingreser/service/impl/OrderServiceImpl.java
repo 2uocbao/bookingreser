@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
@@ -17,7 +18,7 @@ import com.quocbao.bookingreser.entity.metamodel.Food_;
 import com.quocbao.bookingreser.entity.metamodel.OrderDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Order_;
 import com.quocbao.bookingreser.entity.metamodel.Services_;
-import com.quocbao.bookingreser.exception.NotFoundException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.FoodRepository;
 import com.quocbao.bookingreser.repository.MaterialRepository;
@@ -67,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 	public OrderResponse detailOrder(Long id) {
 		Order order = orderRepository.findById(id);
 		if (order == null) {
-			throw new NotFoundException("Order information not found with: " + id.toString());
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "Order information not found");
 		}
 		return new OrderResponse(order);
 	}
