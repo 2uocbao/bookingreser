@@ -3,13 +3,13 @@ package com.quocbao.bookingreser.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.metamodel.Material_;
-import com.quocbao.bookingreser.exception.AlreadyExistException;
-import com.quocbao.bookingreser.exception.NotFoundException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.request.MaterialRequest;
@@ -28,7 +28,7 @@ public class MaterialServiceImpl implements MaterialService {
 	public void createMaterial(MaterialRequest materialRequest) {
 		if (!materialRepository.getAll(Company.class, Material_.COMPANYID, "id", materialRequest.getCompanyId())
 				.stream().filter(x -> x.getCode().contains(materialRequest.getCode())).toList().isEmpty()) {
-			throw new AlreadyExistException("Material already exist with code: " + materialRequest.getCode());
+			throw new BookingreserException(HttpStatus.CONFLICT, "Material already exist with code");
 		}
 		materialRepository
 				.save(new Material(materialRequest, companyRepository.findById(materialRequest.getCompanyId())));
@@ -38,7 +38,7 @@ public class MaterialServiceImpl implements MaterialService {
 	public MaterialResponse detailMaterial(Long id) {
 		Material material = materialRepository.findById(id);
 		if (material == null) {
-			throw new NotFoundException("Material not found with id: " + id.toString());
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "Material not found");
 		}
 		return new MaterialResponse(material);
 	}
