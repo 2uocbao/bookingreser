@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
@@ -13,7 +14,7 @@ import com.quocbao.bookingreser.entity.Food;
 import com.quocbao.bookingreser.entity.FoodDetail;
 import com.quocbao.bookingreser.entity.Types;
 import com.quocbao.bookingreser.entity.metamodel.Food_;
-import com.quocbao.bookingreser.exception.NotFoundException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.FoodDetailRepository;
 import com.quocbao.bookingreser.repository.FoodRepository;
@@ -50,7 +51,7 @@ public class FoodServiceImpl implements FoodService {
 	public FoodResponse detailFood(Long id) {
 		Food food = foodRepository.findById(id);
 		if (food == null) {
-			throw new NotFoundException("Food not found with: " + id.toString());
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "Food not found");
 		}
 		return new FoodResponse(food);
 	}
