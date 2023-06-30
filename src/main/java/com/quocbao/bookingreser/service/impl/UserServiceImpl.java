@@ -1,10 +1,11 @@
 package com.quocbao.bookingreser.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.User;
-import com.quocbao.bookingreser.exception.NotFoundException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.UserRequest;
 import com.quocbao.bookingreser.service.UserService;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 	public User detailUser(Long id) {
 		User user = userRepository.findById(id);
 		if (user != null) {
-			throw new NotFoundException("User not found with: " + id.toString());
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "User not found");
 		}
 		return user;
 	}
