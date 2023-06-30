@@ -2,6 +2,7 @@ package com.quocbao.bookingreser.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.quocbao.bookingreser.exception.AlreadyExistException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.service.AccountService;
 
 @Component
@@ -29,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(),
 					userDetails.getAuthorities());
 		} else {
-			throw new AlreadyExistException("Invalid username or password");
+			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Username or password don't correct");
 		}
 	}
 
