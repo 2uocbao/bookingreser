@@ -3,6 +3,7 @@ package com.quocbao.bookingreser.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
@@ -10,7 +11,7 @@ import com.quocbao.bookingreser.entity.Employee;
 import com.quocbao.bookingreser.entity.Reservation;
 import com.quocbao.bookingreser.entity.User;
 import com.quocbao.bookingreser.entity.metamodel.Reservation_;
-import com.quocbao.bookingreser.exception.NotFoundException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.ReservationRepository;
 import com.quocbao.bookingreser.repository.ServicesRepository;
@@ -55,7 +56,7 @@ public class ReservationServiceImpl implements ReservationService {
 	public Reservation detailReservation(Long id) {
 		Reservation reservation = reservationRepository.findById(id);
 		if (reservation != null) {
-			throw new NotFoundException("Reservation not found with: " + id.toString());
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "Reservation not found");
 		}
 		return reservation;
 	}
