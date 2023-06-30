@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Types;
 import com.quocbao.bookingreser.entity.metamodel.Company_;
-import com.quocbao.bookingreser.exception.AlreadyExistException;
-import com.quocbao.bookingreser.exception.NotFoundException;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.TypeRepository;
 import com.quocbao.bookingreser.request.CompanyRequest;
@@ -39,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public CompanyResponse detailCompany(Long id) {
 		Company company = companyRepository.findById(id);
 		if (company == null) {
-			throw new NotFoundException("The company info is not available: " + id);
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "The company info is not found");
 		}
 		return new CompanyResponse(company);
 	}
@@ -75,10 +75,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 	public void checkInfor(String email, String phone) {
 		if (companyRepository.findByColumn(Company_.PHONE, phone) != null) {
-			throw new AlreadyExistException("Phone number already exist");
+			throw new BookingreserException(HttpStatus.CONFLICT, "Phone number already exist");
 		}
 		if (companyRepository.findByColumn(Company_.EMAIL, email) != null) {
-			throw new AlreadyExistException("Email already exist");
+			throw new BookingreserException(HttpStatus.CONFLICT, "Email already exist");
 		}
 	}
 
