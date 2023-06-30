@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.AccountRequest;
 import com.quocbao.bookingreser.service.AccountService;
 
@@ -19,12 +20,12 @@ public class AccountController {
 	AccountService accountService;
 
 	@PostMapping("/create")
-	public ResponseEntity<Object> createAccount(@RequestBody AccountRequest accountRequest) {
-		return new ResponseEntity<>(accountService.createAccount(accountRequest), HttpStatus.OK);
+	public ResponseEntity<DataResponse> createAccount(@RequestBody AccountRequest accountRequest) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, accountService.createAccount(accountRequest)), HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody AccountRequest accountRequest) {
-		return new ResponseEntity<>(accountService.login(accountRequest), HttpStatus.OK);
+	public ResponseEntity<DataResponse> login(@RequestBody AccountRequest accountRequest) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, accountService.login(accountRequest)), HttpStatus.OK);
 	}
 }
