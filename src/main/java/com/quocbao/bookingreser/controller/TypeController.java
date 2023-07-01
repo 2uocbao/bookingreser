@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.TypeRequest;
 import com.quocbao.bookingreser.service.TypeService;
 
@@ -21,13 +22,13 @@ public class TypeController {
 	TypeService typeService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createType(@RequestBody TypeRequest typeRequest) {
+	ResponseEntity<DataResponse> createType(@RequestBody TypeRequest typeRequest) {
 		typeService.addType(typeRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/")
-	ResponseEntity<Object> types(@RequestParam("type") String type) {
-		return new ResponseEntity<>(typeService.types(type), HttpStatus.OK);
+	ResponseEntity<DataResponse> types(@RequestParam("type") String type) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, typeService.types(type)), HttpStatus.OK);
 	}
 }
