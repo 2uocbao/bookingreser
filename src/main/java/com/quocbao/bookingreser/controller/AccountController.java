@@ -21,11 +21,13 @@ public class AccountController {
 
 	@PostMapping("/create")
 	public ResponseEntity<DataResponse> createAccount(@RequestBody AccountRequest accountRequest) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, accountService.createAccount(accountRequest)), HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, accountService.createAccount(accountRequest)),
+				HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<DataResponse> login(@RequestBody AccountRequest accountRequest) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, accountService.login(accountRequest)), HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, accountService.login(accountRequest)),
+				HttpStatus.OK);
 	}
 }
