@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.service.OrderService;
 
@@ -23,41 +24,43 @@ public class OrderController {
 	OrderService orderService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createOrder(@RequestBody OrderRequest orderRequest) {
+	ResponseEntity<DataResponse> createOrder(@RequestBody OrderRequest orderRequest) {
 		orderService.createOrder(orderRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Object> detailOrder(@PathVariable Long id) {
-		return new ResponseEntity<>(orderService.detailOrder(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> detailOrder(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, orderService.detailOrder(id)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody OrderRequest orderRequest) {
+	ResponseEntity<DataResponse> updateOrder(@PathVariable Long id, @RequestBody OrderRequest orderRequest) {
 		orderService.updateOrder(id, orderRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}/pay")
-	ResponseEntity<Object> payOrder(@PathVariable Long id) {
-		return new ResponseEntity<>(orderService.payOrder(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> payOrder(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, orderService.payOrder(id)), HttpStatus.OK);
 	}
 
 	@GetMapping("/{companyId}/byCompany")
-	ResponseEntity<Object> listByCompanyId(@PathVariable Long companyId) {
-		return new ResponseEntity<>(orderService.listOrderByCompanyId(companyId), HttpStatus.OK);
+	ResponseEntity<DataResponse> listByCompanyId(@PathVariable Long companyId) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, orderService.listOrderByCompanyId(companyId)),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}/byUser")
-	ResponseEntity<Object> listByUserId(@PathVariable Long userId) {
-		return new ResponseEntity<>(orderService.listOrderByUserId(userId), HttpStatus.OK);
+	ResponseEntity<DataResponse> listByUserId(@PathVariable Long userId) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, orderService.listOrderByUserId(userId)),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/{orderDetailId}/orderDetail")
-	ResponseEntity<Object> updateStatusOrderDetail(@PathVariable Long orderDetailId,
+	ResponseEntity<DataResponse> updateStatusOrderDetail(@PathVariable Long orderDetailId,
 			@RequestParam("status") String status) {
 		orderService.uStatusOrderDetails(orderDetailId, status);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 }
