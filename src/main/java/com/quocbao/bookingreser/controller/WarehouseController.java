@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.WarehouseRequest;
 import com.quocbao.bookingreser.service.WarehouseService;
 
@@ -25,31 +26,34 @@ public class WarehouseController {
 	WarehouseService warehouseService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createWarehouse(@RequestBody WarehouseRequest warehouseRequest) {
+	ResponseEntity<DataResponse> createWarehouse(@RequestBody WarehouseRequest warehouseRequest) {
 		warehouseService.createWarehouse(warehouseRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Object> detailWarehouse(@PathVariable Long id) {
-		return new ResponseEntity<>(warehouseService.detailWarehouse(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> detailWarehouse(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, warehouseService.detailWarehouse(id)),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateWarehouse(@PathVariable Long id, @RequestBody WarehouseRequest warehouseRequest) {
+	ResponseEntity<DataResponse> updateWarehouse(@PathVariable Long id,
+			@RequestBody WarehouseRequest warehouseRequest) {
 		warehouseService.updateWarehouse(id, warehouseRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	ResponseEntity<Object> updateStatus(@PathVariable Long id, @RequestParam("status") String status) {
+	ResponseEntity<DataResponse> updateStatus(@PathVariable Long id, @RequestParam("status") String status) {
 		warehouseService.updateStatus(id, status);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}/list")
-	ResponseEntity<Object> listWarehouse(@PathVariable Long id, @RequestParam("start") LocalDate start,
+	ResponseEntity<DataResponse> listWarehouse(@PathVariable Long id, @RequestParam("start") LocalDate start,
 			@RequestParam("end") LocalDate end) {
-		return new ResponseEntity<>(warehouseService.warehouses(id, start, end), HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, warehouseService.warehouses(id, start, end)),
+				HttpStatus.OK);
 	}
 }
