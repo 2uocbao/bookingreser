@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.CompanyRequest;
 import com.quocbao.bookingreser.service.CompanyService;
 
@@ -23,30 +24,31 @@ public class CompanyController {
 	CompanyService companyService;
 
 	@PostMapping("/create")
-	public ResponseEntity<Object> createCompany(@RequestBody CompanyRequest companyRequest) {
+	public ResponseEntity<DataResponse> createCompany(@RequestBody CompanyRequest companyRequest) {
 		companyService.createCompany(companyRequest);
-		return new ResponseEntity<>("Success", HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/detail/{id}")
-	public ResponseEntity<Object> detailCompany(@PathVariable Long id) {
-		return new ResponseEntity<>(companyService.detailCompany(id), HttpStatus.OK);
+	public ResponseEntity<DataResponse> detailCompany(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, companyService.detailCompany(id)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	public ResponseEntity<Object> updateCompany(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+	public ResponseEntity<DataResponse> updateCompany(@PathVariable Long id,
+			@RequestBody CompanyRequest companyRequest) {
 		companyService.updateCompany(id, companyRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
+	public ResponseEntity<DataResponse> uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
 		companyService.uStatusCompany(id, status);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getAll")
-	public ResponseEntity<Object> getAllCompany(@RequestParam("type") String type){
-		return new ResponseEntity<>(companyService.companyByType(type), HttpStatus.OK);
+	public ResponseEntity<DataResponse> getAllCompany(@RequestParam("type") String type) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, companyService.companyByType(type)), HttpStatus.OK);
 	}
 }
