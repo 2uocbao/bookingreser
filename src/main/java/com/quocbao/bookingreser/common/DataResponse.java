@@ -6,7 +6,7 @@ public class DataResponse {
 
 	private HttpStatus status;
 	private Object data;
-	
+
 	public DataResponse(HttpStatus status) {
 		this.status = status;
 	}
