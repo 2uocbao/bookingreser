@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.UserRequest;
 import com.quocbao.bookingreser.service.UserService;
 
@@ -23,25 +24,25 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createUser(@RequestBody UserRequest userRequest) {
+	ResponseEntity<DataResponse> createUser(@RequestBody UserRequest userRequest) {
 		userService.createUser(userRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Object> detailUser(@PathVariable Long id) {
-		return new ResponseEntity<>(userService.detailUser(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> detailUser(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, userService.detailUser(id)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody UserRequest empUserRequest) {
+	ResponseEntity<DataResponse> updateUser(@PathVariable Long id, @RequestBody UserRequest empUserRequest) {
 		userService.updateUser(id, empUserRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}/removeUser")
 	ResponseEntity<Object> removeUser(@PathVariable Long id) {
 		userService.deleteUser(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 }
