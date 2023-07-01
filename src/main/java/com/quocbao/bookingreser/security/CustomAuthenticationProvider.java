@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +21,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private AccountService accountService;
 
 	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) {
 		String username = authentication.getName();
 		String password = authentication.getCredentials().toString();
 		UserDetails userDetails = accountService.loadUserByUsername(username);
