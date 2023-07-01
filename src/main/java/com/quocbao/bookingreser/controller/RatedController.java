@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.RateRequest;
 import com.quocbao.bookingreser.service.RatedService;
 
@@ -23,30 +24,31 @@ public class RatedController {
 	RatedService ratedService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createRated(@RequestBody RateRequest rateRequest) {
+	ResponseEntity<DataResponse> createRated(@RequestBody RateRequest rateRequest) {
 		ratedService.createRated(rateRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Object> detailRated(@PathVariable Long id) {
-		return new ResponseEntity<>(ratedService.detailRated(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> detailRated(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, ratedService.detailRated(id)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateRated(@PathVariable Long id, @RequestBody RateRequest rateRequest) {
+	ResponseEntity<DataResponse> updateRated(@PathVariable Long id, @RequestBody RateRequest rateRequest) {
 		ratedService.updateRated(id, rateRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}/remove")
-	ResponseEntity<Object> removeRated(@PathVariable Long id) {
+	ResponseEntity<DataResponse> removeRated(@PathVariable Long id) {
 		ratedService.deleteRated(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{companyId}")
-	ResponseEntity<Object> listByCompany(@PathVariable Long companyId) {
-		return new ResponseEntity<>(ratedService.listRatedByCompanyId(companyId), HttpStatus.OK);
+	ResponseEntity<DataResponse> listByCompany(@PathVariable Long companyId) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, ratedService.listRatedByCompanyId(companyId)),
+				HttpStatus.OK);
 	}
 }
