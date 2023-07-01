@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.service.ReportService;
 
 @RestController
@@ -21,26 +22,33 @@ public class ReportController {
 	ReportService reportService;
 
 	@GetMapping("/reportCompany/{companyId}")
-	public ResponseEntity<Object> reportCompany(@PathVariable Long companyId, @RequestParam("start") LocalDate start,
-			@RequestParam("end") LocalDate end) {
-		return new ResponseEntity<>(reportService.reportByTime(start, end, "company", companyId), HttpStatus.OK);
+	public ResponseEntity<DataResponse> reportCompany(@PathVariable Long companyId,
+			@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
+		return new ResponseEntity<>(
+				new DataResponse(HttpStatus.OK, reportService.reportByTime(start, end, "company", companyId)),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/reportEmployee/{employeeId}")
-	public ResponseEntity<Object> reportEmployee(@PathVariable Long employeeId, @RequestParam("start") LocalDate start,
-			@RequestParam("end") LocalDate end) {
-		return new ResponseEntity<>(reportService.reportByTime(start, end, "employee", employeeId), HttpStatus.OK);
+	public ResponseEntity<DataResponse> reportEmployee(@PathVariable Long employeeId,
+			@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
+		return new ResponseEntity<>(
+				new DataResponse(HttpStatus.OK, reportService.reportByTime(start, end, "employee", employeeId)),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/reportFood/{foodId}")
-	public ResponseEntity<Object> reportFood(@PathVariable Long foodId, @RequestParam("start") LocalDate start,
+	public ResponseEntity<DataResponse> reportFood(@PathVariable Long foodId, @RequestParam("start") LocalDate start,
 			@RequestParam("end") LocalDate end) {
-		return new ResponseEntity<>(reportService.reportByTime(start, end, "food", foodId), HttpStatus.OK);
+		return new ResponseEntity<>(
+				new DataResponse(HttpStatus.OK, reportService.reportByTime(start, end, "food", foodId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/reportMaterial/{materialId}")
-	public ResponseEntity<Object> reportMaterial(@PathVariable Long materialId, @RequestParam("start") LocalDate start,
-			@RequestParam("end") LocalDate end) {
-		return new ResponseEntity<>(reportService.reportByTime(start, end, "material", materialId), HttpStatus.OK);
+	public ResponseEntity<DataResponse> reportMaterial(@PathVariable Long materialId,
+			@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
+		return new ResponseEntity<>(
+				new DataResponse(HttpStatus.OK, reportService.reportByTime(start, end, "material", materialId)),
+				HttpStatus.OK);
 	}
 }
