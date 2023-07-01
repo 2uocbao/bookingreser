@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.ReservationRequest;
 import com.quocbao.bookingreser.service.ReservationService;
 
@@ -22,30 +23,33 @@ public class ReservationController {
 	ReservationService reservationService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createReservation(@RequestBody ReservationRequest reservationRequest) {
+	ResponseEntity<DataResponse> createReservation(@RequestBody ReservationRequest reservationRequest) {
 		reservationService.createReservation(reservationRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Object> detailReservation(@PathVariable Long id) {
-		return new ResponseEntity<>(reservationService.detailReservation(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> detailReservation(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, reservationService.detailReservation(id)),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateReservation(@PathVariable Long id,
+	ResponseEntity<DataResponse> updateReservation(@PathVariable Long id,
 			@RequestBody ReservationRequest reservationRequest) {
 		reservationService.updateReservation(id, reservationRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/byCompany/{companyId}")
-	ResponseEntity<Object> getByCompany(@PathVariable Long companyId) {
-		return new ResponseEntity<>(reservationService.listReservationByCompany(companyId), HttpStatus.OK);
+	ResponseEntity<DataResponse> getByCompany(@PathVariable Long companyId) {
+		return new ResponseEntity<>(
+				new DataResponse(HttpStatus.OK, reservationService.listReservationByCompany(companyId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/byUser/{userId}")
-	ResponseEntity<Object> getByUser(@PathVariable Long userId) {
-		return new ResponseEntity<>(reservationService.listReservationByUserId(userId), HttpStatus.OK);
+	ResponseEntity<DataResponse> getByUser(@PathVariable Long userId) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, reservationService.listReservationByUserId(userId)),
+				HttpStatus.OK);
 	}
 }
