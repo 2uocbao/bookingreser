@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.common.PaymentConfig;
 
 @RestController
@@ -88,7 +89,7 @@ public class PaymentController {
 	}
 
 	@GetMapping("/success")
-	public ResponseEntity<Object> successPayment() {
-		return new ResponseEntity<>("success", HttpStatus.OK);
+	public ResponseEntity<DataResponse> successPayment() {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 }
