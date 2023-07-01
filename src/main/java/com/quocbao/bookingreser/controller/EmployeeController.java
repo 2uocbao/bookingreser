@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.EmployeeRequest;
 import com.quocbao.bookingreser.service.EmployeeService;
 
@@ -23,30 +24,31 @@ public class EmployeeController {
 	EmployeeService employeeService;
 
 	@PostMapping("/create")
-	ResponseEntity<Object> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
+	ResponseEntity<DataResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
 		employeeService.createEmployee(employeeRequest.getCompanyId(), employeeRequest);
-		return new ResponseEntity<>("Create employee success", HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Object> detailEmployee(@PathVariable Long id) {
-		return new ResponseEntity<>(employeeService.detailEmployee(id), HttpStatus.OK);
+	ResponseEntity<DataResponse> detailEmployee(@PathVariable Long id) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, employeeService.detailEmployee(id)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<Object> updateEmployee(@PathVariable Long id,@RequestBody EmployeeRequest employeeRequest) {
+	ResponseEntity<DataResponse> updateEmployee(@PathVariable Long id, @RequestBody EmployeeRequest employeeRequest) {
 		employeeService.updateEmployee(id, employeeRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{companyId}/byCompany")
-	ResponseEntity<Object> allEmployeeByCompany(@PathVariable Long companyId) {
-		return new ResponseEntity<>(employeeService.listEmployeeByCompanyId(companyId), HttpStatus.OK);
+	ResponseEntity<DataResponse> allEmployeeByCompany(@PathVariable Long companyId) {
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, employeeService.listEmployeeByCompanyId(companyId)),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/")
-	ResponseEntity<Object> kpa(@RequestParam("phone") String phone) {
+	ResponseEntity<DataResponse> kpa(@RequestParam("phone") String phone) {
 		employeeService.updateKPA(phone);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 }
