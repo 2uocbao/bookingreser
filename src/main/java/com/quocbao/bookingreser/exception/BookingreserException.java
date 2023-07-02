@@ -2,34 +2,21 @@ package com.quocbao.bookingreser.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class BookingreserException extends RuntimeException{
-	
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class BookingreserException extends RuntimeException {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private HttpStatus httpStatus;
-	private String errorMessage;
 
-	public BookingreserException(HttpStatus httpStatus, String errorMessage) {
-		this.httpStatus = httpStatus;
-		this.errorMessage = errorMessage;
-	}
+	public HttpStatus httpStatus;
 
-	public HttpStatus getHttpStatus() {
-		return httpStatus;
-	}
-
-	public void setHttpStatus(HttpStatus httpStatus) {
-		this.httpStatus = httpStatus;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+	public String message;
 }
