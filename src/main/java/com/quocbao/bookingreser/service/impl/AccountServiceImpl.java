@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	public AccountResponse createAccount(AccountRequest accountRequest) {
 		Account account = new Account(accountRequest);
 		if (accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername()) != null) {
-			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Username already exist!!!");
+			throw new BookingreserException(HttpStatus.CONFLICT, "Username already exist!!!");
 		}
 		account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
 		account.setRoles(roles(accountRequest.getRoles()));
@@ -54,7 +54,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	@Override
 	public AccountResponse login(AccountRequest accountRequest) {
 		Account account = accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername());
-		if(account == null) {
+		if (account == null) {
 			throw new BookingreserException(HttpStatus.NOT_FOUND, "Username or password incorrect");
 		}
 		String accessToken = jwtTokenProvider.generateToken(account);
