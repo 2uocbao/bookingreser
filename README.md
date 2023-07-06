@@ -13,8 +13,8 @@ It includes the api handler for businessman managing his shop and users view all
 Project is created with:
 * Hibernate: 6.2
 * Java: jdk-19
-* JPA (Java Persistence API) : 3.1.1
-* JWT (JSON Web Token)
+* JPA (Java Persistence API): 3.1.1
+* JWT (JSON Web Token): 0.11.5
 * Maven: 4.0.0
 * MySQL
 * Spring boot: 3.1.1
