@@ -11,13 +11,13 @@ This project write Java RESTful Web Services API. This project forcuses on servi
 It includes the api handler for businessman managing his shop and users view all stores and services.
 ## Technologies
 Project is created with:
-* Hibernate: 6.2
+* Hibernate: 6.2.0
 * Java: jdk-19
 * JPA (Java Persistence API): 3.1.1
 * JWT (JSON Web Token): 0.11.5
-* Maven: 4.0.0
-* MySQL
+* Maven: 3.2.4
+* MySQL: 8.0.28
 * Spring boot: 3.1.1
-* Spring security: 6
+* Spring security: 6.1.1
 ## Setup
 $ git clone https://github.com/2uocbao/bookingreser.git
