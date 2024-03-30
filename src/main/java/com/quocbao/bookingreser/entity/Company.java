@@ -2,7 +2,6 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.quocbao.bookingreser.request.CompanyRequest;
 import com.quocbao.bookingreser.util.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,9 +19,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -59,9 +59,6 @@ public class Company implements Serializable {
 	@Column(name = "infor")
 	private String infor;
 
-	@Column(name = "address")
-	private String address;
-
 	@Column(name = "status")
 	private String status;
 
@@ -76,9 +73,12 @@ public class Company implements Serializable {
 	private Timestamp updatedAt;
 
 	// relationship
-
 	@OneToMany(mappedBy = "company")
 	private Set<Employee> employees;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	private Address address;
 
 	@OneToMany(mappedBy = "company")
 	private Set<Services> services;
@@ -89,29 +89,21 @@ public class Company implements Serializable {
 	@OneToMany(mappedBy = "company")
 	private Set<Food> foods;
 
-	@OneToMany(mappedBy = "company")
-	private Set<Reservation> reservations;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "type_shared", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
-	private Set<Types> types = new HashSet<>();
-
 	public Company(CompanyRequest companyRequest) {
 		this.name = companyRequest.getName();
+		this.address = new Address(companyRequest.getAddressRequest());
 		this.email = companyRequest.getEmail();
 		this.phone = companyRequest.getPhone();
 		this.image = companyRequest.getImage();
 		this.infor = companyRequest.getInfor();
-		this.address = companyRequest.getAddress();
 		this.status = Status.OFF.toString();
 	}
 
-	public void sompany(CompanyRequest companyRequest) {
+	public void company(CompanyRequest companyRequest) {
 		this.name = companyRequest.getName();
 		this.email = companyRequest.getEmail();
 		this.phone = companyRequest.getPhone();
 		this.image = companyRequest.getImage();
 		this.infor = companyRequest.getInfor();
-		this.address = companyRequest.getAddress();
 	}
 }
