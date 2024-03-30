@@ -25,8 +25,5 @@ public class CompanyRequest {
 	protected String infor;
 
 	@JsonProperty("address")
-	protected String address;
-
-	@JsonProperty("type")
-	protected List<String> types;
+	protected AddressRequest addressRequest;
 }
