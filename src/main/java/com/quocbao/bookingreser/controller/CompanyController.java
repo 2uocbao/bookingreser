@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +25,9 @@ public class CompanyController {
 	CompanyService companyService;
 
 	@PostMapping("/create")
-	public ResponseEntity<DataResponse> createCompany(@RequestBody CompanyRequest companyRequest) {
-		companyService.createCompany(companyRequest);
+	public ResponseEntity<DataResponse> createCompany(@RequestBody CompanyRequest companyRequest, @RequestHeader("Authorization") String authorization) {
+		String token = authorization.replace("Bearer ", "");
+		companyService.createCompany(companyRequest, token);
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
@@ -45,5 +47,10 @@ public class CompanyController {
 	public ResponseEntity<DataResponse> uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
 		companyService.uStatusCompany(id, status);
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
+	}
+	
+	@GetMapping("/")
+	public ResponseEntity<DataResponse> listCompanyByAddress(){
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, companyService.listCompanyByAddress("Tp Ho Chi Minh")), HttpStatus.OK);
 	}
 }

@@ -1,15 +1,15 @@
 package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.ReservationRequest;
+import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,9 +18,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -46,21 +43,21 @@ public class Reservation implements Serializable {
 
 	@Column(name = "checkin_date")
 	private Timestamp checkinDate;
-
-	@Column(name = "note")
-	private String note;
-
-	@Column(name = "deposit")
-	private float deposit;
+	
+	@Column(name = "status")
+	private String status;
+	
+	@Column(name = "checkin_time")
+	private Time checkinTime;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at")
+	@Column(name = "create_at")
 	private Timestamp createdAt;
 
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_at")
+	@Column(name = "update_at")
 	private Timestamp updatedAt;
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -75,30 +72,24 @@ public class Reservation implements Serializable {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "company_id", nullable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "reservation_type", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
-	private Set<Types> types = new HashSet<>();
-
-	public Reservation(ReservationRequest reservationRequest, Company company, Employee employee, Services service,
-			User user) {
-		this.company = company;
-		this.employee = employee;
+	
+	public Reservation(ReservationRequest reservationRequest, Services service,
+			User user, Company company) {
 		this.user = user;
 		this.service = service;
+		this.company = company;
 		this.checkinDate = reservationRequest.getCheckinDate();
-		this.note = reservationRequest.getNote();
-		this.deposit = reservationRequest.getDeposit();
+		this.checkinTime = reservationRequest.getCheckinTime();
+		this.status = Status.UNCONFIRMED.toString();
 	}
 
 	public void setReservation(ReservationRequest reservationRequest, Employee employee, Services service) {
 		this.employee = employee;
 		this.service = service;
 		this.checkinDate = reservationRequest.getCheckinDate();
-		this.note = reservationRequest.getNote();
-		this.deposit = reservationRequest.getDeposit();
+		this.checkinTime = reservationRequest.getCheckinTime();
 	}
 }

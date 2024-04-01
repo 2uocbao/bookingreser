@@ -69,7 +69,6 @@ public class Warehouse implements Serializable {
 	private Timestamp updatedAt;
 
 	// relationship
-
 	@OneToOne
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
@@ -85,7 +84,7 @@ public class Warehouse implements Serializable {
 		this.vat = warehouseRequest.getVat();
 		this.quantity = warehouseRequest.getQuantity();
 		this.totalAmount = (cost * quantity * vat) + (cost * quantity);
-		this.status = Status.UNCONFIMRED.toString();
+		this.status = Status.UNCONFIRMED.toString();
 		this.unit = warehouseRequest.getUnit();
 	}
 

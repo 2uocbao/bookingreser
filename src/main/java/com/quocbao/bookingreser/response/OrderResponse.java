@@ -14,9 +14,12 @@ public class OrderResponse extends OrderRequest{
 
 	@JsonProperty("id")
 	private Long id;
-
-	@JsonProperty("companyId")
-	private Long companyId;
+	
+	@JsonProperty("employee")
+	private EmployeeResponse employeeResponse;
+	
+	@JsonProperty("table")
+	private ServiceResponse serviceResponse;
 
 	@JsonProperty("total_amount")
 	private float totalAmount;
@@ -38,18 +41,14 @@ public class OrderResponse extends OrderRequest{
 	}
 
 	public OrderResponse(Order order) {
-		OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
 		this.id = order.getId();
-		this.companyId = order.getCompany().getId();
-		this.employeeId = order.getEmployee().getId();
-		this.userId = order.getUser() == null ? null : order.getUser().getId();
-		this.serviceId = order.getService().getId();
-		this.description = order.getDescription();
+		this.employeeResponse = new EmployeeResponse(order.getEmployee());
+		this.serviceResponse = new ServiceResponse(order.getService());
 		this.totalAmount = order.getTotalAmount();
 		this.status = order.getStatus();
 		this.createdAt = order.getCreatedAt();
 		this.updatedAt = order.getUpdatedAt();
-		this.orderDetailResponses = orderDetailResponse.orderDetailResponses(order.getOrderDetails());
+		this.orderDetailResponses = new OrderDetailResponse().orderDetailResponses(order.getOrderDetails());
 	}
 
 	public List<OrderResponse> orderResponses(List<Order> orders) {

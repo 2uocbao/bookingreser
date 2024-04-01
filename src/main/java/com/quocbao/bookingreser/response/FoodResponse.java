@@ -5,15 +5,26 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Food;
 import com.quocbao.bookingreser.entity.Types;
-import com.quocbao.bookingreser.request.FoodRequest;
 
 import lombok.Setter;
 
 @Setter
-public class FoodResponse extends FoodRequest{
+public class FoodResponse {
 
 	@JsonProperty("id")
 	private Long id;
+	
+	@JsonProperty("name")
+	protected String name;
+
+	@JsonProperty("price")
+	protected float price;
+
+	@JsonProperty("image")
+	protected String image;
+
+	@JsonProperty("type")
+	protected List<String> types;
 
 	@JsonProperty("status")
 	private String status;
@@ -26,15 +37,13 @@ public class FoodResponse extends FoodRequest{
 	}
 
 	public FoodResponse(Food food) {
-		FoodDetailResponse foodDetailResponse = new FoodDetailResponse();
-		this.companyId = food.getCompany().getId();
 		this.id = food.getId();
 		this.name = food.getName();
 		this.image = food.getImage();
 		this.price = food.getPrice();
 		this.status = food.getStatus();
 		this.types = food.getTypes().stream().map(Types::getName).toList();
-		this.foodDetailResponses = foodDetailResponse.foodDetailResponses(food.getFoodDetails());
+		this.foodDetailResponses = new FoodDetailResponse().foodDetailResponses(food.getFoodDetails());
 	}
 
 	public List<FoodResponse> foodResponses(List<Food> foods) {

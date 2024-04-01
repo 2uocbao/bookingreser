@@ -25,7 +25,6 @@ import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.repository.OrderDetailRepository;
 import com.quocbao.bookingreser.repository.OrderRepository;
 import com.quocbao.bookingreser.repository.ServicesRepository;
-import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.OrderRequest;
 import com.quocbao.bookingreser.response.OrderDetailResponse;
 import com.quocbao.bookingreser.response.OrderResponse;
@@ -44,8 +43,6 @@ public class OrderServiceImpl implements OrderService {
 	private EmployeeRepository employeeRepository;
 	@Autowired
 	private ServicesRepository serviceRepository;
-	@Autowired
-	private UserRepository userRepository;
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 	@Autowired
@@ -76,10 +73,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void updateOrder(Long id, OrderRequest orderRequest) {
 		Order order = orderRepository.findById(id);
-		order.setDescription(orderRequest.getDescription());
-		if (orderRequest.getUserId() != null) {
-			order.setUser(userRepository.findById(orderRequest.getUserId()));
-		}
+//		order.setDescription(orderRequest.getDescription());
+//		if (orderRequest.getUserId() != null) {
+//			order.setUser(userRepository.findById(orderRequest.getUserId()));
+//		}
 		orderRepository.update(order);
 
 		// Retrieve a list of existing order details
@@ -160,12 +157,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderResponse> listOrderByCompanyId(Long companyId) {
 		return new OrderResponse()
-				.orderResponses(orderRepository.getAll(Company.class, Order_.COMPANYID, "id", companyId));
+				.orderResponses(orderRepository.getAll(Company.class, Order_.COMPANYID, "id", companyId.toString()));
 	}
 
 	@Override
 	public List<OrderResponse> listOrderByUserId(Long userId) {
-		return new OrderResponse().orderResponses(orderRepository.getAll(User.class, Order_.USERID, "id", userId));
+		return new OrderResponse().orderResponses(orderRepository.getAll(User.class, Order_.USERID, "id", userId.toString()));
 	}
 
 	@Override

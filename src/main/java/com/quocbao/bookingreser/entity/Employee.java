@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.EmployeeRequest;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,6 +21,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -63,9 +65,6 @@ public class Employee implements Serializable {
 	@Column(name = "email")
 	private String email;
 
-	@Column(name = "address")
-	private String address;
-
 	@Column(name = "kpa")
 	private int kpa;
 
@@ -87,6 +86,10 @@ public class Employee implements Serializable {
 
 	@OneToMany(mappedBy = "employee")
 	private Set<Warehouse> warehouse;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	private Address address;
 
 	public Employee(EmployeeRequest employeeRequest, Company company) {
 		this.company = company;
@@ -95,9 +98,8 @@ public class Employee implements Serializable {
 		this.dateofBirth = employeeRequest.getDateofBirth();
 		this.gender = employeeRequest.getGender();
 		this.image = employeeRequest.getImage();
-		this.phone = employeeRequest.getPhone();
 		this.email = employeeRequest.getEmail();
-		this.address = employeeRequest.getAddress();
+		this.address = new Address(employeeRequest.getAddressRequest());
 	}
 
 	public void setEmployee(EmployeeRequest employeeRequest) {
@@ -106,8 +108,7 @@ public class Employee implements Serializable {
 		this.dateofBirth = employeeRequest.getDateofBirth();
 		this.gender = employeeRequest.getGender();
 		this.image = employeeRequest.getImage();
-		this.phone = employeeRequest.getPhone();
 		this.email = employeeRequest.getEmail();
-		this.address = employeeRequest.getAddress();
+		this.address = new Address(employeeRequest.getAddressRequest());
 	}
 }

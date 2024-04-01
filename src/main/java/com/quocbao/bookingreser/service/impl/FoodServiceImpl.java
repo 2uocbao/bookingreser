@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Food;
 import com.quocbao.bookingreser.entity.FoodDetail;
+import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.Types;
+import com.quocbao.bookingreser.entity.metamodel.FoodDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Food_;
 import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
@@ -23,6 +25,7 @@ import com.quocbao.bookingreser.repository.TypeRepository;
 import com.quocbao.bookingreser.request.FoodRequest;
 import com.quocbao.bookingreser.response.FoodResponse;
 import com.quocbao.bookingreser.service.FoodService;
+import com.quocbao.bookingreser.util.Status;
 
 @Service
 public class FoodServiceImpl implements FoodService {
@@ -63,17 +66,17 @@ public class FoodServiceImpl implements FoodService {
 		food.setTypes(types(foodRequest.getTypes()));
 
 		// Retrieve food detail existing
-		List<FoodDetail> existingfoodDetails = food.getFoodDetails();
+		ArrayList<FoodDetail> existingfoodDetails = new ArrayList<> (food.getFoodDetails());
 		// Retrieve food detail update or new
-		List<FoodDetail> newFoodDetails = foodRequest.getFoodDetailRequests().stream()
-				.map(x -> new FoodDetail(x, materialRepository.findById(x.getMaterialId()), food)).toList();
+		ArrayList<FoodDetail> newFoodDetails = new ArrayList<> (foodRequest.getFoodDetailRequests().stream()
+				.map(x -> new FoodDetail(x, materialRepository.findById(x.getMaterialId()), food)).toList());
 
 		// List food detail don't change
-		List<FoodDetail> noChange = new ArrayList<>();
+		ArrayList<FoodDetail> noChange = new ArrayList<>();
 		// List food detail don't use
-		List<FoodDetail> removeList = new ArrayList<>();
+		ArrayList<FoodDetail> removeList = new ArrayList<>();
 		// List food detail need update
-		List<FoodDetail> updateList = new ArrayList<>();
+		ArrayList<FoodDetail> updateList = new ArrayList<>();
 
 		// Iterate through the existing Food Detail objects
 		for (FoodDetail foodDetail : existingfoodDetails) {
@@ -111,6 +114,8 @@ public class FoodServiceImpl implements FoodService {
 			// Find food detail existing object, if it exist
 			FoodDetail existingFoodDetail = findExistingFoodDetail(existingfoodDetails,
 					foodDetail.getMaterial().getId());
+			
+			
 			if (existingFoodDetail == null) {
 				// Add new food detail object to the existing list
 				existingfoodDetails.add(foodDetail);
@@ -122,7 +127,7 @@ public class FoodServiceImpl implements FoodService {
 
 		// Remove food detail existing object no change
 		existingfoodDetails.removeAll(noChange);
-		// Remove food datail existing object need update
+		// Remove food detail existing object need update
 		existingfoodDetails.removeAll(updateList);
 
 		// Iterate through food detail object need update
@@ -135,13 +140,13 @@ public class FoodServiceImpl implements FoodService {
 
 	@Override
 	public List<FoodResponse> listFoodByColumn(Long companyId, String keySearch) {
-		return new FoodResponse().foodResponses(foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId)
+		return new FoodResponse().foodResponses(foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId.toString())
 				.stream().filter(x -> x.getName().contains(keySearch)).toList());
 	}
 
 	@Override
 	public List<FoodResponse> listFoodByType(Long companyId, String type) {
-		List<Food> foods = foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId);
+		List<Food> foods = foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId.toString());
 		List<FoodResponse> foodResponses = new ArrayList<>();
 		foods.stream().forEach(x -> x.getTypes().stream().forEach(y -> {
 			if (y.getName().equals(type)) {
@@ -153,11 +158,21 @@ public class FoodServiceImpl implements FoodService {
 
 	@Override
 	public List<FoodResponse> listFoodByCompanyId(Long companyId) {
-		return new FoodResponse().foodResponses(foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId));
+		return new FoodResponse().foodResponses(foodRepository.getAll(Company.class, Food_.COMPANYID, "id", companyId.toString()));
 	}
 
 	@Override
 	public void uStatus(Long id, String status) {
+		if(!status.equals(Status.OFF.toString()))
+		{
+			List<FoodDetail> foodDetails = foodDetailRepository.getAll(Food.class, FoodDetail_.FOODID, "id", id.toString());
+			for(FoodDetail foodDetail : foodDetails) {
+				Material material = materialRepository.findById(foodDetail.getMaterial().getId());
+				if(!material.getStatus().equals(Status.STILL.toString())) {
+					throw new BookingreserException(HttpStatus.BAD_REQUEST, "Please, Import more raw materials " + material.getName());
+				}
+			}
+		}
 		foodRepository.uColumn(id, Food_.STATUS, status);
 	}
 
@@ -174,5 +189,7 @@ public class FoodServiceImpl implements FoodService {
 			}
 		}
 		return null;
+		
+	
 	}
 }

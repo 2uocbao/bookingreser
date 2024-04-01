@@ -7,13 +7,13 @@ import com.quocbao.bookingreser.response.CompanyResponse;
 
 public interface CompanyService {
 
-	public void createCompany(CompanyRequest companyRequest);
+	public void createCompany(CompanyRequest companyRequest, String token);
 
 	public CompanyResponse detailCompany(Long id);
 
 	public void updateCompany(Long id, CompanyRequest companyRequest);
 
 	public void uStatusCompany(Long id, String status);
-
-	public List<CompanyResponse> companyByType(String type);
+	
+	public List<CompanyResponse> listCompanyByAddress(String location);
 }

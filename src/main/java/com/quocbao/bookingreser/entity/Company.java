@@ -2,7 +2,7 @@ package com.quocbao.bookingreser.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
@@ -73,27 +73,27 @@ public class Company implements Serializable {
 	private Timestamp updatedAt;
 
 	// relationship
-	@OneToMany(mappedBy = "company")
-	private Set<Employee> employees;
-	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
-	@OneToMany(mappedBy = "company")
-	private Set<Services> services;
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+	private List<Services> services;
+	
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+	private List<Food> foods;
+	
+//	@OneToMany(mappedBy = "company")
+//	private Set<Employee> employees;
 
-	@OneToMany(mappedBy = "company")
-	private Set<Material> materials;
-
-	@OneToMany(mappedBy = "company")
-	private Set<Food> foods;
+//	@OneToMany(mappedBy = "company")
+//	private Set<Material> materials;
+//
 
 	public Company(CompanyRequest companyRequest) {
 		this.name = companyRequest.getName();
 		this.address = new Address(companyRequest.getAddressRequest());
 		this.email = companyRequest.getEmail();
-		this.phone = companyRequest.getPhone();
 		this.image = companyRequest.getImage();
 		this.infor = companyRequest.getInfor();
 		this.status = Status.OFF.toString();
@@ -102,7 +102,6 @@ public class Company implements Serializable {
 	public void company(CompanyRequest companyRequest) {
 		this.name = companyRequest.getName();
 		this.email = companyRequest.getEmail();
-		this.phone = companyRequest.getPhone();
 		this.image = companyRequest.getImage();
 		this.infor = companyRequest.getInfor();
 	}

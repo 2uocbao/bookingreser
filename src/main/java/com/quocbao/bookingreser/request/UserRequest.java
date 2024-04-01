@@ -24,12 +24,9 @@ public class UserRequest {
 	@JsonProperty("image")
 	protected String image;
 
-	@JsonProperty("phone")
-	protected String phone;
-
 	@JsonProperty("email")
 	protected String email;
 
 	@JsonProperty("address")
-	protected String address;
+	protected AddressRequest addressRequest;
 }

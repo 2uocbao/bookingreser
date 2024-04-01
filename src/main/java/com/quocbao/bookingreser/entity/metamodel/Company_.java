@@ -13,9 +13,11 @@ public abstract class Company_ {
 	public static volatile SingularAttribute<Company, String> phone;
 	public static volatile SingularAttribute<Company, String> email;
 	public static volatile SingularAttribute<Company, Integer> status;
+	public static volatile SingularAttribute<Company, String> address;
 
 	public static final String PHONE = "phone";
 	public static final String EMAIL = "email";
 	public static final String STATUS = "status";
+	public static final String ADDRESS = "address";
 
 }

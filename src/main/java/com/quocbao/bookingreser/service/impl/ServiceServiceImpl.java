@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Services;
 import com.quocbao.bookingreser.entity.Types;
 import com.quocbao.bookingreser.entity.metamodel.Services_;
+import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.ServicesRepository;
 import com.quocbao.bookingreser.repository.TypeRepository;
@@ -33,9 +35,14 @@ public class ServiceServiceImpl implements ServicesService {
 
 	@Override
 	public void createService(ServiceRequest serviceRequest) {
-		Services services = new Services(serviceRequest, companyRepository.findById(serviceRequest.getCompanyId()));
-		services.setTypes(types(serviceRequest.getTypes()));
-		serviceRepository.save(services);
+		Services service = new Services(serviceRequest, companyRepository.findById(serviceRequest.getCompanyId()));
+		List<Services> services = serviceRepository.getAll(Company.class, Services_.COMPANYID, "id", serviceRequest.getCompanyId().toString());
+		for(Services servic : services) {
+			if(servic.getName().toLowerCase().equals(serviceRequest.getName().toLowerCase())) {
+				throw new BookingreserException(HttpStatus.CONFLICT, "This name is already exits");
+			}
+		}
+		serviceRepository.save(service);
 	}
 
 	@Override
@@ -46,7 +53,7 @@ public class ServiceServiceImpl implements ServicesService {
 
 	@Override
 	public List<ServiceResponse> listServiceByCompany(Long companyId) {
-		List<Services> services = serviceRepository.getAll(Company.class, Services_.COMPANYID, "id", companyId);
+		List<Services> services = serviceRepository.getAll(Company.class, Services_.COMPANYID, "id", companyId.toString());
 		return services.stream().map(this::serviceResponse).toList();
 	}
 
@@ -58,7 +65,6 @@ public class ServiceServiceImpl implements ServicesService {
 
 	public ServiceResponse serviceResponse(Services services) {
 		ServiceResponse serviceResponse = new ServiceResponse(services);
-		serviceResponse.setTypes(services.getTypes().stream().map(Types::getName).toList());
 		return serviceResponse;
 	}
 }

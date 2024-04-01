@@ -7,9 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
-import com.quocbao.bookingreser.entity.Employee;
 import com.quocbao.bookingreser.entity.Reservation;
+import com.quocbao.bookingreser.entity.Services;
 import com.quocbao.bookingreser.entity.User;
+import com.quocbao.bookingreser.entity.metamodel.Employee_;
 import com.quocbao.bookingreser.entity.metamodel.Reservation_;
 import com.quocbao.bookingreser.exception.BookingreserException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
@@ -17,7 +18,10 @@ import com.quocbao.bookingreser.repository.ReservationRepository;
 import com.quocbao.bookingreser.repository.ServicesRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.ReservationRequest;
+import com.quocbao.bookingreser.response.ReservationResponse;
+import com.quocbao.bookingreser.security.jwt.JwtTokenProvider;
 import com.quocbao.bookingreser.service.ReservationService;
+import com.quocbao.bookingreser.util.Status;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -30,45 +34,58 @@ public class ReservationServiceImpl implements ReservationService {
 	ServicesRepository serviceRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
 
 	@Override
 	public void createReservation(ReservationRequest reservationRequest) {
-		Employee employee = employeeRepository.findById(reservationRequest.getEmployeeId());
-		reservationRepository.save(new Reservation(reservationRequest, employee.getCompany(), employee,
-				serviceRepository.findById(reservationRequest.getServiceId()),
-				userRepository.findById(reservationRequest.getUserId())));
+		Services service = serviceRepository.findById(reservationRequest.getServiceId());
+		if(!service.getStatus().contentEquals(Status.EMPTY.toString())) {
+			throw new BookingreserException(HttpStatus.BAD_REQUEST, "The table is already in use");
+		}
+		service.setStatus(Status.USED.toString());
+		serviceRepository.update(service);
+		reservationRepository.save(new Reservation(reservationRequest, service, userRepository.findById(reservationRequest.getUserId()), service.getCompany()));
 	}
 
 	@Override
-	public void updateReservation(Long id, ReservationRequest reservationRequest) {
+	public ReservationResponse updateReservation(Long id, ReservationRequest reservationRequest) {
 		Reservation reservation = reservationRepository.findById(id);
-		reservation.setReservation(reservationRequest,
-				!reservation.getEmployee().getId().equals(reservationRequest.getEmployeeId())
-						? employeeRepository.findById(reservationRequest.getEmployeeId())
-						: reservation.getEmployee(),
-				!reservation.getService().getId().equals(reservationRequest.getServiceId())
-						? serviceRepository.findById(id)
-						: reservation.getService());
+		reservation.setCheckinDate(reservationRequest.getCheckinDate());
+		reservation.setCheckinTime(reservationRequest.getCheckinTime());
+		reservation.setStatus(Status.UNCONFIRMED.toString());
 		reservationRepository.update(reservation);
+		return new ReservationResponse(reservation);
+	}
+	
+	@Override
+	public ReservationResponse updateStatus(String token, Long receiveId) {
+		Reservation reservation = reservationRepository.findById(receiveId);
+		reservation.setEmployee(employeeRepository.findByColumn(Employee_.PHONE, jwtTokenProvider.extractUsername(token)));
+		reservation.setStatus(Status.SUCCESS.toString());
+		reservationRepository.update(reservation);
+		return new ReservationResponse(reservation);
+		
 	}
 
 	@Override
-	public Reservation detailReservation(Long id) {
+	public ReservationResponse detailReservation(Long id) {
 		Reservation reservation = reservationRepository.findById(id);
-		if (reservation != null) {
+		if (reservation == null) {
 			throw new BookingreserException(HttpStatus.NOT_FOUND, "Reservation not found");
 		}
-		return reservation;
+		return new ReservationResponse(reservation);
 	}
 
 	@Override
-	public List<Reservation> listReservationByCompany(Long companyId) {
-		return reservationRepository.getAll(Company.class, Reservation_.COMPANYID, "id", companyId);
+	public List<ReservationResponse> listReservationByCompany(Long companyId) {
+		return new ReservationResponse().reservationResponses(
+				reservationRepository.getAll(Company.class, Reservation_.COMPANYID, "id", companyId.toString()));
 	}
 
 	@Override
-	public List<Reservation> listReservationByUserId(Long userId) {
-		return reservationRepository.getAll(User.class, Reservation_.USERID, "id", userId);
+	public List<ReservationResponse> listReservationByUserId(Long userId) {
+		return new ReservationResponse().reservationResponses( reservationRepository.getAll(User.class, Reservation_.USERID, "id", userId.toString()));
 	}
 
 }

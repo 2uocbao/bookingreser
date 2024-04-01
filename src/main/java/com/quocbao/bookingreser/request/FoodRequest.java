@@ -23,7 +23,7 @@ public class FoodRequest {
 
 	@JsonProperty("type")
 	protected List<String> types;
-
+	
 	@JsonProperty("foodDetails")
 	protected List<FoodDetailRequest> foodDetailRequests;
 }

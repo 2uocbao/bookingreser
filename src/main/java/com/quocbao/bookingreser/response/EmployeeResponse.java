@@ -6,49 +6,51 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Employee;
-import com.quocbao.bookingreser.request.EmployeeRequest;
 
 import lombok.Setter;
 
 @Setter
-public class EmployeeResponse extends EmployeeRequest{
+public class EmployeeResponse {
 
 	@JsonProperty("id")
 	private Long id;
-
+	
 	@JsonProperty("lastname")
-	private String lastName;
+	protected String lastName;
 
 	@JsonProperty("firstname")
-	private String firstName;
+	protected String firstName;
+	
+	@JsonProperty("address")
+	protected AddressResponse addressResponse;
 
 	@JsonProperty("dateofbirth")
-	private Date dateofBirth;
+	protected Date dateofBirth;
 
 	@JsonProperty("gender")
-	private String gender;
+	protected String gender;
 
 	@JsonProperty("image")
-	private String image;
-
-	@JsonProperty("phone")
-	private String phone;
+	protected String image;
 
 	@JsonProperty("email")
-	private String email;
-
-	@JsonProperty("address")
-	private String address;
+	protected String email;
 
 	@JsonProperty("kpa")
 	private int kpa;
 
 	@JsonProperty("createdAt")
 	private Timestamp createdAt;
+	
+	@JsonProperty("phone")
+	private String phone;
+	
+	@JsonProperty("company")
+	private CompanyResponse companyResponse;
 
 	public EmployeeResponse(Employee employee) {
 		this.id = employee.getId();
-		this.companyId = employee.getCompany().getId();
+		this.companyResponse = new CompanyResponse(employee.getCompany());
 		this.lastName = employee.getLastName();
 		this.firstName = employee.getFirstName();
 		this.dateofBirth = employee.getDateofBirth();
@@ -56,7 +58,7 @@ public class EmployeeResponse extends EmployeeRequest{
 		this.image = employee.getImage();
 		this.phone = employee.getPhone();
 		this.email = employee.getEmail();
-		this.address = employee.getAddress();
+		this.addressResponse = new AddressResponse(employee.getAddress());
 		this.kpa = employee.getKpa();
 		this.createdAt = employee.getCreatedAt();
 	}

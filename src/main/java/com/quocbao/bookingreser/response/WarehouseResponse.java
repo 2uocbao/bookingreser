@@ -5,24 +5,35 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Warehouse;
-import com.quocbao.bookingreser.request.WarehouseRequest;
 
 import lombok.Setter;
 
 @Setter
-public class WarehouseResponse extends WarehouseRequest{
+public class WarehouseResponse {
 
 	@JsonProperty("id")
 	private Long id;
 
 	@JsonProperty("material")
-	private MaterialResponse material;
+	private MaterialResponse materialResponse;
 
 	@JsonProperty("employeeId")
-	private EmployeeResponse employee;
+	private EmployeeResponse employeeResponse;
+
+	@JsonProperty("vat")
+	protected float vat;
+	
+	@JsonProperty("cost")
+	protected float cost;
+	
+	@JsonProperty("quantity")
+	protected float quantity;
 
 	@JsonProperty("total_amount")
 	private float totalAmount;
+	
+	@JsonProperty("unit")
+	protected String unit;
 
 	@JsonProperty("status")
 	private String status;
@@ -35,8 +46,8 @@ public class WarehouseResponse extends WarehouseRequest{
 
 	public WarehouseResponse(Warehouse warehouse) {
 		this.id = warehouse.getId();
-		this.materialId = warehouse.getMaterial().getName();
-		this.employeeId = warehouse.getEmployee().getFirstName() + warehouse.getEmployee().getLastName();
+		this.materialResponse = new MaterialResponse(warehouse.getMaterial());
+		this.employeeResponse = new EmployeeResponse(warehouse.getEmployee());
 		this.cost = warehouse.getCost();
 		this.quantity = warehouse.getQuantity();
 		this.vat = warehouse.getVat();

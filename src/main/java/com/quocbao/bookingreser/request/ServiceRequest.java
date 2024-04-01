@@ -1,7 +1,5 @@
 package com.quocbao.bookingreser.request;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -16,7 +14,4 @@ public class ServiceRequest {
 
 	@JsonProperty("name")
 	protected String name;
-
-	@JsonProperty("type")
-	protected List<String> types;
 }

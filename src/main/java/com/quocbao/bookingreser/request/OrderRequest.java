@@ -15,9 +15,6 @@ public class OrderRequest {
 	@JsonProperty("employeeId")
 	protected Long employeeId;
 
-	@JsonProperty("userId")
-	protected Long userId;
-
 	@JsonProperty("description")
 	protected String description;
 

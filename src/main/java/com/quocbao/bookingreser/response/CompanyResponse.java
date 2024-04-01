@@ -5,16 +5,33 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Company;
-import com.quocbao.bookingreser.entity.Types;
-import com.quocbao.bookingreser.request.CompanyRequest;
+import com.quocbao.bookingreser.request.AddressRequest;
 
 import lombok.Setter;
 
 @Setter
-public class CompanyResponse extends CompanyRequest{
+public class CompanyResponse {
 
 	@JsonProperty("id")
 	private Long id;
+	
+	@JsonProperty("name")
+	protected String name;
+
+	@JsonProperty("email")
+	protected String email;
+
+	@JsonProperty("phone")
+	protected String phone;
+
+	@JsonProperty("image")
+	protected String image;
+
+	@JsonProperty("infor")
+	protected String infor;
+
+	@JsonProperty("address")
+	protected AddressRequest addressRequest;
 
 	@JsonProperty("status")
 	private String status;
@@ -25,6 +42,12 @@ public class CompanyResponse extends CompanyRequest{
 	@JsonProperty("updateAt")
 	private Timestamp updatedAt;
 	
+	@JsonProperty("table")
+	private List<ServiceResponse> serviceResponses;
+	
+	@JsonProperty("food")
+	private List<FoodResponse> foodResponses;
+	
 	public CompanyResponse() {
 		
 	}
@@ -32,15 +55,16 @@ public class CompanyResponse extends CompanyRequest{
 	public CompanyResponse(Company company) {
 		this.id = company.getId();
 		this.name = company.getName();
+		this.addressRequest = new AddressResponse(company.getAddress());
 		this.email = company.getEmail();
 		this.phone = company.getPhone();
 		this.image = company.getImage();
 		this.infor = company.getInfor();
-		this.address = company.getAddress();
 		this.status = company.getStatus();
-		this.types = company.getTypes().stream().map(Types::getName).toList();
 		this.createdAt = company.getCreatedAt();
 		this.updatedAt = company.getUpdatedAt();
+		this.serviceResponses = new ServiceResponse().serviceResponses(company.getServices());
+		this.foodResponses = new FoodResponse().foodResponses(company.getFoods());
 	}
 	
 	public List<CompanyResponse> companyResponses(List<Company> companies){

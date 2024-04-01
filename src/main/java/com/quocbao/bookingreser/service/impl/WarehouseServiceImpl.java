@@ -33,7 +33,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public void createWarehouse(WarehouseRequest warehouseRequest) {
 		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id",
-				Long.parseLong(warehouseRequest.getMaterialId()));
+				warehouseRequest.getMaterialId().toString());
 		warehouses.stream().forEach(x -> {
 			// If status of warehouse for material have not success.
 			// New warehouse will not be created for that material
@@ -42,7 +42,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			}
 		});
 		warehouseRepository
-				.save(new Warehouse(warehouseRequest, materialRepository.findById(Long.parseLong(warehouseRequest.getMaterialId())),
+				.save(new Warehouse(warehouseRequest, materialRepository.findById(warehouseRequest.getMaterialId()),
 						employeeRepository.findById(Long.parseLong(warehouseRequest.getEmployeeId()))));
 	}
 
@@ -55,7 +55,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public List<WarehouseResponse> warehouses(Long materialId, LocalDate fromDate, LocalDate toDate) {
 		// Between to day, don't get start day and end day
 		ConvertTime convertTime = new ConvertTime();
-		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", materialId)
+		List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", materialId.toString())
 				.stream().filter(x -> fromDate.isBefore(convertTime.fromTimestamp(x.getCreatedAt())))
 				.filter(x -> toDate.isAfter(convertTime.fromTimestamp(x.getCreatedAt()))).toList();
 		if (warehouses.isEmpty()) {
@@ -67,6 +67,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public void updateWarehouse(Long id, WarehouseRequest warehouseRequest) {
 		Warehouse warehouse = warehouseRepository.findById(id);
+		if(warehouse.getStatus() == Status.SUCCESS.toString()) {
+			throw new BookingreserException(HttpStatus.BAD_REQUEST, warehouse.getMaterial().getName() + " is success, do not update");
+		}
 		warehouse.setWarehouse(warehouseRequest);
 		warehouseRepository.update(warehouse);
 	}
@@ -78,9 +81,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Action not taken");
 		}
 		if (status.equals(Status.SUCCESS.toString())) {
-			Material material = materialRepository.findById(warehouse.getId());
-			material.setQuantity(warehouse.getQuantity());
-			material.setStatus(Status.STOCKING.toString());
+			Material material = materialRepository.findById(warehouse.getMaterial().getId());
+			material.setQuantity(warehouse.getQuantity() + material.getQuantity());
+			if(material.getQuantity() < material.getStockEnd()) {
+				material.setStatus(Status.STOCKING.toString());
+			}else {
+				material.setStatus(Status.STILL.toString());
+			}
 			material.setCost(warehouse.getCost());
 			materialRepository.update(material);
 		}

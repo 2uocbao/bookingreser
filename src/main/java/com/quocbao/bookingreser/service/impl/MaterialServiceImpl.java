@@ -26,7 +26,7 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Override
 	public void createMaterial(MaterialRequest materialRequest) {
-		if (!materialRepository.getAll(Company.class, Material_.COMPANYID, "id", materialRequest.getCompanyId())
+		if (!materialRepository.getAll(Company.class, Material_.COMPANYID, "id", materialRequest.getCompanyId().toString())
 				.stream().filter(x -> x.getCode().contains(materialRequest.getCode())).toList().isEmpty()) {
 			throw new BookingreserException(HttpStatus.CONFLICT, "Material already exist with code");
 		}
@@ -58,13 +58,13 @@ public class MaterialServiceImpl implements MaterialService {
 	@Override
 	public List<MaterialResponse> findByCode(Long companyId, String code) {
 		return new MaterialResponse()
-				.materialResponses(materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId)
+				.materialResponses(materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId.toString())
 						.stream().filter(x -> x.getCode().toLowerCase().contains(code)).toList());
 	}
 
 	@Override
 	public List<MaterialResponse> materials(Long companyId) {
 		return new MaterialResponse()
-				.materialResponses(materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId));
+				.materialResponses(materialRepository.getAll(Company.class, Material_.COMPANYID, "id", companyId.toString()));
 	}
 }

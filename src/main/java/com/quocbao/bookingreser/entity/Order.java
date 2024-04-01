@@ -44,9 +44,6 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "description")
-	private String description;
-
 	@Column(name = "total_amount")
 	private float totalAmount;
 
@@ -63,10 +60,6 @@ public class Order implements Serializable {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@ManyToOne
-	@JoinColumn(name = "company_id", nullable = false)
-	private Company company;
-
 	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<OrderDetail> orderDetails;
 
@@ -74,25 +67,18 @@ public class Order implements Serializable {
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
 	private Services service;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User user;
-
 	@ManyToOne
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
 
 	public Order(OrderRequest orderRequest, Company company, Services service, Employee employee) {
-		this.company = company;
 		this.employee = employee;
 		this.service = service;
-		this.description = orderRequest.getDescription();
-		this.status = Status.UNCONFIMRED.toString();
+		this.status = Status.UNCONFIRMED.toString();
 	}
 
 	public void setOrder(OrderRequest orderRequest, Services service, Employee employee) {
 		this.employee = employee;
 		this.service = service;
-		this.description = orderRequest.getDescription();
 	}
 }

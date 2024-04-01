@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,14 +25,16 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/create")
-	ResponseEntity<DataResponse> createUser(@RequestBody UserRequest userRequest) {
-		userService.createUser(userRequest);
+	ResponseEntity<DataResponse> createUser(@RequestBody UserRequest userRequest, @RequestHeader("Authorization") String authorization) {
+		String token = authorization.replace("Bearer ", "");
+		userService.createUser(userRequest, token);
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	ResponseEntity<DataResponse> detailUser(@PathVariable Long id) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, userService.detailUser(id)), HttpStatus.OK);
+	@GetMapping("/detail")
+	ResponseEntity<DataResponse> detailUser(@RequestHeader("Authorization") String authorization) {
+		String token = authorization.replace("Bearer ", "");
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, userService.detailUser(token)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")

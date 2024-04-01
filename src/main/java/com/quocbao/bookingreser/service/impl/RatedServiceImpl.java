@@ -56,7 +56,7 @@ public class RatedServiceImpl implements RatedService {
 
 	@Override
 	public List<Rated> listRatedByCompanyId(Long companyId) {
-		return ratedRepository.getAll(Company.class, Rated_.COMPANYID, "id", companyId);
+		return ratedRepository.getAll(Company.class, Rated_.COMPANYID, "id", companyId.toString());
 	}
 
 }

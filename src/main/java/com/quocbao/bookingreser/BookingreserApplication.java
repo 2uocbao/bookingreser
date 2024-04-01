@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 import jakarta.annotation.PostConstruct;
 
-@SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class })
+@SpringBootApplication(scanBasePackages = "com.quocbao.bookingreser" ,exclude = { HibernateJpaAutoConfiguration.class })
 public class BookingreserApplication {
 
 	public static void main(String[] args) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,14 +25,16 @@ public class EmployeeController {
 	EmployeeService employeeService;
 
 	@PostMapping("/create")
-	ResponseEntity<DataResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
-		employeeService.createEmployee(employeeRequest.getCompanyId(), employeeRequest);
+	ResponseEntity<DataResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest, @RequestHeader("Authorization") String authorization) {
+		String token = authorization.replace("Bearer ", "");
+		employeeService.createEmployee(employeeRequest, token);
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	ResponseEntity<DataResponse> detailEmployee(@PathVariable Long id) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, employeeService.detailEmployee(id)), HttpStatus.OK);
+	@GetMapping("/detail")
+	ResponseEntity<DataResponse> detailEmployee(@RequestHeader("Authorization") String authorization) {
+		String token = authorization.replace("Bearer ", "");
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, employeeService.detailEmployee(token)), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/update")

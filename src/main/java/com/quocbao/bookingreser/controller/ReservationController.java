@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 
-	@PostMapping("/create")
+	@PostMapping("/user/create")
 	ResponseEntity<DataResponse> createReservation(@RequestBody ReservationRequest reservationRequest) {
 		reservationService.createReservation(reservationRequest);
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
@@ -34,20 +35,26 @@ public class ReservationController {
 				HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}/update")
+	@PutMapping("/user/{id}/update")
 	ResponseEntity<DataResponse> updateReservation(@PathVariable Long id,
 			@RequestBody ReservationRequest reservationRequest) {
 		reservationService.updateReservation(id, reservationRequest);
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
+	
+	@PutMapping("/company/{id}/updateStatus")
+	ResponseEntity<DataResponse> updateStatus(@PathVariable Long id, @RequestHeader("Authorization") String authorization){
+		String token = authorization.replace("Bearer ", "");
+		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, reservationService.updateStatus(token, id)), HttpStatus.OK);
+	}
 
-	@GetMapping("/byCompany/{companyId}")
+	@GetMapping("/company/{companyId}")
 	ResponseEntity<DataResponse> getByCompany(@PathVariable Long companyId) {
 		return new ResponseEntity<>(
 				new DataResponse(HttpStatus.OK, reservationService.listReservationByCompany(companyId)), HttpStatus.OK);
 	}
 
-	@GetMapping("/byUser/{userId}")
+	@GetMapping("/user/{userId}")
 	ResponseEntity<DataResponse> getByUser(@PathVariable Long userId) {
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, reservationService.listReservationByUserId(userId)),
 				HttpStatus.OK);

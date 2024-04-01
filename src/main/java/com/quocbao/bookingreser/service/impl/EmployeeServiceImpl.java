@@ -14,6 +14,7 @@ import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.request.EmployeeRequest;
 import com.quocbao.bookingreser.response.EmployeeResponse;
+import com.quocbao.bookingreser.security.jwt.JwtTokenProvider;
 import com.quocbao.bookingreser.service.EmployeeService;
 
 @Service
@@ -23,19 +24,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	EmployeeRepository employeeRepository;
 	@Autowired
 	CompanyRepository companyRepository;
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
 
 	@Override
-	public void createEmployee(Long companyId, EmployeeRequest employeeRequest) {
-		checkInfor(employeeRequest.getEmail(), employeeRequest.getPhone());
-		Employee employee = new Employee(employeeRequest, companyRepository.findById(companyId));
+	public void createEmployee(EmployeeRequest employeeRequest, String token) {
+		checkInfor(employeeRequest.getEmail());
+		Employee employee = new Employee(employeeRequest, companyRepository.findById(employeeRequest.getCompanyId()));
+		employee.setPhone(jwtTokenProvider.extractUsername(token));
 		employeeRepository.save(employee);
 	}
 
 	@Override
-	public EmployeeResponse detailEmployee(Long id) {
-		Employee employee = employeeRepository.findById(id);
+	public EmployeeResponse detailEmployee(String token) {
+		Employee employee = employeeRepository.findByColumn(Employee_.PHONE, jwtTokenProvider.extractUsername(token));
 		if (employee == null) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "Employee not found with: " + id.toString());
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "Employee not found");
 		}
 		return new EmployeeResponse(employee);
 	}
@@ -43,8 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void updateEmployee(Long id, EmployeeRequest employeeRequest) {
 		Employee employee = employeeRepository.findById(id);
-		checkInfor(employee.getEmail().equals(employeeRequest.getEmail()) ? null : employeeRequest.getEmail(),
-				employee.getPhone().equals(employeeRequest.getPhone()) ? null : employeeRequest.getPhone());
+		checkInfor(employee.getEmail().equals(employeeRequest.getEmail()) ? null : employeeRequest.getEmail());
 		employee.setEmployee(employeeRequest);
 		employeeRepository.update(employee);
 	}
@@ -52,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<EmployeeResponse> listEmployeeByCompanyId(Long companyId) {
 		return new EmployeeResponse()
-				.employeeResponses(employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId));
+				.employeeResponses(employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId.toString()));
 	}
 
 	@Override
@@ -62,10 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeRepository.update(employee);
 	}
 
-	public void checkInfor(String email, String phone) {
-		if (employeeRepository.findByColumn(Employee_.PHONE, phone) != null) {
-			throw new BookingreserException(HttpStatus.CONFLICT, "Phone number already exist");
-		}
+	public void checkInfor(String email) {
 		if (employeeRepository.findByColumn(Employee_.EMAIL, email) != null) {
 			throw new BookingreserException(HttpStatus.CONFLICT, "Email already exist");
 		}

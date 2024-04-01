@@ -1,7 +1,5 @@
 package com.quocbao.bookingreser.request;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -14,9 +12,6 @@ public class CompanyRequest {
 
 	@JsonProperty("email")
 	protected String email;
-
-	@JsonProperty("phone")
-	protected String phone;
 
 	@JsonProperty("image")
 	protected String image;

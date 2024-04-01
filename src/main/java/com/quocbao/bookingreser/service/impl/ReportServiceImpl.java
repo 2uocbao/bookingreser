@@ -56,7 +56,7 @@ public class ReportServiceImpl implements ReportService {
 	private ReportResponse reportFood(List<Order> orders, Food food) {
 		// Retrieve orders detail list have food
 		List<OrderDetail> orderDetails = orderDetailRepository.getAll(Food.class, OrderDetail_.FOODID, "id",
-				food.getId());
+				food.getId().toString());
 		// Remove orders detail object. If it don't belong to any orders
 		orderDetails.stream().forEach(x -> orders.stream().forEach(y -> {
 			if (!y.equals(x.getOrder())) {
@@ -81,19 +81,19 @@ public class ReportServiceImpl implements ReportService {
 			Food food = foodRepository.findById(id);
 			// Retrieve orders list from start month to end month
 			List<Order> orders = orderRepository.getAll(Company.class, Order_.COMPANYID, "id",
-					food.getCompany().getId());
+					food.getCompany().getId().toString());
 			orders.stream().filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isAfter(start))
 					.filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isBefore(end));
 			return reportFood(orders, food);
 		} else if (entity.equals("material")) { // Report for material
 			Material material = materialRepository.findById(id);
-			List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", id)
+			List<Warehouse> warehouses = warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", id.toString())
 					.stream().filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isAfter(start))
 					.filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isBefore(end))
 					.filter(x -> x.getStatus().equals(Status.SUCCESS.toString())).toList();
 			return reportMaterial(material, warehouses);
 		} else if (entity.equals("employee")) {
-			List<Order> orders = orderRepository.getAll(Employee.class, Order_.EMPLOYEEID, "id", id).stream()
+			List<Order> orders = orderRepository.getAll(Employee.class, Order_.EMPLOYEEID, "id", id.toString()).stream()
 					.filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isAfter(start))
 					.filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isBefore(end))
 					.filter(x -> x.getStatus().equals(Status.SUCCESS.toString())).toList();
@@ -101,12 +101,12 @@ public class ReportServiceImpl implements ReportService {
 		}
 		// Report revenue three months for company
 		// Retrieve orders list
-		List<Order> orders = orderRepository.getAll(Company.class, Order_.COMPANYID, "id", id);
+		List<Order> orders = orderRepository.getAll(Company.class, Order_.COMPANYID, "id", id.toString());
 		// Retrive materials list
-		List<Material> materials = materialRepository.getAll(Company.class, Material_.COMPANYID, "id", id);
+		List<Material> materials = materialRepository.getAll(Company.class, Material_.COMPANYID, "id", id.toString());
 		List<Warehouse> warehouses = new ArrayList<>();
 		materials.stream().forEach(x -> warehouses
-				.addAll(warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", x.getId())));
+				.addAll(warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", x.getId().toString())));
 		orders.stream().filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isAfter(start))
 				.filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isBefore(end));
 		warehouses.stream().filter(x -> convertTime.fromTimestamp(x.getCreatedAt()).isAfter(start))

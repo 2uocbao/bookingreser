@@ -8,7 +8,7 @@ import lombok.Getter;
 public class WarehouseRequest {
 
 	@JsonProperty("materialId")
-	protected String materialId;
+	protected Long materialId;
 
 	@JsonProperty("employeeId")
 	protected String employeeId;

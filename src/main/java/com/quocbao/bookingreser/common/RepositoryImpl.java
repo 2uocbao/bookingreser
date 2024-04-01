@@ -71,7 +71,7 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 		return getSession().createQuery(builder).uniqueResult();
 	}
 
-	public <T> List<E> getAll(Class<T> T, String column, String keyJoin, Long value) {
+	public <T> List<E> getAll(Class<T> T, String column, String keyJoin, String value) {
 		CriteriaBuilder builder = getCriteriaBuilder();
 		CriteriaQuery<E> criteriaQuery = builder.createQuery(claz);
 		Root<E> translation = criteriaQuery.from(claz);

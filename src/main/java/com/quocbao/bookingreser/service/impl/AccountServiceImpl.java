@@ -54,8 +54,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	@Override
 	public AccountResponse login(AccountRequest accountRequest) {
 		Account account = accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername());
-		if (account == null) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "Username or password incorrect");
+		if (account == null || !passwordEncoder.matches(accountRequest.getPassword(), account.getPassword())) {
+			throw new BookingreserException(HttpStatus.NOT_FOUND, "Incorrect username or password");
 		}
 		String accessToken = jwtTokenProvider.generateToken(account);
 		return AccountResponse.builder().accessToken(accessToken).build();
@@ -78,7 +78,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	public UserDetails loadUserByUsername(String username) {
 		Account account = accountRepository.findByColumn(Account_.USERNAME, username);
 		if (account == null) {
-			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Username or password don't correct");
+			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Incorrect username or password");
 		}
 		return new User(account.getUsername(), account.getPassword(), account.getAuthorities());
 	}

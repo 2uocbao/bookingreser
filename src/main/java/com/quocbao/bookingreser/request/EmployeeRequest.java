@@ -2,7 +2,7 @@ package com.quocbao.bookingreser.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 public class EmployeeRequest extends UserRequest {

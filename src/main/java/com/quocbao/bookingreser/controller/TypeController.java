@@ -27,7 +27,7 @@ public class TypeController {
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
-	@GetMapping("/")
+	@GetMapping("/getList")
 	ResponseEntity<DataResponse> types(@RequestParam("type") String type) {
 		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, typeService.types(type)), HttpStatus.OK);
 	}
