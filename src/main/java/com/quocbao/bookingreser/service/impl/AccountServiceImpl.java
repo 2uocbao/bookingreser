@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.quocbao.bookingreser.entity.Account;
 import com.quocbao.bookingreser.entity.Role;
 import com.quocbao.bookingreser.entity.metamodel.Account_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.AccountRepository;
 import com.quocbao.bookingreser.repository.RoleRepository;
 import com.quocbao.bookingreser.request.AccountRequest;
@@ -42,7 +41,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	public AccountResponse createAccount(AccountRequest accountRequest) {
 		Account account = new Account(accountRequest);
 		if (accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername()) != null) {
-			throw new BookingreserException(HttpStatus.CONFLICT, "Username already exist!!!");
+			throw new ValidationException("Username already exist!!!");
 		}
 		account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
 		account.setRoles(roles(accountRequest.getRoles()));
@@ -55,7 +54,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	public AccountResponse login(AccountRequest accountRequest) {
 		Account account = accountRepository.findByColumn(Account_.USERNAME, accountRequest.getUsername());
 		if (account == null || !passwordEncoder.matches(accountRequest.getPassword(), account.getPassword())) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "Incorrect username or password");
+			throw new ValidationException("Incorrect username or password");
 		}
 		String accessToken = jwtTokenProvider.generateToken(account);
 		return AccountResponse.builder().accessToken(accessToken).build();
@@ -78,8 +77,9 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 	public UserDetails loadUserByUsername(String username) {
 		Account account = accountRepository.findByColumn(Account_.USERNAME, username);
 		if (account == null) {
-			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Incorrect username or password");
+			throw new ValidationException("Incorrect username or password");
 		}
 		return new User(account.getUsername(), account.getPassword(), account.getAuthorities());
 	}
+	
 }
