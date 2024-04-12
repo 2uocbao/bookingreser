@@ -1,56 +1,18 @@
 package com.quocbao.bookingreser.response;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Employee;
+import com.quocbao.bookingreser.request.EmployeeRequest;
 
 import lombok.Setter;
 
 @Setter
-public class EmployeeResponse {
-
-	@JsonProperty("id")
-	private Long id;
+public class EmployeeResponse extends EmployeeRequest{
 	
-	@JsonProperty("lastname")
-	protected String lastName;
-
-	@JsonProperty("firstname")
-	protected String firstName;
-	
-	@JsonProperty("address")
-	protected AddressResponse addressResponse;
-
-	@JsonProperty("dateofbirth")
-	protected Date dateofBirth;
-
-	@JsonProperty("gender")
-	protected String gender;
-
-	@JsonProperty("image")
-	protected String image;
-
-	@JsonProperty("email")
-	protected String email;
-
-	@JsonProperty("kpa")
-	private int kpa;
-
-	@JsonProperty("createdAt")
-	private Timestamp createdAt;
-	
-	@JsonProperty("phone")
-	private String phone;
-	
-	@JsonProperty("company")
-	private CompanyResponse companyResponse;
-
 	public EmployeeResponse(Employee employee) {
 		this.id = employee.getId();
-		this.companyResponse = new CompanyResponse(employee.getCompany());
+		this.companyId = employee.getCompany() != null ? employee.getCompany().getId() : 0;
 		this.lastName = employee.getLastName();
 		this.firstName = employee.getFirstName();
 		this.dateofBirth = employee.getDateofBirth();
@@ -58,9 +20,10 @@ public class EmployeeResponse {
 		this.image = employee.getImage();
 		this.phone = employee.getPhone();
 		this.email = employee.getEmail();
-		this.addressResponse = new AddressResponse(employee.getAddress());
+		this.addressRequest = employee.getAddress() != null ? new AddressResponse(employee.getAddress()) : null;
 		this.kpa = employee.getKpa();
 		this.createdAt = employee.getCreatedAt();
+		this.updatedAt = employee.getUpdatedAt();
 	}
 
 	public List<EmployeeResponse> employeeResponses(List<Employee> employes) {

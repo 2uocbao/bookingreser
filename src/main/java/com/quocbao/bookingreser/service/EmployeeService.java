@@ -7,13 +7,15 @@ import com.quocbao.bookingreser.response.EmployeeResponse;
 
 public interface EmployeeService {
 
-	public void createEmployee(EmployeeRequest employeeRequest, String token);
+	public void createEmployee(EmployeeRequest employeeRequest);
 
-	public EmployeeResponse detailEmployee(String token);
+	public EmployeeResponse detailEmployee(Long id);
 
-	public void updateEmployee(Long id, EmployeeRequest employeeRequest);
+	public void updateEmployee(EmployeeRequest employeeRequest);
 
 	public List<EmployeeResponse> listEmployeeByCompanyId(Long companyId);
 
 	public void updateKPA(String phone);
+	
+	public void deleteEmployee(Long id);
 }

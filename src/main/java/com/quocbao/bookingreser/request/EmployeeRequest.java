@@ -9,4 +9,7 @@ public class EmployeeRequest extends UserRequest {
 
 	@JsonProperty("companyId")
 	protected Long companyId;
+	
+	@JsonProperty("KPA")
+	protected int kpa;
 }

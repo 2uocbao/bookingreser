@@ -44,10 +44,10 @@ public class Employee implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "last_name")
+	@Column(name = "lastName")
 	private String lastName;
 
-	@Column(name = "first_name")
+	@Column(name = "firstName")
 	private String firstName;
 
 	@Column(name = "date_of_birth")
@@ -70,7 +70,7 @@ public class Employee implements Serializable {
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at")
+	@Column(name = "createdAt")
 	private Timestamp createdAt;
 
 	@UpdateTimestamp
@@ -80,7 +80,7 @@ public class Employee implements Serializable {
 
 	// relationship
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 
@@ -91,24 +91,26 @@ public class Employee implements Serializable {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
-	public Employee(EmployeeRequest employeeRequest, Company company) {
-		this.company = company;
+	public Employee(EmployeeRequest employeeRequest) {
+		this.id = employeeRequest.getId();
 		this.firstName = employeeRequest.getFirstName();
 		this.lastName = employeeRequest.getLastName();
 		this.dateofBirth = employeeRequest.getDateofBirth();
 		this.gender = employeeRequest.getGender();
 		this.image = employeeRequest.getImage();
 		this.email = employeeRequest.getEmail();
+		this.phone = employeeRequest.getPhone();
 		this.address = new Address(employeeRequest.getAddressRequest());
+		this.kpa = employeeRequest.getKpa();
+		this.createdAt = employeeRequest.getCreatedAt();
 	}
-
-	public void setEmployee(EmployeeRequest employeeRequest) {
-		this.firstName = employeeRequest.getFirstName();
-		this.lastName = employeeRequest.getLastName();
-		this.dateofBirth = employeeRequest.getDateofBirth();
-		this.gender = employeeRequest.getGender();
-		this.image = employeeRequest.getImage();
-		this.email = employeeRequest.getEmail();
-		this.address = new Address(employeeRequest.getAddressRequest());
+	
+	public Employee(Long id, String firstName, String lastName, String image, int kpa, Timestamp createdAt) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.image = image;
+		this.kpa = kpa;
+		this.createdAt = createdAt;
 	}
 }
