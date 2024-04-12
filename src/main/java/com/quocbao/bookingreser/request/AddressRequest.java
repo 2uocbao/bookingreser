@@ -6,12 +6,15 @@ import lombok.Getter;
 
 @Getter
 public class AddressRequest {
+	
+	@JsonProperty("id")
+	protected Long id;
 
 	@JsonProperty("aparment_number")
 	protected String aparmentNumber;
 	
-	@JsonProperty("road")
-	protected String road;
+	@JsonProperty("street")
+	protected String street;
 	
 	@JsonProperty("ward")
 	protected String ward;

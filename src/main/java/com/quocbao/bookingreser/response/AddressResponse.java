@@ -9,11 +9,11 @@ import lombok.Setter;
 public class AddressResponse extends AddressRequest{
 
 	public AddressResponse(Address address) {
+		this.id = address.getId();
 		this.aparmentNumber = address.getAparmentNumber();
-		this.road = address.getRoad();
+		this.street = address.getStreet();
 		this.ward = address.getWard();
 		this.district = address.getDistrict();
 		this.province = address.getProvince();
 	}
-	
 }
