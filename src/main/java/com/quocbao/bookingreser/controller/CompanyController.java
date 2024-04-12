@@ -1,8 +1,10 @@
 package com.quocbao.bookingreser.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.CompanyRequest;
+import com.quocbao.bookingreser.response.CompanyResponse;
 import com.quocbao.bookingreser.service.CompanyService;
 
 @RestController
@@ -25,32 +28,39 @@ public class CompanyController {
 	CompanyService companyService;
 
 	@PostMapping("/create")
-	public ResponseEntity<DataResponse> createCompany(@RequestBody CompanyRequest companyRequest, @RequestHeader("Authorization") String authorization) {
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void createCompany(@RequestBody CompanyRequest companyRequest, @RequestHeader("Authorization") String authorization) {
 		String token = authorization.replace("Bearer ", "");
 		companyService.createCompany(companyRequest, token);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/detail/{id}")
-	public ResponseEntity<DataResponse> detailCompany(@PathVariable Long id) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, companyService.detailCompany(id)), HttpStatus.OK);
+	@ResponseStatus(code = HttpStatus.OK)
+	public CompanyResponse detailCompany(@PathVariable Long id) {
+		return companyService.detailCompany(id);
 	}
 
-	@PutMapping("/{id}/update")
-	public ResponseEntity<DataResponse> updateCompany(@PathVariable Long id,
-			@RequestBody CompanyRequest companyRequest) {
-		companyService.updateCompany(id, companyRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
+	@PutMapping("/update")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void updateCompany(@RequestBody CompanyRequest companyRequest) {
+		companyService.updateCompany(companyRequest);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<DataResponse> uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
 		companyService.uStatusCompany(id, status);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 	
 	@GetMapping("/")
-	public ResponseEntity<DataResponse> listCompanyByAddress(){
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, companyService.listCompanyByAddress("Tp Ho Chi Minh")), HttpStatus.OK);
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<CompanyResponse> listCompanyByAddress(@RequestParam("nearUser") String nearUser){
+		return companyService.listCompanyByAddress(nearUser);
+	}
+	
+	@DeleteMapping("/{id}/delete")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void deleteCompany(@PathVariable Long id) {
+		companyService.deleleCompany(id);
 	}
 }

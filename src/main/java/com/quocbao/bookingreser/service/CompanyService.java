@@ -11,9 +11,11 @@ public interface CompanyService {
 
 	public CompanyResponse detailCompany(Long id);
 
-	public void updateCompany(Long id, CompanyRequest companyRequest);
+	public void updateCompany(CompanyRequest companyRequest);
 
 	public void uStatusCompany(Long id, String status);
+	
+	public void deleleCompany(Long id);
 	
 	public List<CompanyResponse> listCompanyByAddress(String location);
 }

@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.request.AddressRequest;
 
+import lombok.Getter;
 import lombok.Setter;
 
 @Setter
+@Getter
 public class CompanyResponse {
 
 	@JsonProperty("id")
@@ -34,19 +36,13 @@ public class CompanyResponse {
 	protected AddressRequest addressRequest;
 
 	@JsonProperty("status")
-	private String status;
+	protected String status;
 
 	@JsonProperty("createdAt")
-	private Timestamp createdAt;
+	protected Timestamp createdAt;
 
 	@JsonProperty("updateAt")
-	private Timestamp updatedAt;
-	
-	@JsonProperty("table")
-	private List<ServiceResponse> serviceResponses;
-	
-	@JsonProperty("food")
-	private List<FoodResponse> foodResponses;
+	protected Timestamp updatedAt;
 	
 	public CompanyResponse() {
 		
@@ -63,8 +59,6 @@ public class CompanyResponse {
 		this.status = company.getStatus();
 		this.createdAt = company.getCreatedAt();
 		this.updatedAt = company.getUpdatedAt();
-		this.serviceResponses = new ServiceResponse().serviceResponses(company.getServices());
-		this.foodResponses = new FoodResponse().foodResponses(company.getFoods());
 	}
 	
 	public List<CompanyResponse> companyResponses(List<Company> companies){

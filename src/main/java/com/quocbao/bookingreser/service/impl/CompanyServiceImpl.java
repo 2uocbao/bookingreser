@@ -3,13 +3,13 @@ package com.quocbao.bookingreser.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Address;
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.metamodel.Company_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ResourceNotFoundException;
+import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.AddressRepository;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.TypeRepository;
@@ -17,7 +17,6 @@ import com.quocbao.bookingreser.request.CompanyRequest;
 import com.quocbao.bookingreser.response.CompanyResponse;
 import com.quocbao.bookingreser.security.jwt.JwtTokenProvider;
 import com.quocbao.bookingreser.service.CompanyService;
-import com.quocbao.bookingreser.util.Status;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -35,12 +34,10 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public void createCompany(CompanyRequest companyRequest, String token) {
 		String phone = jwtTokenProvider.extractUsername(token);
-		checkInfor(companyRequest.getEmail());
+		checkInfor((long) 0, companyRequest.getEmail()); 
 		Company company = new Company(companyRequest);
 		company.setPhone(phone);
-		Address address = new Address(companyRequest.getAddressRequest());
-		addressRepository.save(address);
-		company.setAddress(address);
+		company.setAddress(new Address(companyRequest.getAddressRequest()));
 		companyRepository.save(company);
 	}
 
@@ -48,39 +45,42 @@ public class CompanyServiceImpl implements CompanyService {
 	public CompanyResponse detailCompany(Long id) {
 		Company company = companyRepository.findById(id);
 		if (company == null) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "The company info is not found");
+			throw new ResourceNotFoundException("The company infor is not found");
 		}
 		return new CompanyResponse(company);
 	}
 
 	@Override
-	public void updateCompany(Long id, CompanyRequest companyRequest) {
-		Company company = companyRepository.findById(id);
-		checkInfor(company.getEmail().equals(companyRequest.getEmail()) ? null : companyRequest.getEmail());
-		company.company(companyRequest);
-		Address address = addressRepository.findById(company.getAddress().getId());
-		address.address(companyRequest.getAddressRequest());
+	public void updateCompany(CompanyRequest companyRequest) {
+		checkInfor(companyRequest.getId(), companyRequest.getEmail());
+		Company company = new Company(companyRequest);
 		companyRepository.update(company);
-		addressRepository.update(address);
 	}
 
 	@Override
 	public void uStatusCompany(Long id, String status) {
 		companyRepository.uColumn(id, Company_.STATUS, status);
 	}
-	
-	public List<Company> listCompany(){
-		return companyRepository.search(Company_.STATUS, Status.ON.toString());
-	}
-
-	public void checkInfor(String email) {
-		if (companyRepository.findByColumn(Company_.EMAIL, email) != null) {
-			throw new BookingreserException(HttpStatus.CONFLICT, "Email already exist");
-		}
-	}
 
 	@Override
 	public List<CompanyResponse> listCompanyByAddress(String location) {
-		return new CompanyResponse().companyResponses(  companyRepository.getAll(Company.class, Company_.ADDRESS, "province", location.toString()));
+		return new CompanyResponse().companyResponses(companyRepository.companyNearUser(location));
+	}
+
+	@Override
+	public void deleleCompany(Long id) {
+		Company company = new Company();
+		company.setId(id);
+		companyRepository.delete(company);
+	}
+	
+	public void checkInfor(Long id, String email) {
+		Long retrieveId = companyRepository.checkValueExist(Company_.ID, Company_.EMAIL, email);
+		if(id == 0 && retrieveId > 0) {
+			throw new ValidationException(email);
+		}
+		else if(id > 0 && retrieveId != id && retrieveId > 0) {
+			throw new ValidationException(email);
+		}
 	}
 }

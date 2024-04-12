@@ -9,7 +9,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quocbao.bookingreser.request.CompanyRequest;
-import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,13 +25,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "company")
 @DynamicUpdate
-@NoArgsConstructor
 public class Company implements Serializable {
 
 	/**
@@ -77,32 +74,32 @@ public class Company implements Serializable {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "company")
 	private List<Services> services;
 	
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "company")
 	private List<Food> foods;
 	
-//	@OneToMany(mappedBy = "company")
-//	private Set<Employee> employees;
+	@OneToMany(mappedBy = "company")
+	private List<Employee> employees;
 
-//	@OneToMany(mappedBy = "company")
-//	private Set<Material> materials;
-//
+	@OneToMany(mappedBy = "company")
+	private List<Material> materials;
+
 
 	public Company(CompanyRequest companyRequest) {
+		this.id = companyRequest.getId();
 		this.name = companyRequest.getName();
+		this.email = companyRequest.getEmail();
+		this.image = companyRequest.getImage();
+		this.infor = companyRequest.getInfor();
+		this.phone = companyRequest.getPhone();
 		this.address = new Address(companyRequest.getAddressRequest());
-		this.email = companyRequest.getEmail();
-		this.image = companyRequest.getImage();
-		this.infor = companyRequest.getInfor();
-		this.status = Status.OFF.toString();
+		this.createdAt = companyRequest.getCreatedAt();
+		this.status = companyRequest.getStatus();
 	}
-
-	public void company(CompanyRequest companyRequest) {
-		this.name = companyRequest.getName();
-		this.email = companyRequest.getEmail();
-		this.image = companyRequest.getImage();
-		this.infor = companyRequest.getInfor();
+	
+	public Company() {
+		
 	}
 }
