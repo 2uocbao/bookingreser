@@ -34,31 +34,29 @@ public class Address implements Serializable{
 	@Column(name = "aparment_number")
 	private String aparmentNumber;
 	
-	@Column(name = "road")
-	private String road;
+	@Column(name = "street")
+	private String street;
 	
 	@Column(name = "ward")
 	private String ward;
 	
-	@Column(name = "province")
-	private String province;
-	
 	@Column(name = "district")
 	private String district;
 	
+	@Column(name = "province")
+	private String province;
+	
 	public Address(AddressRequest addressRequest) {
+		this.id = addressRequest.getId();
 		this.aparmentNumber = addressRequest.getAparmentNumber();
-		this.road = addressRequest.getRoad();
+		this.street = addressRequest.getStreet();
 		this.ward = addressRequest.getWard();
 		this.district = addressRequest.getDistrict();
 		this.province = addressRequest.getProvince();
 	}
 	
-	public void address(AddressRequest addressRequest) { 
-		this.aparmentNumber = addressRequest.getAparmentNumber();
-		this.road = addressRequest.getRoad();
-		this.ward = addressRequest.getWard();
-		this.district = addressRequest.getDistrict();
-		this.province = addressRequest.getProvince();
+	public Address(String district, String province) {
+		this.district = district;
+		this.province = province;
 	}
 }
