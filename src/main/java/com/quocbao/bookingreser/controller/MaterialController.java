@@ -1,54 +1,50 @@
 package com.quocbao.bookingreser.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.MaterialRequest;
+import com.quocbao.bookingreser.response.MaterialResponse;
 import com.quocbao.bookingreser.service.MaterialService;
 
 @RestController
-@RequestMapping("/material")
+@RequestMapping("/materials")
 public class MaterialController {
 
 	@Autowired
 	MaterialService materialService;
 
 	@PostMapping("/create")
-	ResponseEntity<DataResponse> createMaterial(@RequestBody MaterialRequest materialRequest) {
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void createMaterial(@RequestBody MaterialRequest materialRequest) {
 		materialService.createMaterial(materialRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<DataResponse> detailMaterial(@PathVariable Long id) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, materialService.detailMaterial(id)), HttpStatus.OK);
+	@ResponseStatus(code = HttpStatus.OK)
+	public MaterialResponse detailMaterial(@PathVariable Long id) {
+		return materialService.detailMaterial(id);
 	}
 
 	@PutMapping("/{id}/update")
-	ResponseEntity<DataResponse> updateMaterial(@PathVariable Long id, @RequestBody MaterialRequest materialRequest) {
-		materialService.updateMaterial(id, materialRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void updateMaterial(@PathVariable Long id, @RequestBody MaterialRequest materialRequest) {
+		materialService.updateMaterial(materialRequest);
 	}
 
-	@GetMapping("/{companyId}/byCompany")
-	ResponseEntity<DataResponse> getMaterials(@PathVariable Long companyId) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, materialService.materials(companyId)),
-				HttpStatus.OK);
-	}
-
-	@GetMapping("/{companyId}/search")
-	ResponseEntity<DataResponse> searchMaterial(@PathVariable Long companyId, @RequestParam("key") String keySearch) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, materialService.findByCode(companyId, keySearch)),
-				HttpStatus.OK);
+	@GetMapping("/{companyId}/company")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<MaterialResponse> getMaterials(@PathVariable Long companyId) {
+		return materialService.materials(companyId);
 	}
 }

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.quocbao.bookingreser.request.MaterialRequest;
-import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,25 +53,23 @@ public class Material implements Serializable {
 	private String status;
 
 	// relationship
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 
-	public Material(MaterialRequest materialRequest, Company company) {
-		Status over = Status.OVER;
-		this.company = company;
+	public Material(MaterialRequest materialRequest) {
+		this.id = materialRequest.getId();
 		this.code = materialRequest.getCode();
 		this.name = materialRequest.getName();
 		this.cost = materialRequest.getCost();
 		this.stockEnd = materialRequest.getStockEnd();
-		this.status = over.toString();
+		this.status = materialRequest.getStatus();
 	}
 
-	public void setMaterial(MaterialRequest materialRequest) {
-		this.code = materialRequest.getCode();
-		this.name = materialRequest.getName();
-		this.cost = materialRequest.getCost();
-		this.stockEnd = materialRequest.getStockEnd();
+	public Material(Long id, String code, String name, String status) {
+		this.id = id;
+		this.code = code;
+		this.name = name;
+		this.status = status;
 	}
 }

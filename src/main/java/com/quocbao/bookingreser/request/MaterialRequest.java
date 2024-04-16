@@ -6,6 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class MaterialRequest {
+	
+	@JsonProperty("id")
+	protected Long id;
 
 	@JsonProperty("companyId")
 	protected Long companyId;
@@ -21,4 +24,10 @@ public class MaterialRequest {
 
 	@JsonProperty("stockend")
 	protected float stockEnd;
+	
+	@JsonProperty("quantity")
+	protected float quantity;
+	
+	@JsonProperty("status")
+	protected String status;
 }
