@@ -1,8 +1,9 @@
 package com.quocbao.bookingreser.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,60 +11,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.FoodRequest;
+import com.quocbao.bookingreser.response.FoodResponse;
 import com.quocbao.bookingreser.service.FoodService;
 
 @RestController
-@RequestMapping("/food")
+@RequestMapping("/foods")
 public class FoodController {
 
 	@Autowired
 	FoodService foodService;
 
 	@PostMapping("/create")
-	public ResponseEntity<DataResponse> createFood(@RequestBody FoodRequest foodRequest) {
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void createFood(@RequestBody FoodRequest foodRequest) {
 		foodService.createFood(foodRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<DataResponse> detailFood(@PathVariable Long id) {
-		foodService.detailFood(id);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, foodService.detailFood(id)), HttpStatus.OK);
+	@ResponseStatus(code = HttpStatus.OK)
+	public FoodResponse detailFood(@PathVariable Long id) {
+		return foodService.detailFood(id);
 	}
 
 	@PutMapping("/{id}/update")
-	public ResponseEntity<DataResponse> updateFood(@PathVariable Long id, @RequestBody FoodRequest foodRequest) {
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void updateFood(@PathVariable Long id, @RequestBody FoodRequest foodRequest) {
 		foodService.updateFood(id, foodRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{companyId}/search")
-	public ResponseEntity<DataResponse> searchFood(@PathVariable Long companyId,
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<FoodResponse> searchFood(@PathVariable Long companyId,
 			@RequestParam("keySearch") String keySearch) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, foodService.listFoodByColumn(companyId, keySearch)),
-				HttpStatus.OK);
+		return foodService.listFoodByColumn(companyId, keySearch);
 	}
 
-	@GetMapping("/{companyId}/byCompany")
-	public ResponseEntity<DataResponse> listByCompany(@PathVariable Long companyId) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, foodService.listFoodByCompanyId(companyId)),
-				HttpStatus.OK);
+	@GetMapping("/{companyId}/company")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<FoodResponse> listByCompany(@PathVariable Long companyId) {
+		return foodService.listFoodByCompanyId(companyId);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<DataResponse> updateStatusFood(@PathVariable Long id, @RequestParam("status") String status) {
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void updateStatusFood(@PathVariable Long id, @RequestParam("status") String status) {
 		foodService.uStatus(id, status);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
 	@GetMapping("/{companyId}/by")
-	public ResponseEntity<DataResponse> listFoodbyType(@PathVariable Long companyId,
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<FoodResponse> listFoodbyType(@PathVariable Long companyId,
 			@RequestParam("type") String type) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, foodService.listFoodByType(companyId, type)),
-				HttpStatus.OK);
+		return foodService.listFoodByType(companyId, type);
 	}
 }

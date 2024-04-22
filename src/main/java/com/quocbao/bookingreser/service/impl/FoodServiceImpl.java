@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
@@ -16,7 +15,8 @@ import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.Types;
 import com.quocbao.bookingreser.entity.metamodel.FoodDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Food_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ResourceNotFoundException;
+import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.FoodDetailRepository;
 import com.quocbao.bookingreser.repository.FoodRepository;
@@ -43,7 +43,10 @@ public class FoodServiceImpl implements FoodService {
 
 	@Override
 	public void createFood(FoodRequest foodRequest) {
-		Food food = new Food(foodRequest, companyRepository.findById(foodRequest.getCompanyId()));
+		Food food = new Food(foodRequest);
+		Company company = new Company();
+		company.setId(foodRequest.getCompanyId());
+		food.setCompany(company);
 		food.setTypes(types(foodRequest.getTypes()));
 		foodRepository.save(food);
 		foodRequest.getFoodDetailRequests().stream().forEach(x -> foodDetailRepository
@@ -54,15 +57,14 @@ public class FoodServiceImpl implements FoodService {
 	public FoodResponse detailFood(Long id) {
 		Food food = foodRepository.findById(id);
 		if (food == null) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "Food not found");
+			throw new ResourceNotFoundException("Food not found");
 		}
 		return new FoodResponse(food);
 	}
 
 	@Override
 	public void updateFood(Long id, FoodRequest foodRequest) {
-		Food food = foodRepository.findById(id);
-		food.setFood(foodRequest);
+		Food food = new Food(foodRequest);
 		food.setTypes(types(foodRequest.getTypes()));
 
 		// Retrieve food detail existing
@@ -87,7 +89,7 @@ public class FoodServiceImpl implements FoodService {
 						&& foodDetail.getQuantity() == newFoodDetail.getQuantity()) {
 					exist = true;
 					// Check if existing food detail object and new food detail
-					// equals materail and quantity
+					// equals material and quantity
 					// Add that in no change list
 					noChange.add(foodDetail);
 				} else if (foodDetail.getMaterial().getId().equals(newFoodDetail.getMaterial().getId())
@@ -163,13 +165,13 @@ public class FoodServiceImpl implements FoodService {
 
 	@Override
 	public void uStatus(Long id, String status) {
-		if(!status.equals(Status.OFF.toString()))
+		if(!status.equals(Status.OUT_OF_STOCK.toString()))
 		{
 			List<FoodDetail> foodDetails = foodDetailRepository.getAll(Food.class, FoodDetail_.FOODID, "id", id.toString());
 			for(FoodDetail foodDetail : foodDetails) {
 				Material material = materialRepository.findById(foodDetail.getMaterial().getId());
-				if(!material.getStatus().equals(Status.STILL.toString())) {
-					throw new BookingreserException(HttpStatus.BAD_REQUEST, "Please, Import more raw materials " + material.getName());
+				if(!material.getStatus().equals(Status.OUT_OF_STOCK.toString())) {
+					throw new ValidationException("Please, Import more raw materials " + material.getName());
 				}
 			}
 		}

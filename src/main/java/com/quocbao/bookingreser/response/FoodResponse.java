@@ -29,9 +29,6 @@ public class FoodResponse {
 	@JsonProperty("status")
 	private String status;
 
-	@JsonProperty("FoodDetail")
-	private List<FoodDetailResponse> foodDetailResponses;
-
 	public FoodResponse() {
 
 	}
@@ -43,10 +40,10 @@ public class FoodResponse {
 		this.price = food.getPrice();
 		this.status = food.getStatus();
 		this.types = food.getTypes().stream().map(Types::getName).toList();
-		this.foodDetailResponses = new FoodDetailResponse().foodDetailResponses(food.getFoodDetails());
 	}
 
 	public List<FoodResponse> foodResponses(List<Food> foods) {
 		return foods.stream().map(FoodResponse::new).toList();
 	}
+
 }

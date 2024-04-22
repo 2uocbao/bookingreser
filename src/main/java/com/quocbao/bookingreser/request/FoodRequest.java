@@ -24,6 +24,9 @@ public class FoodRequest {
 	@JsonProperty("type")
 	protected List<String> types;
 	
+	@JsonProperty("status")
+	protected String status;
+	
 	@JsonProperty("foodDetails")
 	protected List<FoodDetailRequest> foodDetailRequests;
 }
