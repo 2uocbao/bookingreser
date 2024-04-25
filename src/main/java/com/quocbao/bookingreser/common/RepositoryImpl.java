@@ -51,8 +51,9 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 		getSession().save(obj);// done
 	}
 
+	@SuppressWarnings("deprecation")
 	public void update(E obj) {
-		this.getSession().merge(obj);
+		getSession().update(obj);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -99,5 +100,20 @@ public abstract class RepositoryImpl<E> implements RepositoryDao<E> {
 		Query<E> query = getSession().createQuery(hql);
 		query.setParameter("keySearch", "%" + keySearch.toLowerCase() + "%");
 		return query.getResultList();
+	}
+	
+	@Override
+	public Long checkValueExist(String columnId, String column, String email) {
+		CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		Root<E> root = criteriaQuery.from(claz);
+		criteriaQuery.select(root.get(columnId));
+		criteriaQuery.where(criteriaBuilder.equal(root.get(column), email));
+		Long id = getSession().createQuery(criteriaQuery).uniqueResult();
+		if (id == null) {
+			id = (long) 0;
+		}
+		System.out.println(id);
+		return id;
 	}
 }

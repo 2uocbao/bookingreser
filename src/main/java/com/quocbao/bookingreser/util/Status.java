@@ -1,12 +1,16 @@
 package com.quocbao.bookingreser.util;
 
 public enum Status {
+	
+	
 
 	PROCESSING, SERVED, RECEIVED,
 
-	OVER, STOCKING, RUNNINGOUT, STILL,
+	//Material Status
+	AVAILABLE, OUT_OF_STOCK, DISCONTINUED, ALMOST_OVER,
 
-	ON, OFF,
+	//Food Status
+	COOKED, IN_PREPARATION,
 
 	UNCONFIRMED, APPROVE, SUCCESS,
 

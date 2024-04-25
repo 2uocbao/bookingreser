@@ -21,4 +21,6 @@ public interface RepositoryDao<E> {
 	public void uColumn(Long id, String nColumn, String value);
 	
 	public List<E> search(String column, String keySearch);
+	
+	public Long checkValueExist(String columnId, String column, String email);
 }

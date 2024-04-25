@@ -17,11 +17,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import com.quocbao.bookingreser.security.CustomAuthenticationFailureHandler;
 import com.quocbao.bookingreser.security.CustomAuthenticationProvider;
 import com.quocbao.bookingreser.security.CustomLogoutSuccessHandler;
 import com.quocbao.bookingreser.security.jwt.JwtAuthenticationFilter;
@@ -57,8 +56,8 @@ public class SecurityConfig {
 				.requestMatchers(PUT, "/employee/**").hasAnyRole(ADMIN.toString(), STAFF.toString())
 				.requestMatchers("/employee/**").hasAnyRole(ADMIN.toString())
 
-				.requestMatchers(GET, "/food/**").permitAll()
-				.requestMatchers("/food/**").hasAnyRole(ADMIN.toString())
+				.requestMatchers(GET, "/foods/**").permitAll()
+				.requestMatchers("/foods/**").hasAnyRole(ADMIN.toString())
 
 				.requestMatchers("/material/**").hasAnyRole(ADMIN.toString())
 
@@ -97,6 +96,7 @@ public class SecurityConfig {
 				.logoutSuccessHandler(logoutSuccessHandler()));
 		http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter,
 				UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling(handling -> handling.accessDeniedHandler(accessDeniedException()));
 		return http.build();
 	}
 
@@ -106,7 +106,8 @@ public class SecurityConfig {
 	}
 
     @Bean
-    AuthenticationFailureHandler authenticationFailureHandler() {
-		return new CustomAuthenticationFailureHandler();
-	}
+    AccessDeniedHandler accessDeniedException() {
+    	return new CustomAccessDeniedHandler();
+    }
+    
 }
