@@ -8,6 +8,9 @@ import lombok.Getter;
 
 @Getter
 public class FoodRequest {
+	
+	@JsonProperty("id")
+	protected Long id;
 
 	@JsonProperty("companyId")
 	protected Long companyId;
@@ -27,6 +30,4 @@ public class FoodRequest {
 	@JsonProperty("status")
 	protected String status;
 	
-	@JsonProperty("foodDetails")
-	protected List<FoodDetailRequest> foodDetailRequests;
 }

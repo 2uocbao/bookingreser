@@ -2,22 +2,17 @@ package com.quocbao.bookingreser.response;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.FoodDetail;
+import com.quocbao.bookingreser.request.FoodDetailRequest;
 
 import lombok.Setter;
 
 @Setter
-public class FoodDetailResponse {
-
-	@JsonProperty("material")
-	private MaterialResponse materialResponse;
-	
-	@JsonProperty("quantity")
-	private float quantity;
+public class FoodDetailResponse extends FoodDetailRequest{
 
 	public FoodDetailResponse(FoodDetail foodDetail) {
-		this.materialResponse = new MaterialResponse(foodDetail.getMaterial());
+		this.id = foodDetail.getId();
+		this.materialId = foodDetail.getMaterial().getId();
 		this.quantity = foodDetail.getQuantity();
 	}
 

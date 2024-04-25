@@ -15,14 +15,15 @@ import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.Types;
 import com.quocbao.bookingreser.entity.metamodel.FoodDetail_;
 import com.quocbao.bookingreser.entity.metamodel.Food_;
-import com.quocbao.bookingreser.exception.ResourceNotFoundException;
 import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.FoodDetailRepository;
 import com.quocbao.bookingreser.repository.FoodRepository;
 import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.repository.TypeRepository;
+import com.quocbao.bookingreser.request.FoodDetailRequest;
 import com.quocbao.bookingreser.request.FoodRequest;
+import com.quocbao.bookingreser.response.FoodDetailResponse;
 import com.quocbao.bookingreser.response.FoodResponse;
 import com.quocbao.bookingreser.service.FoodService;
 import com.quocbao.bookingreser.util.Status;
@@ -49,95 +50,11 @@ public class FoodServiceImpl implements FoodService {
 		food.setCompany(company);
 		food.setTypes(types(foodRequest.getTypes()));
 		foodRepository.save(food);
-		foodRequest.getFoodDetailRequests().stream().forEach(x -> foodDetailRepository
-				.save(new FoodDetail(x, materialRepository.findById(x.getMaterialId()), food)));
-	}
-
-	@Override
-	public FoodResponse detailFood(Long id) {
-		Food food = foodRepository.findById(id);
-		if (food == null) {
-			throw new ResourceNotFoundException("Food not found");
-		}
-		return new FoodResponse(food);
 	}
 
 	@Override
 	public void updateFood(Long id, FoodRequest foodRequest) {
-		Food food = new Food(foodRequest);
-		food.setTypes(types(foodRequest.getTypes()));
-
-		// Retrieve food detail existing
-		ArrayList<FoodDetail> existingfoodDetails = new ArrayList<> (food.getFoodDetails());
-		// Retrieve food detail update or new
-		ArrayList<FoodDetail> newFoodDetails = new ArrayList<> (foodRequest.getFoodDetailRequests().stream()
-				.map(x -> new FoodDetail(x, materialRepository.findById(x.getMaterialId()), food)).toList());
-
-		// List food detail don't change
-		ArrayList<FoodDetail> noChange = new ArrayList<>();
-		// List food detail don't use
-		ArrayList<FoodDetail> removeList = new ArrayList<>();
-		// List food detail need update
-		ArrayList<FoodDetail> updateList = new ArrayList<>();
-
-		// Iterate through the existing Food Detail objects
-		for (FoodDetail foodDetail : existingfoodDetails) {
-			// Check if existing food detail object exist in new food detail
-			boolean exist = false;
-			for (FoodDetail newFoodDetail : newFoodDetails) {
-				if (foodDetail.getMaterial().getId().equals(newFoodDetail.getMaterial().getId())
-						&& foodDetail.getQuantity() == newFoodDetail.getQuantity()) {
-					exist = true;
-					// Check if existing food detail object and new food detail
-					// equals material and quantity
-					// Add that in no change list
-					noChange.add(foodDetail);
-				} else if (foodDetail.getMaterial().getId().equals(newFoodDetail.getMaterial().getId())
-						&& foodDetail.getQuantity() != newFoodDetail.getQuantity()) {
-					exist = true;
-					// Check if equals material, we need update quantity
-					// Add that in update list
-					foodDetail.setQuantity(newFoodDetail.getQuantity());
-					updateList.add(foodDetail);
-					break;
-				}
-			}
-			if (!exist) {
-				// Add the existing food detail object to the list to be romove
-				removeList.add(foodDetail);
-			}
-		}
-
-		// Remove food detail don't use in list old food detail
-		existingfoodDetails.removeAll(removeList);
-
-		// Iterate through the new food details objects
-		for (FoodDetail foodDetail : newFoodDetails) {
-			// Find food detail existing object, if it exist
-			FoodDetail existingFoodDetail = findExistingFoodDetail(existingfoodDetails,
-					foodDetail.getMaterial().getId());
-			
-			
-			if (existingFoodDetail == null) {
-				// Add new food detail object to the existing list
-				existingfoodDetails.add(foodDetail);
-			}
-		}
-
-		// Update food
-		foodRepository.update(food);
-
-		// Remove food detail existing object no change
-		existingfoodDetails.removeAll(noChange);
-		// Remove food detail existing object need update
-		existingfoodDetails.removeAll(updateList);
-
-		// Iterate through food detail object need update
-		updateList.stream().forEach(x -> foodDetailRepository.update(x));
-		// Iterate through food detail object need create
-		existingfoodDetails.stream().forEach(x -> foodDetailRepository.save(x));
-		// Iterate through food detail object remove
-		removeList.stream().forEach(x -> foodDetailRepository.delete(x));
+		
 	}
 
 	@Override
@@ -177,21 +94,48 @@ public class FoodServiceImpl implements FoodService {
 		}
 		foodRepository.uColumn(id, Food_.STATUS, status);
 	}
+	
+	@Override
+	public void addFoodDetail(Long idFood, List<FoodDetailRequest> foodDetailRequests) {
+		foodDetailRequests.stream().forEach(x -> foodDetailRepository
+				.save(new FoodDetail(idFood, x)));
+	}
+
+	@Override
+	public List<FoodDetailResponse> listFoodDetail(Long idFood){
+		return new FoodDetailResponse().foodDetailResponses(foodDetailRepository.getAll(Food.class, FoodDetail_.FOODID, "id", idFood.toString()));
+	}
+	
+	@Override
+	public void updateFoodDetail(Long idFood, List<FoodDetailRequest> foodDetailRequests) {
+		List<FoodDetail> foodDetails = foodDetailRepository.getAll(Food.class, FoodDetail_.FOODID, "id", idFood.toString());
+		// List food detail need update
+		ArrayList<FoodDetail> updateFoodDetails = new ArrayList<>();
+		for (FoodDetail foodDetail : foodDetails) {
+			for (FoodDetailRequest newFoodDetail : foodDetailRequests) {
+				if (foodDetail.getMaterial().getId().equals(newFoodDetail.getMaterialId())
+						&& foodDetail.getQuantity() != newFoodDetail.getQuantity()) {
+					// Check if equals material, we need update quantity
+					// Add that in update list
+					foodDetail.setQuantity(newFoodDetail.getQuantity());
+					updateFoodDetails.add(foodDetail);
+					break;
+				}
+			}
+		}
+		updateFoodDetails.stream().forEach(x -> foodDetailRepository.update(x));
+	}
+
+	@Override
+	public void removeFoodDetail(Long id) {
+		FoodDetail foodDetail = new FoodDetail();
+		foodDetail.setId(id);
+		foodDetailRepository.delete(foodDetail);
+	}
 
 	public Set<Types> types(List<String> ids) {
 		Set<Types> types = new HashSet<>();
 		ids.stream().forEach(x -> types.add(typeRepository.findById(Long.parseLong(x))));
 		return types;
-	}
-
-	public FoodDetail findExistingFoodDetail(List<FoodDetail> existFoodDetails, Long materialId) {
-		for (FoodDetail foodDetail : existFoodDetails) {
-			if (foodDetail.getMaterial().getId().equals(materialId)) {
-				return foodDetail;
-			}
-		}
-		return null;
-		
-	
 	}
 }

@@ -42,11 +42,15 @@ public class FoodDetail implements Serializable {
 	@JoinColumn(name = "food_id", nullable = false)
 	private Food food;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
 
-	public FoodDetail(FoodDetailRequest foodDetailRequest, Material material, Food food) {
+	public FoodDetail(Long idFood, FoodDetailRequest foodDetailRequest) {
+		Material material = new Material();
+		Food food = new Food();
+		food.setId(idFood);
+		material.setId(foodDetailRequest.getMaterialId());
 		this.food = food;
 		this.material = material;
 		this.quantity = foodDetailRequest.getQuantity();
