@@ -10,6 +10,6 @@ import com.quocbao.bookingreser.entity.Employee;
 @Repository
 public interface EmployeeRepository extends RepositoryDao<Employee> {
 	
-	public List<Employee> listEmployeeFromCompany(String company, Long companyId);
+	public List<Employee> listEmployeeFromCompany(Long companyId);
 	
 }

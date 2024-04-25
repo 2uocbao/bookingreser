@@ -30,7 +30,7 @@ public class EmployeeRepositoryImpl extends RepositoryImpl<Employee> implements 
 	}
 	
 	@Override
-	public List<Employee> listEmployeeFromCompany(String company, Long companyId){
+	public List<Employee> listEmployeeFromCompany(Long companyId){
 		CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
 		CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createQuery(Tuple.class);
 		Root<Employee> root = criteriaQuery.from(Employee.class);

@@ -58,9 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeResponse> listEmployeeByCompanyId(Long companyId) {
-		return new EmployeeResponse().employeeResponses(employeeRepository.listEmployeeFromCompany(null, companyId));
-//		return new EmployeeResponse()
-//				.employeeResponses(employeeRepository.getAll(Company.class, Employee_.COMPANYID, "id", companyId.toString()));
+		return new EmployeeResponse().employeeResponses(employeeRepository.listEmployeeFromCompany(companyId));
 	}
 
 	@Override
