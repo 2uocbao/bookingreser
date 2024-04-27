@@ -67,6 +67,7 @@ public class Food implements Serializable {
 	private Set<Types> types = new HashSet<>();
 
 	public Food(FoodRequest foodRequest) {
+		this.id = foodRequest.getId();
 		this.name = foodRequest.getName();
 		this.price = foodRequest.getPrice();
 		this.image = foodRequest.getImage();

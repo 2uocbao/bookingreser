@@ -10,11 +10,15 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Order.class)
 public abstract class Order_ {
 
+	public static volatile SingularAttribute<Order, Long> id;
 	public static volatile SingularAttribute<Order, Long> companyId;
+	public static volatile SingularAttribute<Order, Long> serviceId;
 	public static volatile SingularAttribute<Order, Long> employeeId;
 	public static volatile SingularAttribute<Order, Long> userId;
 	public static volatile SingularAttribute<Order, String> status;
 
+	public static final String ID = "id";
+	public static final String SERVICEID = "service";
 	public static final String COMPANYID = "company";
 	public static final String EMPLOYEEID = "employee";
 	public static final String USERID = "user";

@@ -60,20 +60,24 @@ public class Order implements Serializable {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
 	private List<OrderDetail> orderDetails;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "service_id", referencedColumnName = "id")
 	private Services service;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
 
-	public Order(OrderRequest orderRequest, Company company, Services service, Employee employee) {
+	public Order(OrderRequest orderRequest) {
+		Services service = new Services();
+		Employee employee = new Employee();
+		employee.setId(orderRequest.getEmployeeId());
+		service.setId(orderRequest.getServiceId());
+		this.service = service; 
 		this.employee = employee;
-		this.service = service;
 		this.status = Status.UNCONFIRMED.toString();
 	}
 

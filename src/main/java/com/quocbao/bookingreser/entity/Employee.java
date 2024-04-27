@@ -3,6 +3,7 @@ package com.quocbao.bookingreser.entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -81,13 +82,16 @@ public class Employee implements Serializable {
 	// relationship
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_id", nullable = false)
+	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
+	
+	@OneToMany(mappedBy = "employee")
+	private List<Order> order; 
 
 	@OneToMany(mappedBy = "employee")
 	private Set<Warehouse> warehouse;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 

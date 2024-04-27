@@ -45,14 +45,18 @@ public class OrderDetail implements Serializable {
 	// relationship
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_id", referencedColumnName = "id")
+	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "food_id", referencedColumnName = "id")
 	private Food food;
 
-	public OrderDetail(OrderDetailRequest orderDetailRequest, Food food, Order order) {
+	public OrderDetail(Long idOrder, OrderDetailRequest orderDetailRequest) {
+		Food food = new Food();
+		Order order = new Order();
+		food.setId(orderDetailRequest.getFoodId());
+		order.setId(idOrder);
 		this.order = order;
 		this.food = food;
 		this.quantity = orderDetailRequest.getQuantity();

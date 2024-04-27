@@ -12,6 +12,7 @@ import com.quocbao.bookingreser.util.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -69,12 +70,12 @@ public class Warehouse implements Serializable {
 	private Timestamp updatedAt;
 
 	// relationship
-	@OneToOne
+	@OneToOne(fetch =  FetchType.LAZY)
 	@JoinColumn(name = "material_id", referencedColumnName = "id")
 	private Material material;
 
-	@ManyToOne
-	@JoinColumn(name = "employee_id", referencedColumnName = "id")
+	@ManyToOne(fetch =  FetchType.LAZY)
+	@JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = true, updatable = true)
 	private Employee employee;
 
 	public Warehouse(WarehouseRequest warehouseRequest, Material material, Employee employee) {
