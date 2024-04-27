@@ -1,7 +1,5 @@
 package com.quocbao.bookingreser.request;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -14,10 +12,4 @@ public class OrderRequest {
 
 	@JsonProperty("employeeId")
 	protected Long employeeId;
-
-	@JsonProperty("description")
-	protected String description;
-
-	@JsonProperty("order_detail")
-	public List<OrderDetailRequest> orderDetailRequests;
 }

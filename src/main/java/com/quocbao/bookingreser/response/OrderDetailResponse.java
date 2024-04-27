@@ -14,9 +14,6 @@ public class OrderDetailResponse extends OrderDetailRequest{
 	@JsonProperty("order_detail_id")
 	private Long orderDetailId;
 
-	@JsonProperty("food")
-	private FoodResponse foodResponse;
-
 	@JsonProperty("price")
 	private float price;
 
@@ -25,10 +22,7 @@ public class OrderDetailResponse extends OrderDetailRequest{
 
 	public OrderDetailResponse(OrderDetail orderDetail) {
 		this.orderDetailId = orderDetail.getId();
-		this.foodResponse = new FoodResponse(orderDetail.getFood());
 		this.quantity = orderDetail.getQuantity();
-		this.price = orderDetail.getFood().getPrice();
-		this.totalAmout = orderDetail.getQuantity() * orderDetail.getFood().getPrice();
 	}
 
 	public List<OrderDetailResponse> orderDetailResponses(List<OrderDetail> orderDetails) {

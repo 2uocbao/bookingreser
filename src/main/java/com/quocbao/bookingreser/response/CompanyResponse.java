@@ -1,48 +1,14 @@
 package com.quocbao.bookingreser.response;
 
-import java.sql.Timestamp;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quocbao.bookingreser.entity.Company;
-import com.quocbao.bookingreser.request.AddressRequest;
+import com.quocbao.bookingreser.request.CompanyRequest;
 
-import lombok.Getter;
 import lombok.Setter;
 
 @Setter
-@Getter
-public class CompanyResponse {
-
-	@JsonProperty("id")
-	private Long id;
-	
-	@JsonProperty("name")
-	protected String name;
-
-	@JsonProperty("email")
-	protected String email;
-
-	@JsonProperty("phone")
-	protected String phone;
-
-	@JsonProperty("image")
-	protected String image;
-
-	@JsonProperty("infor")
-	protected String infor;
-
-	@JsonProperty("address")
-	protected AddressRequest addressRequest;
-
-	@JsonProperty("status")
-	protected String status;
-
-	@JsonProperty("createdAt")
-	protected Timestamp createdAt;
-
-	@JsonProperty("updateAt")
-	protected Timestamp updatedAt;
+public class CompanyResponse extends CompanyRequest{
 	
 	public CompanyResponse() {
 		

@@ -61,9 +61,8 @@ public class SecurityConfig {
 
 				.requestMatchers("/material/**").hasAnyRole(ADMIN.toString())
 
-				.requestMatchers(GET, "/order/**").hasRole(USER.toString())
-				.requestMatchers(POST, "/order/**").hasRole(USER.toString())
-				.requestMatchers("/order/**").hasAnyRole(ADMIN.toString(), STAFF.toString())
+				.requestMatchers(GET, "/orders/**").hasAnyRole(USER.toString(), ADMIN.toString(), STAFF.toString())
+				.requestMatchers("/orders/**").hasAnyRole(ADMIN.toString(), STAFF.toString())
 
 				.requestMatchers("/payment/**").hasAnyRole(ADMIN.toString(), STAFF.toString(), USER.toString())
 

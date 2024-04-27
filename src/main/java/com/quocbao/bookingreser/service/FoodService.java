@@ -11,7 +11,7 @@ public interface FoodService {
 
 	public void createFood(FoodRequest foodRequest);
 
-	public void updateFood(Long id, FoodRequest foodRequest);
+	public void updateFood(FoodRequest foodRequest);
 
 	public void uStatus(Long id, String status);
 

@@ -17,6 +17,7 @@ public class FoodResponse extends FoodRequest{
 
 	public FoodResponse(Food food) {
 		this.id = food.getId();
+		this.companyId = food.getCompany().getId();
 		this.name = food.getName();
 		this.image = food.getImage();
 		this.price = food.getPrice();
