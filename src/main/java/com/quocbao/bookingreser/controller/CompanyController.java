@@ -21,7 +21,7 @@ import com.quocbao.bookingreser.response.CompanyResponse;
 import com.quocbao.bookingreser.service.CompanyService;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/companies")
 public class CompanyController {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class CompanyController {
 		companyService.createCompany(companyRequest, token);
 	}
 
-	@GetMapping("/detail/{id}")
+	@GetMapping("/{id}/detail")
 	@ResponseStatus(code = HttpStatus.OK)
 	public CompanyResponse detailCompany(@PathVariable Long id) {
 		return companyService.detailCompany(id);
@@ -46,7 +46,7 @@ public class CompanyController {
 		companyService.updateCompany(companyRequest);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/status/{id}/update")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void uStatusCompany(@PathVariable Long id, @RequestParam("status") String status) {
 		companyService.uStatusCompany(id, status);

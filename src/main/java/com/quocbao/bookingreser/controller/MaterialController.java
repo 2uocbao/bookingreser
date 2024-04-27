@@ -30,15 +30,15 @@ public class MaterialController {
 		materialService.createMaterial(materialRequest);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/{id}/detail")
 	@ResponseStatus(code = HttpStatus.OK)
 	public MaterialResponse detailMaterial(@PathVariable Long id) {
 		return materialService.detailMaterial(id);
 	}
 
-	@PutMapping("/{id}/update")
+	@PutMapping("/update")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void updateMaterial(@PathVariable Long id, @RequestBody MaterialRequest materialRequest) {
+	public void updateMaterial(@RequestBody MaterialRequest materialRequest) {
 		materialService.updateMaterial(materialRequest);
 	}
 

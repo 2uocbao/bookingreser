@@ -19,7 +19,7 @@ import com.quocbao.bookingreser.response.EmployeeResponse;
 import com.quocbao.bookingreser.service.EmployeeService;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
 
 	@Autowired
@@ -31,7 +31,7 @@ public class EmployeeController {
 		employeeService.createEmployee(employeeRequest);
 	}
 
-	@GetMapping("/detail/{id}")
+	@GetMapping("/{id}/detail")
 	@ResponseStatus(code = HttpStatus.OK)
 	public EmployeeResponse detailEmployee(@PathVariable Long id) {
 		return employeeService.detailEmployee(id);
@@ -43,13 +43,13 @@ public class EmployeeController {
 		employeeService.updateEmployee(employeeRequest);
 	}
 
-	@GetMapping("/{companyId}/byCompany")
+	@GetMapping("/{companyId}/company")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<EmployeeResponse> allEmployeeByCompany(@PathVariable Long companyId) {
 		return employeeService.listEmployeeByCompanyId(companyId);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}/delete")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void deleteEmployee(@PathVariable Long id) { 
 		employeeService.deleteEmployee(id);

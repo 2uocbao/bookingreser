@@ -34,10 +34,10 @@ public class FoodController {
 		foodService.createFood(foodRequest);
 	}
 
-	@PutMapping("/{id}/update")
+	@PutMapping("/update")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void updateFood(@PathVariable Long id, @RequestBody FoodRequest foodRequest) {
-		foodService.updateFood(id, foodRequest);
+	public void updateFood(@RequestBody FoodRequest foodRequest) {
+		foodService.updateFood(foodRequest);
 	}
 
 	@GetMapping("/{companyId}/search")
@@ -47,19 +47,13 @@ public class FoodController {
 		return foodService.listFoodByColumn(companyId, keySearch);
 	}
 
-	@GetMapping("/{companyId}/company")
-	@ResponseStatus(code = HttpStatus.OK)
-	public List<FoodResponse> listByCompany(@PathVariable Long companyId) {
-		return foodService.listFoodByCompanyId(companyId);
-	}
-
-	@PutMapping("/{id}")
+	@PutMapping("/status/{id}/update")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void updateStatusFood(@PathVariable Long id, @RequestParam("status") String status) {
 		foodService.uStatus(id, status);
 	}
 
-	@GetMapping("/{companyId}/by")
+	@GetMapping("/{companyId}/company")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<FoodResponse> listFoodbyType(@PathVariable Long companyId,
 			@RequestParam("type") String type) {

@@ -1,8 +1,9 @@
 package com.quocbao.bookingreser.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,10 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quocbao.bookingreser.common.DataResponse;
 import com.quocbao.bookingreser.request.RateRequest;
+import com.quocbao.bookingreser.response.RateResponse;
 import com.quocbao.bookingreser.service.RatedService;
 
 @RestController
@@ -24,31 +26,32 @@ public class RatedController {
 	RatedService ratedService;
 
 	@PostMapping("/create")
-	ResponseEntity<DataResponse> createRated(@RequestBody RateRequest rateRequest) {
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void createRated(@RequestBody RateRequest rateRequest) {
 		ratedService.createRated(rateRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	ResponseEntity<DataResponse> detailRated(@PathVariable Long id) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, ratedService.detailRated(id)), HttpStatus.OK);
+	@GetMapping("/{id}/detail")
+	@ResponseStatus(code = HttpStatus.OK)
+	public RateResponse detailRated(@PathVariable Long id) {
+		return ratedService.detailRated(id);
 	}
 
-	@PutMapping("/{id}/update")
-	ResponseEntity<DataResponse> updateRated(@PathVariable Long id, @RequestBody RateRequest rateRequest) {
-		ratedService.updateRated(id, rateRequest);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
+	@PutMapping("/update")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void updateRated(@RequestBody RateRequest rateRequest) {
+		ratedService.updateRated(rateRequest);
 	}
 
 	@DeleteMapping("/{id}/remove")
-	ResponseEntity<DataResponse> removeRated(@PathVariable Long id) {
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void removeRated(@PathVariable Long id) {
 		ratedService.deleteRated(id);
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK), HttpStatus.OK);
 	}
 
-	@GetMapping("/{companyId}")
-	ResponseEntity<DataResponse> listByCompany(@PathVariable Long companyId) {
-		return new ResponseEntity<>(new DataResponse(HttpStatus.OK, ratedService.listRatedByCompanyId(companyId)),
-				HttpStatus.OK);
+	@GetMapping("/{companyId}/company")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<RateResponse> listByCompany(@PathVariable Long companyId) {
+		return ratedService.listRatedByCompanyId(companyId);
 	}
 }

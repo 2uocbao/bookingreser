@@ -23,7 +23,7 @@ public class AuthDataSource {
 	private Environment environment;
 
 	@Bean(name="entityManagerFactory")
-	public LocalSessionFactoryBean sessionFactory() {
+	LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(new String []{"com.quocbao.bookingreser.entity"});
@@ -32,7 +32,7 @@ public class AuthDataSource {
 	}
 
 	@Bean
-	public DataSource dataSource() {
+	DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
 		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
@@ -51,7 +51,7 @@ public class AuthDataSource {
 	}
 	
 	@Bean
-	public HibernateTransactionManager getTransactionManager() {
+	HibernateTransactionManager getTransactionManager() {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
 		transactionManager.setSessionFactory(sessionFactory().getObject());
 		return transactionManager;
