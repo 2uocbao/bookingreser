@@ -53,8 +53,12 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public void updateFood(Long id, FoodRequest foodRequest) {
-		
+	public void updateFood(FoodRequest foodRequest) {
+		Food food = new Food(foodRequest);
+		Company company = new Company();
+		company.setId(foodRequest.getCompanyId());
+		food.setCompany(company);
+		foodRepository.update(food);
 	}
 
 	@Override

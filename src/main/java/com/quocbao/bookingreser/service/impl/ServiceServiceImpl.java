@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
 import com.quocbao.bookingreser.entity.Services;
 import com.quocbao.bookingreser.entity.Types;
 import com.quocbao.bookingreser.entity.metamodel.Services_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.CompanyRepository;
 import com.quocbao.bookingreser.repository.ServicesRepository;
 import com.quocbao.bookingreser.repository.TypeRepository;
@@ -39,7 +38,7 @@ public class ServiceServiceImpl implements ServicesService {
 		List<Services> services = serviceRepository.getAll(Company.class, Services_.COMPANYID, "id", serviceRequest.getCompanyId().toString());
 		for(Services servic : services) {
 			if(servic.getName().toLowerCase().equals(serviceRequest.getName().toLowerCase())) {
-				throw new BookingreserException(HttpStatus.CONFLICT, "This name is already exits");
+				throw new ValidationException("This name is already exits");
 			}
 		}
 		serviceRepository.save(service);

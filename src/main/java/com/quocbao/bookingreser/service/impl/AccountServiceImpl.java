@@ -22,10 +22,7 @@ import com.quocbao.bookingreser.response.AccountResponse;
 import com.quocbao.bookingreser.security.jwt.JwtTokenProvider;
 import com.quocbao.bookingreser.service.AccountService;
 
-import jakarta.transaction.Transactional;
-
 @Service
-@Transactional
 public class AccountServiceImpl implements AccountService, UserDetailsService {
 
 	@Autowired

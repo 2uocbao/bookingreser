@@ -11,7 +11,7 @@ public interface OrderService {
 
 	public OrderResponse detailOrder(Long id);
 
-	public void updateOrder(Long id, OrderRequest orderRequest);
+	public void updateOrder(OrderRequest orderRequest);
 
 	public List<OrderResponse> listOrderByCompanyId(Long companyId);
 

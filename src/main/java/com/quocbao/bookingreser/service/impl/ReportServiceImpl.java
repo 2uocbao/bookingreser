@@ -103,7 +103,7 @@ public class ReportServiceImpl implements ReportService {
 		// Retrieve orders list
 		List<Order> orders = orderRepository.getAll(Company.class, Order_.COMPANYID, "id", id.toString());
 		// Retrive materials list
-		List<Material> materials = materialRepository.getAll(Company.class, Material_.COMPANYID, "id", id.toString());
+		List<Material> materials = materialRepository.getAll(Company.class, Material_.COMPANY, "id", id.toString());
 		List<Warehouse> warehouses = new ArrayList<>();
 		materials.stream().forEach(x -> warehouses
 				.addAll(warehouseRepository.getAll(Material.class, Warehouse_.MATERIALID, "id", x.getId().toString())));

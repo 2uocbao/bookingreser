@@ -3,7 +3,6 @@ package com.quocbao.bookingreser.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Company;
@@ -12,7 +11,8 @@ import com.quocbao.bookingreser.entity.Services;
 import com.quocbao.bookingreser.entity.User;
 import com.quocbao.bookingreser.entity.metamodel.Employee_;
 import com.quocbao.bookingreser.entity.metamodel.Reservation_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ResourceNotFoundException;
+import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.ReservationRepository;
 import com.quocbao.bookingreser.repository.ServicesRepository;
@@ -41,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
 	public void createReservation(ReservationRequest reservationRequest) {
 		Services service = serviceRepository.findById(reservationRequest.getServiceId());
 		if(!service.getStatus().contentEquals(Status.EMPTY.toString())) {
-			throw new BookingreserException(HttpStatus.BAD_REQUEST, "The table is already in use");
+			throw new ValidationException("The table is already in use");
 		}
 		service.setStatus(Status.USED.toString());
 		serviceRepository.update(service);
@@ -72,7 +72,7 @@ public class ReservationServiceImpl implements ReservationService {
 	public ReservationResponse detailReservation(Long id) {
 		Reservation reservation = reservationRepository.findById(id);
 		if (reservation == null) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "Reservation not found");
+			throw new ResourceNotFoundException("Reservation not found");
 		}
 		return new ReservationResponse(reservation);
 	}

@@ -19,10 +19,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 
 @Repository
-@Transactional
 public class EmployeeRepositoryImpl extends RepositoryImpl<Employee> implements EmployeeRepository {
 
 	protected EmployeeRepositoryImpl() {

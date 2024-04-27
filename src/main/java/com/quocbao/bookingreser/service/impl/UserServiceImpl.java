@@ -1,13 +1,12 @@
 package com.quocbao.bookingreser.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Address;
 import com.quocbao.bookingreser.entity.User;
 import com.quocbao.bookingreser.entity.metamodel.User_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ResourceNotFoundException;
 import com.quocbao.bookingreser.repository.AddressRepository;
 import com.quocbao.bookingreser.repository.UserRepository;
 import com.quocbao.bookingreser.request.UserRequest;
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(id);
 		user.setUser(empUserRequest);
 		Address address = addressRepository.findById(user.getAddress().getId());
-		address.address(empUserRequest.getAddressRequest());
+//		address.address(empUserRequest.getAddressRequest());
 		userRepository.update(user);
 		addressRepository.update(address);
 	}
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
 		String phone = jwtTokenProvider.extractUsername(token);
 		User user = userRepository.findByColumn(User_.PHONE, phone);
 		if (user == null) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "User not found");
+			throw new ResourceNotFoundException("User not found");
 		}
 		return user;
 	}

@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.quocbao.bookingreser.entity.Material;
 import com.quocbao.bookingreser.entity.Warehouse;
 import com.quocbao.bookingreser.entity.metamodel.Warehouse_;
-import com.quocbao.bookingreser.exception.BookingreserException;
+import com.quocbao.bookingreser.exception.ResourceNotFoundException;
+import com.quocbao.bookingreser.exception.ValidationException;
 import com.quocbao.bookingreser.repository.EmployeeRepository;
 import com.quocbao.bookingreser.repository.MaterialRepository;
 import com.quocbao.bookingreser.repository.WarehouseRepository;
@@ -38,7 +38,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			// If status of warehouse for material have not success.
 			// New warehouse will not be created for that material
 			if (!x.getStatus().equals(Status.SUCCESS.toString())) {
-				throw new BookingreserException(HttpStatus.CONFLICT, "There is at least one unfinished activity with this material");
+				throw new ValidationException("There is at least one unfinished activity with this material");
 			}
 		});
 		warehouseRepository
@@ -59,7 +59,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 				.stream().filter(x -> fromDate.isBefore(convertTime.fromTimestamp(x.getCreatedAt())))
 				.filter(x -> toDate.isAfter(convertTime.fromTimestamp(x.getCreatedAt()))).toList();
 		if (warehouses.isEmpty()) {
-			throw new BookingreserException(HttpStatus.NOT_FOUND, "Warehouse detail not found");
+			throw new ResourceNotFoundException("Warehouse detail not found");
 		}
 		return new WarehouseResponse().warehouseResponses(warehouses);
 	}
@@ -68,7 +68,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public void updateWarehouse(Long id, WarehouseRequest warehouseRequest) {
 		Warehouse warehouse = warehouseRepository.findById(id);
 		if(warehouse.getStatus() == Status.SUCCESS.toString()) {
-			throw new BookingreserException(HttpStatus.BAD_REQUEST, warehouse.getMaterial().getName() + " is success, do not update");
+			throw new ValidationException(warehouse.getMaterial().getName() + " is success, do not update");
 		}
 		warehouse.setWarehouse(warehouseRequest);
 		warehouseRepository.update(warehouse);
@@ -78,15 +78,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public void updateStatus(Long id, String status) {
 		Warehouse warehouse = warehouseRepository.findById(id);
 		if (warehouse.getStatus().equals(Status.SUCCESS.toString())) {
-			throw new BookingreserException(HttpStatus.BAD_REQUEST, "Action not taken");
+			throw new ValidationException("Action not taken");
 		}
 		if (status.equals(Status.SUCCESS.toString())) {
 			Material material = materialRepository.findById(warehouse.getMaterial().getId());
 			material.setQuantity(warehouse.getQuantity() + material.getQuantity());
 			if(material.getQuantity() < material.getStockEnd()) {
-				material.setStatus(Status.STOCKING.toString());
+				material.setStatus(Status.OUT_OF_STOCK.toString());
 			}else {
-				material.setStatus(Status.STILL.toString());
+				material.setStatus(Status.AVAILABLE.toString());
 			}
 			material.setCost(warehouse.getCost());
 			materialRepository.update(material);

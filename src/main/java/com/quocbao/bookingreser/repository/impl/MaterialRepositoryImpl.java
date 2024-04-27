@@ -18,10 +18,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 
 @Repository
-@Transactional
 public class MaterialRepositoryImpl extends RepositoryImpl<Material> implements MaterialRepository {
 
 	protected MaterialRepositoryImpl() {
