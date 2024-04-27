@@ -5,4 +5,5 @@ import com.quocbao.bookingreser.entity.Order;
 
 public interface OrderRepository extends RepositoryDao<Order> {
 
+	public Order orderByServiceId(Long serviceId);
 }
